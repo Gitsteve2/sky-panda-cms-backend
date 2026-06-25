@@ -45,7 +45,7 @@ export function MediaPicker({ value, onChange, accept = 'image', label, placehol
     useEffect(() => {
         if (!open) return;
         setLoading(true);
-        fetch('/cms/media?per_page=100', { headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' } })
+        fetch('/cms/media?per_page=100', { headers: { Accept: 'application/json', 'X-Media-Picker': '1', 'X-Requested-With': 'XMLHttpRequest' } })
             .then((r) => r.json())
             .then((data) => {
                 const items: MediaItem[] = data?.data?.data ?? data?.data ?? [];

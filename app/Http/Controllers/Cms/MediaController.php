@@ -14,7 +14,7 @@ use Inertia\Response;
 
 class MediaController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(Request $request): Response|JsonResponse
     {
         $query = Media::latest();
 
@@ -24,6 +24,11 @@ class MediaController extends Controller
 
         if ($request->search) {
             $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->wantsJson() || $request->header('X-Media-Picker')) {
+            $perPage = min((int) $request->input('per_page', 100), 200);
+            return response()->json(['data' => $query->paginate($perPage)]);
         }
 
         return Inertia::render('cms/media/index', [

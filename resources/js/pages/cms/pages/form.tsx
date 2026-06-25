@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { MediaPicker } from '@/components/media-picker';
 import InputError from '@/components/input-error';
 
 interface Page {
@@ -89,7 +90,7 @@ export default function PageForm({ page }: { page: Page | null }) {
                                 <textarea id="description" className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={data.description} onChange={(e) => setData('description', e.target.value)} placeholder="Internal notes about this page" />
                             </div>
 
-                            <label className="flex items-center gap-3 cursor-pointer group">
+                            <label className="flex items-center gap-3 cursor-pointer">
                                 <div className={`relative w-10 h-6 rounded-full transition-colors ${data.is_published ? 'bg-primary' : 'bg-muted-foreground/30'}`}>
                                     <div className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${data.is_published ? 'translate-x-5' : 'translate-x-1'}`} />
                                 </div>
@@ -115,10 +116,13 @@ export default function PageForm({ page }: { page: Page | null }) {
                                 <Label htmlFor="meta_description">Meta Description</Label>
                                 <textarea id="meta_description" className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={data.meta_description} onChange={(e) => setData('meta_description', e.target.value)} placeholder="120–160 characters for search results" />
                             </div>
-                            <div className="space-y-1.5">
-                                <Label htmlFor="og_image">OG Image URL</Label>
-                                <Input id="og_image" value={data.og_image} onChange={(e) => setData('og_image', e.target.value)} placeholder="/images/og-cover.jpg" />
-                            </div>
+                            <MediaPicker
+                                label="OG Image"
+                                value={data.og_image}
+                                onChange={(url) => setData('og_image', url)}
+                                accept="image"
+                                placeholder="/images/og-cover.jpg"
+                            />
                         </CardContent>
                     </Card>
 

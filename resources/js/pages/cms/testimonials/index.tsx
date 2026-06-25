@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { MediaPicker } from '@/components/media-picker';
 
 interface Testimonial {
     id: number;
@@ -57,7 +58,9 @@ export default function TestimonialsIndex({ testimonials, stats }: { testimonial
                 <div className="space-y-1.5"><Label>Name *</Label><Input value={form.data.name} onChange={(e) => form.setData('name', e.target.value)} placeholder="Jane Doe" required /></div>
                 <div className="space-y-1.5"><Label>Role</Label><Input value={form.data.role} onChange={(e) => form.setData('role', e.target.value)} placeholder="Property Investor" /></div>
                 <div className="space-y-1.5"><Label>Location</Label><Input value={form.data.location} onChange={(e) => form.setData('location', e.target.value)} placeholder="Nairobi, Kenya" /></div>
-                <div className="space-y-1.5"><Label>Avatar URL</Label><Input value={form.data.avatar} onChange={(e) => form.setData('avatar', e.target.value)} placeholder="https://..." /></div>
+                <div className="space-y-1.5 col-span-2">
+                    <MediaPicker label="Avatar Photo" value={form.data.avatar} onChange={(url) => form.setData('avatar', url)} accept="image" placeholder="https://..." />
+                </div>
                 <div className="space-y-1.5"><Label>Investment Amount</Label><Input value={form.data.investment_amount} onChange={(e) => form.setData('investment_amount', e.target.value)} placeholder="KES 8.5M" /></div>
                 <div className="space-y-1.5"><Label>Monthly Income</Label><Input value={form.data.monthly_income} onChange={(e) => form.setData('monthly_income', e.target.value)} placeholder="KES 68,000" /></div>
                 <div className="space-y-1.5"><Label>Years Investing</Label><Input type="number" min={0} value={form.data.years_investing} onChange={(e) => form.setData('years_investing', parseInt(e.target.value))} /></div>

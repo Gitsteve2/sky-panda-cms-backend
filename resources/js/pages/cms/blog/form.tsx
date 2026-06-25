@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RichEditor } from '@/components/rich-editor';
+import { MediaPicker } from '@/components/media-picker';
 import InputError from '@/components/input-error';
 
 interface Category { id: number; name: string }
@@ -99,13 +101,18 @@ export default function BlogForm({ post, categories }: { post: Post | null; cate
                                     </div>
 
                                     <div className="space-y-1.5">
-                                        <Label htmlFor="excerpt">Excerpt</Label>
-                                        <textarea id="excerpt" className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={data.excerpt} onChange={(e) => setData('excerpt', e.target.value)} placeholder="A short summary of this post..." />
+                                        <Label>Excerpt</Label>
+                                        <textarea className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={data.excerpt} onChange={(e) => setData('excerpt', e.target.value)} placeholder="A short summary of this post..." />
                                     </div>
 
                                     <div className="space-y-1.5">
-                                        <Label htmlFor="content">Content (HTML)</Label>
-                                        <textarea id="content" className="w-full min-h-[360px] rounded-md border border-input bg-background px-3 py-2 text-sm font-mono resize-y focus:outline-none focus:ring-2 focus:ring-ring" value={data.content} onChange={(e) => setData('content', e.target.value)} placeholder="<p>Your blog post content here...</p>" />
+                                        <Label>Content</Label>
+                                        <RichEditor
+                                            value={data.content}
+                                            onChange={(v) => setData('content', v)}
+                                            placeholder="Write your blog post here..."
+                                            minHeight={320}
+                                        />
                                     </div>
                                 </CardContent>
                             </Card>
@@ -134,7 +141,7 @@ export default function BlogForm({ post, categories }: { post: Post | null; cate
                                     <CardTitle className="text-base">Publish</CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-5 space-y-4">
-                                    <label className="flex items-center gap-3 cursor-pointer group">
+                                    <label className="flex items-center gap-3 cursor-pointer">
                                         <div className={`relative w-10 h-6 rounded-full transition-colors ${data.is_published ? 'bg-primary' : 'bg-muted-foreground/30'}`}>
                                             <div className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${data.is_published ? 'translate-x-5' : 'translate-x-1'}`} />
                                         </div>
@@ -144,7 +151,7 @@ export default function BlogForm({ post, categories }: { post: Post | null; cate
                                             <div className="text-xs text-muted-foreground">Visible on website</div>
                                         </div>
                                     </label>
-                                    <label className="flex items-center gap-3 cursor-pointer group">
+                                    <label className="flex items-center gap-3 cursor-pointer">
                                         <div className={`relative w-10 h-6 rounded-full transition-colors ${data.is_featured ? 'bg-amber-500' : 'bg-muted-foreground/30'}`}>
                                             <div className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${data.is_featured ? 'translate-x-5' : 'translate-x-1'}`} />
                                         </div>
@@ -176,13 +183,13 @@ export default function BlogForm({ post, categories }: { post: Post | null; cate
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                    <div className="space-y-1.5">
-                                        <Label>Featured Image URL</Label>
-                                        <Input value={data.featured_image} onChange={(e) => setData('featured_image', e.target.value)} placeholder="/images/post.jpg" className="text-sm" />
-                                        {data.featured_image && (
-                                            <img src={data.featured_image} alt="preview" className="mt-2 w-full rounded-lg object-cover border border-border" style={{ maxHeight: 120 }} />
-                                        )}
-                                    </div>
+                                    <MediaPicker
+                                        label="Featured Image"
+                                        value={data.featured_image}
+                                        onChange={(url) => setData('featured_image', url)}
+                                        accept="image"
+                                        placeholder="/images/post-cover.jpg"
+                                    />
                                 </CardContent>
                             </Card>
 

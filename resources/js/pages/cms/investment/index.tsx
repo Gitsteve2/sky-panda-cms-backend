@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { MediaPicker } from '@/components/media-picker';
 
 interface UnitType {
     id: number; type: string; size?: string; bedrooms: number; bathrooms: number;
@@ -57,8 +58,14 @@ export default function InvestmentIndex({ unitTypes, amenities }: { unitTypes: U
                 <div className="space-y-1.5"><Label>Yield Range</Label><Input value={form.data.yield_range} onChange={(e) => form.setData('yield_range', e.target.value)} placeholder="7.9–9%" /></div>
                 <div className="space-y-1.5"><Label>Total Units</Label><Input type="number" value={form.data.total_units} onChange={(e) => form.setData('total_units', parseInt(e.target.value))} /></div>
                 <div className="space-y-1.5"><Label>Available Units</Label><Input type="number" value={form.data.available_units} onChange={(e) => form.setData('available_units', parseInt(e.target.value))} /></div>
-                <div className="space-y-1.5"><Label>Featured Image</Label><Input value={form.data.featured_image} onChange={(e) => form.setData('featured_image', e.target.value)} placeholder="/studio.jpg" /></div>
             </div>
+            <MediaPicker
+                label="Featured Image"
+                value={form.data.featured_image}
+                onChange={(url) => form.setData('featured_image', url)}
+                accept="image"
+                placeholder="/images/unit-studio.jpg"
+            />
             <div className="space-y-1.5">
                 <Label>Features (one per line)</Label>
                 <textarea className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={form.data.features.join('\n')} onChange={(e) => form.setData('features', e.target.value.split('\n').filter(Boolean))} placeholder={"Balcony\nFitted Kitchen\nBathroom"} />
@@ -200,8 +207,8 @@ export default function InvestmentIndex({ unitTypes, amenities }: { unitTypes: U
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="space-y-1.5"><Label>Name *</Label><Input value={addAmenityForm.data.name} onChange={(e) => addAmenityForm.setData('name', e.target.value)} required /></div>
                                             <div className="space-y-1.5"><Label>Icon (Lucide name)</Label><Input value={addAmenityForm.data.icon} onChange={(e) => addAmenityForm.setData('icon', e.target.value)} placeholder="Shield" /></div>
-                                            <div className="space-y-1.5 col-span-2"><Label>Image URL</Label><Input value={addAmenityForm.data.image} onChange={(e) => addAmenityForm.setData('image', e.target.value)} placeholder="/image.jpg" /></div>
                                         </div>
+                                        <MediaPicker label="Amenity Image" value={addAmenityForm.data.image} onChange={(url) => addAmenityForm.setData('image', url)} accept="image" />
                                         <div className="flex gap-2">
                                             <Button type="submit" disabled={addAmenityForm.processing}>Add Amenity</Button>
                                             <Button type="button" variant="ghost" onClick={() => setShowAddAmenity(false)}>Cancel</Button>
@@ -221,8 +228,8 @@ export default function InvestmentIndex({ unitTypes, amenities }: { unitTypes: U
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="space-y-1.5"><Label>Name *</Label><Input value={editAmenityForm.data.name} onChange={(e) => editAmenityForm.setData('name', e.target.value)} required /></div>
                                             <div className="space-y-1.5"><Label>Icon</Label><Input value={editAmenityForm.data.icon} onChange={(e) => editAmenityForm.setData('icon', e.target.value)} /></div>
-                                            <div className="space-y-1.5 col-span-2"><Label>Image URL</Label><Input value={editAmenityForm.data.image} onChange={(e) => editAmenityForm.setData('image', e.target.value)} /></div>
                                         </div>
+                                        <MediaPicker label="Amenity Image" value={editAmenityForm.data.image} onChange={(url) => editAmenityForm.setData('image', url)} accept="image" />
                                         <div className="flex items-center gap-2">
                                             <input type="checkbox" id="am_active" checked={editAmenityForm.data.is_active} onChange={(e) => editAmenityForm.setData('is_active', e.target.checked)} className="rounded" />
                                             <Label htmlFor="am_active">Active</Label>

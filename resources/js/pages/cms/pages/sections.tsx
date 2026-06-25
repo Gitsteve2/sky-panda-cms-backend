@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { MediaPicker } from '@/components/media-picker';
 
 interface SectionType { value: string; label: string; description: string }
 
@@ -99,20 +100,23 @@ export default function PageSections({ page, sectionTypes }: { page: Page; secti
                 />
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                     <Label>Background Color</Label>
                     <Input value={form.data.background_color} onChange={(e) => form.setData('background_color', e.target.value)} placeholder="#ffffff" />
-                </div>
-                <div className="space-y-1.5">
-                    <Label>Background Image</Label>
-                    <Input value={form.data.background_image} onChange={(e) => form.setData('background_image', e.target.value)} placeholder="/image.jpg" />
                 </div>
                 <div className="space-y-1.5">
                     <Label>CSS Class</Label>
                     <Input value={form.data.css_class} onChange={(e) => form.setData('css_class', e.target.value)} placeholder="custom-class" />
                 </div>
             </div>
+            <MediaPicker
+                label="Background Image"
+                value={form.data.background_image}
+                onChange={(url) => form.setData('background_image', url)}
+                accept="image"
+                placeholder="/images/section-bg.jpg"
+            />
 
             <div className="flex items-center gap-2">
                 <input type="checkbox" id="sec_active" checked={form.data.is_active} onChange={(e) => form.setData('is_active', e.target.checked)} className="rounded" />

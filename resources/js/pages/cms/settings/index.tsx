@@ -1,5 +1,6 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import { Globe, Image, Layers, Pencil, Plus, Save, Share2, Star, Trash2, X } from 'lucide-react';
+import { MediaPicker } from '@/components/media-picker';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -110,10 +111,12 @@ export default function SettingsIndex({ settings, heroSlides, socialLinks, stats
                                                     <Input value={settingValues[s.key] ?? ''} onChange={(e) => setSettingValues((prev) => ({ ...prev, [s.key]: e.target.value }))} className="flex-1" />
                                                 </div>
                                             ) : s.type === 'image' ? (
-                                                <div className="flex items-center gap-3">
-                                                    {settingValues[s.key] && <img src={settingValues[s.key]} alt={s.label} className="h-10 w-10 rounded-lg border border-border object-contain" />}
-                                                    <Input value={settingValues[s.key] ?? ''} onChange={(e) => setSettingValues((prev) => ({ ...prev, [s.key]: e.target.value }))} placeholder="/path-to-image.png" className="flex-1" />
-                                                </div>
+                                                <MediaPicker
+                                                    value={settingValues[s.key] ?? ''}
+                                                    onChange={(url) => setSettingValues((prev) => ({ ...prev, [s.key]: url }))}
+                                                    accept="image"
+                                                    placeholder="/images/logo.png"
+                                                />
                                             ) : (
                                                 <Input value={settingValues[s.key] ?? ''} onChange={(e) => setSettingValues((prev) => ({ ...prev, [s.key]: e.target.value }))} />
                                             )}
@@ -153,7 +156,15 @@ export default function SettingsIndex({ settings, heroSlides, socialLinks, stats
                                             <div className="space-y-1.5"><Label>Heading Highlight</Label><Input value={heroForm.data.heading_highlight} onChange={(e) => heroForm.setData('heading_highlight', e.target.value)} placeholder="colored portion" /></div>
                                             <div className="space-y-1.5"><Label>CTA Text</Label><Input value={heroForm.data.cta_text} onChange={(e) => heroForm.setData('cta_text', e.target.value)} placeholder="Learn More" /></div>
                                             <div className="space-y-1.5"><Label>CTA URL</Label><Input value={heroForm.data.cta_url} onChange={(e) => heroForm.setData('cta_url', e.target.value)} placeholder="#investment" /></div>
-                                            <div className="space-y-1.5"><Label>Background (video/image)</Label><Input value={heroForm.data.background_src} onChange={(e) => heroForm.setData('background_src', e.target.value)} placeholder="/video.mp4" /></div>
+                                            <div className="space-y-1.5 col-span-2">
+                                                <MediaPicker
+                                                    label="Background (video or image)"
+                                                    value={heroForm.data.background_src}
+                                                    onChange={(url) => heroForm.setData('background_src', url)}
+                                                    accept="any"
+                                                    placeholder="/videos/hero.mp4 or /images/hero.jpg"
+                                                />
+                                            </div>
                                         </div>
                                         <div className="space-y-1.5">
                                             <Label>Subheading</Label>
@@ -413,9 +424,9 @@ export default function SettingsIndex({ settings, heroSlides, socialLinks, stats
                                             <div className="grid grid-cols-2 gap-4">
                                                 <div className="space-y-1.5"><Label>Title *</Label><Input value={trackForm.data.title} onChange={(e) => trackForm.setData('title', e.target.value)} required /></div>
                                                 <div className="space-y-1.5"><Label>Icon</Label><Input value={trackForm.data.icon} onChange={(e) => trackForm.setData('icon', e.target.value)} placeholder="Building2" /></div>
-                                                <div className="space-y-1.5"><Label>Image URL</Label><Input value={trackForm.data.image} onChange={(e) => trackForm.setData('image', e.target.value)} placeholder="/project.jpg" /></div>
                                                 <div className="space-y-1.5"><Label>Description</Label><Input value={trackForm.data.description} onChange={(e) => trackForm.setData('description', e.target.value)} /></div>
                                             </div>
+                                            <MediaPicker label="Project Image" value={trackForm.data.image} onChange={(url) => trackForm.setData('image', url)} accept="image" placeholder="/images/project.jpg" />
                                             <div className="flex gap-2">
                                                 <Button type="submit" size="sm" disabled={trackForm.processing}>Add Entry</Button>
                                                 <Button type="button" size="sm" variant="ghost" onClick={() => setShowAddTrack(false)}>Cancel</Button>
