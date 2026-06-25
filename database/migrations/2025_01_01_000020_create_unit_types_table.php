@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('featured_image')->nullable();
             $table->jsonb('gallery')->default('[]');
             $table->jsonb('features')->default('[]');
+            $table->string('ideal_for')->nullable();
             $table->integer('order')->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();

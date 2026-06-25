@@ -15,5 +15,6 @@ Route::prefix('v1')->name('api.')->group(function () {
     Route::get('/investment', [PublicApiController::class, 'investment'])->name('investment');
     Route::get('/about', [PublicApiController::class, 'about'])->name('about');
     Route::get('/social', [PublicApiController::class, 'social'])->name('social');
+    Route::get('/project-updates', [PublicApiController::class, 'projectUpdates'])->name('project-updates');
     Route::get('/pages/{slug}/sections', [PublicApiController::class, 'pageSections'])->name('pages.sections');
 });

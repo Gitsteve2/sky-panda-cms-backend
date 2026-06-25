@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             AboutSeeder::class,
             StatsAndSocialSeeder::class,
             PagesSeeder::class,
+            ProjectUpdatesSeeder::class,
         ]);
     }
 }

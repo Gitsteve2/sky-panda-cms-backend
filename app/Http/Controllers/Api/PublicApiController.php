@@ -11,6 +11,7 @@ use App\Models\FaqCategory;
 use App\Models\HeroSlide;
 use App\Models\NavigationItem;
 use App\Models\Page;
+use App\Models\ProjectUpdate;
 use App\Models\SiteSetting;
 use App\Models\SocialLink;
 use App\Models\Stat;
@@ -38,6 +39,11 @@ class PublicApiController extends Controller
             // Location / Map
             'location_heading', 'location_address', 'location_description',
             'location_embed_url', 'location_map_image', 'location_highlights',
+            // Footer / General
+            'interest_form_url', 'footer_description',
+            // Project progress
+            'project_overall_progress', 'project_expected_completion',
+            'project_schedule_status', 'project_total_units', 'project_sold_units',
         ])->get()->pluck('value', 'key');
 
         return response()->json($settings);
@@ -164,6 +170,15 @@ class PublicApiController extends Controller
         }])->get();
 
         return response()->json($categories);
+    }
+
+    public function projectUpdates(): JsonResponse
+    {
+        $updates = ProjectUpdate::where('is_active', true)
+            ->orderByDesc('order')
+            ->get();
+
+        return response()->json($updates);
     }
 
     public function pageSections(string $slug): JsonResponse
