@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@pandatowers.africa'],
             [
                 'name' => 'Panda Towers Admin',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('!Panda@admin#_'),
                 'email_verified_at' => now(),
             ]
         );
