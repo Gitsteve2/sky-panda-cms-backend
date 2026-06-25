@@ -7,13 +7,10 @@ import {
     Image,
     LayoutGrid,
     Menu,
-    MessageSquare,
-    Palette,
     Settings,
     Star,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -39,11 +36,6 @@ const mainNavItems: NavItem[] = [
     { title: 'Settings', href: '/cms/settings', icon: Settings },
 ];
 
-const footerNavItems: NavItem[] = [
-    { title: 'Website', href: 'http://localhost:5173', icon: Palette },
-    { title: 'Docs', href: 'https://laravel.com/docs', icon: BookOpen },
-];
-
 export function AppSidebar() {
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -64,7 +56,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

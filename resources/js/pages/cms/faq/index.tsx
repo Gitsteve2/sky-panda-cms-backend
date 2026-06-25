@@ -1,18 +1,12 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { ChevronDown, ChevronUp, Pencil, Plus, Trash2, X } from 'lucide-react';
+import { ChevronDown, ChevronUp, HelpCircle, Pencil, Plus, Trash2, X } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface FaqItem { id: number; question: string; answer: string; order: number; is_active: boolean }
 interface FaqCategory { id: number; name: string; slug: string; items: FaqItem[] }
@@ -52,13 +46,7 @@ export default function FaqIndex({ categories }: { categories: FaqCategory[] }) 
 
     const openEditItem = (item: FaqItem, catId: number) => {
         setEditingItem({ ...item, category_id: catId });
-        editItemForm.setData({
-            faq_category_id: catId.toString(),
-            question: item.question,
-            answer: item.answer,
-            order: item.order,
-            is_active: item.is_active,
-        });
+        editItemForm.setData({ faq_category_id: catId.toString(), question: item.question, answer: item.answer, order: item.order, is_active: item.is_active });
     };
 
     const openEditCat = (cat: FaqCategory) => {
@@ -66,47 +54,52 @@ export default function FaqIndex({ categories }: { categories: FaqCategory[] }) 
         editCatForm.setData({ name: cat.name, description: '' });
     };
 
+    const totalQuestions = categories.reduce((n, c) => n + c.items.length, 0);
+
     return (
         <>
             <Head title="FAQ" />
-            <div className="space-y-6">
+            <div className="space-y-8">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold">FAQ</h1>
-                        <p className="text-sm text-muted-foreground mt-1">{categories.length} categories · {categories.reduce((n, c) => n + c.items.length, 0)} questions</p>
+                        <h1 className="text-3xl font-bold tracking-tight">FAQ</h1>
+                        <p className="text-muted-foreground mt-1">{categories.length} categories · {totalQuestions} questions</p>
                     </div>
                     <div className="flex gap-2">
-                        <Button variant="outline" onClick={() => setShowAddCat(true)}><Plus className="h-4 w-4 mr-2" />Category</Button>
-                        <Button onClick={() => setShowAddItem(true)}><Plus className="h-4 w-4 mr-2" />Question</Button>
+                        <Button variant="outline" onClick={() => { setShowAddCat(true); setShowAddItem(false); }}>
+                            <Plus className="h-4 w-4 mr-2" />Category
+                        </Button>
+                        <Button onClick={() => { setShowAddItem(true); setShowAddCat(false); }}>
+                            <Plus className="h-4 w-4 mr-2" />Question
+                        </Button>
                     </div>
                 </div>
 
-                {/* Add Category */}
                 {showAddCat && (
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle>New FAQ Category</CardTitle>
+                        <CardHeader className="flex flex-row items-center justify-between pb-4">
+                            <CardTitle className="text-base">New FAQ Category</CardTitle>
                             <Button variant="ghost" size="sm" onClick={() => setShowAddCat(false)}><X className="h-4 w-4" /></Button>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={submitCat} className="flex gap-3">
                                 <Input value={catForm.data.name} onChange={(e) => catForm.setData('name', e.target.value)} placeholder="Category name" required className="flex-1" />
-                                <Button type="submit" disabled={catForm.processing}>Add</Button>
+                                <Button type="submit" disabled={catForm.processing}>Add Category</Button>
+                                <Button type="button" variant="ghost" onClick={() => setShowAddCat(false)}>Cancel</Button>
                             </form>
                         </CardContent>
                     </Card>
                 )}
 
-                {/* Add Item */}
                 {showAddItem && (
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle>New FAQ Question</CardTitle>
+                        <CardHeader className="flex flex-row items-center justify-between pb-4">
+                            <CardTitle className="text-base">New FAQ Question</CardTitle>
                             <Button variant="ghost" size="sm" onClick={() => setShowAddItem(false)}><X className="h-4 w-4" /></Button>
                         </CardHeader>
                         <CardContent>
-                            <form onSubmit={submitItem} className="space-y-3">
-                                <div className="space-y-1">
+                            <form onSubmit={submitItem} className="space-y-4">
+                                <div className="space-y-1.5">
                                     <Label>Category</Label>
                                     <Select value={itemForm.data.faq_category_id} onValueChange={(v) => itemForm.setData('faq_category_id', v)}>
                                         <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
@@ -115,46 +108,48 @@ export default function FaqIndex({ categories }: { categories: FaqCategory[] }) 
                                         </SelectContent>
                                     </Select>
                                 </div>
-                                <div className="space-y-1">
+                                <div className="space-y-1.5">
                                     <Label>Question *</Label>
                                     <Input value={itemForm.data.question} onChange={(e) => itemForm.setData('question', e.target.value)} required />
                                 </div>
-                                <div className="space-y-1">
+                                <div className="space-y-1.5">
                                     <Label>Answer *</Label>
-                                    <textarea className="w-full min-h-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm" value={itemForm.data.answer} onChange={(e) => itemForm.setData('answer', e.target.value)} required />
+                                    <textarea className="w-full min-h-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={itemForm.data.answer} onChange={(e) => itemForm.setData('answer', e.target.value)} required />
                                 </div>
-                                <Button type="submit" disabled={itemForm.processing}>Add Question</Button>
+                                <div className="flex gap-2">
+                                    <Button type="submit" disabled={itemForm.processing}>Add Question</Button>
+                                    <Button type="button" variant="ghost" onClick={() => setShowAddItem(false)}>Cancel</Button>
+                                </div>
                             </form>
                         </CardContent>
                     </Card>
                 )}
 
-                {/* Edit Category */}
                 {editingCat && (
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle>Edit Category</CardTitle>
+                        <CardHeader className="flex flex-row items-center justify-between pb-4">
+                            <CardTitle className="text-base">Edit Category</CardTitle>
                             <Button variant="ghost" size="sm" onClick={() => setEditingCat(null)}><X className="h-4 w-4" /></Button>
                         </CardHeader>
                         <CardContent>
                             <form onSubmit={submitEditCat} className="flex gap-3">
                                 <Input value={editCatForm.data.name} onChange={(e) => editCatForm.setData('name', e.target.value)} required className="flex-1" />
                                 <Button type="submit" disabled={editCatForm.processing}>Save</Button>
+                                <Button type="button" variant="ghost" onClick={() => setEditingCat(null)}>Cancel</Button>
                             </form>
                         </CardContent>
                     </Card>
                 )}
 
-                {/* Edit Item */}
                 {editingItem && (
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle>Edit Question</CardTitle>
+                        <CardHeader className="flex flex-row items-center justify-between pb-4">
+                            <CardTitle className="text-base">Edit Question</CardTitle>
                             <Button variant="ghost" size="sm" onClick={() => setEditingItem(null)}><X className="h-4 w-4" /></Button>
                         </CardHeader>
                         <CardContent>
-                            <form onSubmit={submitEditItem} className="space-y-3">
-                                <div className="space-y-1">
+                            <form onSubmit={submitEditItem} className="space-y-4">
+                                <div className="space-y-1.5">
                                     <Label>Category</Label>
                                     <Select value={editItemForm.data.faq_category_id} onValueChange={(v) => editItemForm.setData('faq_category_id', v)}>
                                         <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
@@ -163,59 +158,84 @@ export default function FaqIndex({ categories }: { categories: FaqCategory[] }) 
                                         </SelectContent>
                                     </Select>
                                 </div>
-                                <div className="space-y-1">
+                                <div className="space-y-1.5">
                                     <Label>Question *</Label>
                                     <Input value={editItemForm.data.question} onChange={(e) => editItemForm.setData('question', e.target.value)} required />
                                 </div>
-                                <div className="space-y-1">
+                                <div className="space-y-1.5">
                                     <Label>Answer *</Label>
-                                    <textarea className="w-full min-h-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm" value={editItemForm.data.answer} onChange={(e) => editItemForm.setData('answer', e.target.value)} required />
+                                    <textarea className="w-full min-h-[100px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={editItemForm.data.answer} onChange={(e) => editItemForm.setData('answer', e.target.value)} required />
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <input type="checkbox" checked={editItemForm.data.is_active} onChange={(e) => editItemForm.setData('is_active', e.target.checked)} />
-                                    <Label>Active</Label>
+                                    <input type="checkbox" id="is_active_edit" checked={editItemForm.data.is_active} onChange={(e) => editItemForm.setData('is_active', e.target.checked)} className="rounded" />
+                                    <Label htmlFor="is_active_edit">Active (visible on website)</Label>
                                 </div>
-                                <Button type="submit" disabled={editItemForm.processing}>Save Changes</Button>
+                                <div className="flex gap-2">
+                                    <Button type="submit" disabled={editItemForm.processing}>Save Changes</Button>
+                                    <Button type="button" variant="ghost" onClick={() => setEditingItem(null)}>Cancel</Button>
+                                </div>
                             </form>
                         </CardContent>
                     </Card>
                 )}
 
-                {/* Categories & Items */}
-                {categories.map((cat) => (
-                    <Card key={cat.id}>
-                        <CardHeader className="pb-3">
-                            <div className="flex items-center justify-between">
-                                <CardTitle className="text-base">{cat.name} <span className="text-muted-foreground font-normal text-sm">({cat.items.length})</span></CardTitle>
-                                <div className="flex gap-2">
-                                    <Button variant="ghost" size="sm" onClick={() => openEditCat(cat)}><Pencil className="h-4 w-4" /></Button>
-                                    <Button variant="ghost" size="sm" onClick={() => { if (confirm(`Delete category "${cat.name}"?`)) router.delete(`/cms/faq/categories/${cat.id}`); }}>
-                                        <Trash2 className="h-4 w-4 text-destructive" />
-                                    </Button>
-                                </div>
-                            </div>
-                        </CardHeader>
-                        <CardContent className="pt-0 space-y-2">
-                            {cat.items.length === 0 && <p className="text-sm text-muted-foreground">No questions in this category.</p>}
-                            {cat.items.map((item) => (
-                                <div key={item.id} className="rounded-md border border-border p-3">
-                                    <div className="flex items-start justify-between gap-3">
-                                        <div className="flex-1">
-                                            <div className="font-medium text-sm">{item.question}</div>
-                                            <div className="text-sm text-muted-foreground mt-1 line-clamp-2">{item.answer}</div>
+                {categories.length === 0 ? (
+                    <div className="rounded-xl border border-dashed border-border py-20 text-center">
+                        <HelpCircle className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                        <p className="text-sm text-muted-foreground">No FAQ categories yet. Add a category to get started.</p>
+                    </div>
+                ) : (
+                    <div className="space-y-4">
+                        {categories.map((cat) => (
+                            <Card key={cat.id} className="overflow-hidden">
+                                <div className="flex items-center justify-between px-6 py-4 bg-muted/30 border-b border-border">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                                            <HelpCircle className="h-4 w-4 text-primary" />
                                         </div>
-                                        <div className="flex items-center gap-1 shrink-0">
-                                            <Button variant="ghost" size="sm" onClick={() => openEditItem(item, cat.id)}><Pencil className="h-4 w-4" /></Button>
-                                            <Button variant="ghost" size="sm" onClick={() => { if (confirm('Delete this question?')) router.delete(`/cms/faq/items/${item.id}`); }}>
-                                                <Trash2 className="h-4 w-4 text-destructive" />
-                                            </Button>
+                                        <div>
+                                            <h3 className="font-semibold text-sm">{cat.name}</h3>
+                                            <p className="text-xs text-muted-foreground">{cat.items.length} question{cat.items.length !== 1 ? 's' : ''}</p>
                                         </div>
                                     </div>
+                                    <div className="flex gap-1">
+                                        <Button variant="ghost" size="sm" onClick={() => openEditCat(cat)}><Pencil className="h-4 w-4" /></Button>
+                                        <Button variant="ghost" size="sm" onClick={() => { if (confirm(`Delete category "${cat.name}"?`)) router.delete(`/cms/faq/categories/${cat.id}`); }}>
+                                            <Trash2 className="h-4 w-4 text-destructive" />
+                                        </Button>
+                                    </div>
                                 </div>
-                            ))}
-                        </CardContent>
-                    </Card>
-                ))}
+                                <CardContent className="p-0">
+                                    {cat.items.length === 0 ? (
+                                        <p className="text-sm text-muted-foreground px-6 py-4">No questions in this category.</p>
+                                    ) : (
+                                        <div className="divide-y divide-border">
+                                            {cat.items.map((item) => (
+                                                <div key={item.id} className="px-6 py-4 hover:bg-muted/20 transition-colors">
+                                                    <div className="flex items-start justify-between gap-4">
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="flex items-center gap-2">
+                                                                <p className="font-medium text-sm">{item.question}</p>
+                                                                {!item.is_active && <Badge variant="secondary" className="text-xs">Hidden</Badge>}
+                                                            </div>
+                                                            <p className="text-sm text-muted-foreground mt-1 line-clamp-2 leading-relaxed">{item.answer}</p>
+                                                        </div>
+                                                        <div className="flex items-center gap-1 shrink-0">
+                                                            <Button variant="ghost" size="sm" onClick={() => openEditItem(item, cat.id)}><Pencil className="h-4 w-4" /></Button>
+                                                            <Button variant="ghost" size="sm" onClick={() => { if (confirm('Delete this question?')) router.delete(`/cms/faq/items/${item.id}`); }}>
+                                                                <Trash2 className="h-4 w-4 text-destructive" />
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
+                )}
             </div>
         </>
     );

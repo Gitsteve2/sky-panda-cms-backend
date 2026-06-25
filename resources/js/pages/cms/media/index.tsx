@@ -1,10 +1,9 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { Image, Pencil, Trash2, Upload, X } from 'lucide-react';
+import { FileImage, Pencil, Trash2, Upload, X } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface MediaItem {
@@ -61,11 +60,11 @@ export default function MediaIndex({ media, collection }: { media: PaginatedMedi
     return (
         <>
             <Head title="Media Library" />
-            <div className="space-y-6">
+            <div className="space-y-8">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold">Media Library</h1>
-                        <p className="text-sm text-muted-foreground mt-1">{media.total} files</p>
+                        <h1 className="text-3xl font-bold tracking-tight">Media Library</h1>
+                        <p className="text-muted-foreground mt-1">{media.total} file{media.total !== 1 ? 's' : ''}</p>
                     </div>
                     <div>
                         <input ref={fileRef} type="file" accept="image/*,video/*" className="hidden" onChange={handleUpload} />
@@ -78,15 +77,17 @@ export default function MediaIndex({ media, collection }: { media: PaginatedMedi
 
                 {editing && (
                     <Card>
-                        <CardContent className="p-4">
-                            <div className="flex items-start gap-4">
-                                <img src={editing.url} alt={editing.name} className="w-24 h-24 rounded object-cover shrink-0" />
+                        <CardContent className="p-5">
+                            <div className="flex items-start gap-5">
+                                <img src={editing.url} alt={editing.name} className="w-28 h-28 rounded-xl object-cover shrink-0 border border-border" />
                                 <form onSubmit={(e) => { e.preventDefault(); editForm.put(`/cms/media/${editing.id}`, { onSuccess: () => setEditing(null) }); }} className="flex-1 space-y-3">
-                                    <div className="space-y-1"><Label>Name</Label><Input value={editForm.data.name} onChange={(e) => editForm.setData('name', e.target.value)} /></div>
-                                    <div className="space-y-1"><Label>Alt Text</Label><Input value={editForm.data.alt_text} onChange={(e) => editForm.setData('alt_text', e.target.value)} /></div>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="space-y-1.5"><Label>Name</Label><Input value={editForm.data.name} onChange={(e) => editForm.setData('name', e.target.value)} /></div>
+                                        <div className="space-y-1.5"><Label>Alt Text</Label><Input value={editForm.data.alt_text} onChange={(e) => editForm.setData('alt_text', e.target.value)} /></div>
+                                    </div>
                                     <div className="flex gap-2">
                                         <Button type="submit" size="sm" disabled={editForm.processing}>Save</Button>
-                                        <Button type="button" size="sm" variant="ghost" onClick={() => setEditing(null)}><X className="h-4 w-4" /></Button>
+                                        <Button type="button" size="sm" variant="ghost" onClick={() => setEditing(null)}><X className="h-4 w-4 mr-1" />Cancel</Button>
                                     </div>
                                 </form>
                             </div>
@@ -95,31 +96,50 @@ export default function MediaIndex({ media, collection }: { media: PaginatedMedi
                 )}
 
                 {media.data.length === 0 ? (
-                    <div className="rounded-lg border border-dashed border-border py-20 text-center">
-                        <Image className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                        <p className="text-muted-foreground">No media files yet. Click "Upload File" to add your first file.</p>
+                    <div
+                        className="rounded-xl border-2 border-dashed border-border py-24 text-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
+                        onClick={() => fileRef.current?.click()}
+                    >
+                        <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-4">
+                            <FileImage className="h-8 w-8 text-muted-foreground" />
+                        </div>
+                        <p className="font-medium text-sm">No media files yet</p>
+                        <p className="text-sm text-muted-foreground mt-1">Click to upload your first image or video</p>
+                        <Button className="mt-4" variant="outline" onClick={(e) => { e.stopPropagation(); fileRef.current?.click(); }}>
+                            <Upload className="h-4 w-4 mr-2" />Choose File
+                        </Button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-3 gap-4 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                         {media.data.map((item) => (
-                            <div key={item.id} className="group relative rounded-lg overflow-hidden border border-border bg-muted/20">
+                            <div key={item.id} className="group relative rounded-xl overflow-hidden border border-border bg-muted/20 hover:shadow-md transition-all">
                                 {item.mime_type?.startsWith('image/') ? (
                                     <img src={item.url} alt={item.alt_text ?? item.name} className="w-full aspect-square object-cover" />
                                 ) : (
                                     <div className="w-full aspect-square flex items-center justify-center bg-muted">
-                                        <Image className="h-8 w-8 text-muted-foreground" />
+                                        <FileImage className="h-10 w-10 text-muted-foreground" />
                                     </div>
                                 )}
                                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                                    <Button size="sm" variant="secondary" onClick={() => openEdit(item)}><Pencil className="h-3 w-3" /></Button>
-                                    <Button size="sm" variant="destructive" onClick={() => { if (confirm('Delete?')) router.delete(`/cms/media/${item.id}`); }}><Trash2 className="h-3 w-3" /></Button>
+                                    <Button size="sm" variant="secondary" className="h-8 w-8 p-0 rounded-full" onClick={() => openEdit(item)}>
+                                        <Pencil className="h-3.5 w-3.5" />
+                                    </Button>
+                                    <Button size="sm" variant="destructive" className="h-8 w-8 p-0 rounded-full" onClick={() => { if (confirm('Delete this file?')) router.delete(`/cms/media/${item.id}`); }}>
+                                        <Trash2 className="h-3.5 w-3.5" />
+                                    </Button>
                                 </div>
-                                <div className="p-2">
+                                <div className="p-2.5">
                                     <div className="text-xs font-medium truncate">{item.name}</div>
                                     <div className="text-xs text-muted-foreground">{formatSize(item.size)}</div>
                                 </div>
                             </div>
                         ))}
+                    </div>
+                )}
+
+                {media.last_page > 1 && (
+                    <div className="flex items-center justify-center gap-2 pt-2">
+                        <span className="text-sm text-muted-foreground">Page {media.current_page} of {media.last_page}</span>
                     </div>
                 )}
             </div>
