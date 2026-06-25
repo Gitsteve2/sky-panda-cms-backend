@@ -15,7 +15,7 @@ class SiteSettingsSeeder extends Seeder
             ['key' => 'site_tagline', 'value' => 'Plant The Seed to Your Legacy', 'type' => 'text', 'group' => 'general', 'label' => 'Tagline'],
             ['key' => 'logo', 'value' => '/Sky-Panda-Towers-Logo-1.png', 'type' => 'image', 'group' => 'branding', 'label' => 'Logo'],
             ['key' => 'logo_white', 'value' => '/Sky-Panda-Towers-Logo-1-removebg-preview.png', 'type' => 'image', 'group' => 'branding', 'label' => 'Logo (White/Transparent)'],
-            ['key' => 'favicon', 'value' => '/favicon.ico', 'type' => 'image', 'group' => 'branding', 'label' => 'Favicon'],
+            ['key' => 'favicon', 'value' => '/favicon.png', 'type' => 'image', 'group' => 'branding', 'label' => 'Favicon'],
             ['key' => 'primary_color', 'value' => '#1a1f2e', 'type' => 'color', 'group' => 'branding', 'label' => 'Primary Color'],
             ['key' => 'accent_color', 'value' => '#c9a227', 'type' => 'color', 'group' => 'branding', 'label' => 'Accent Color'],
             // Contact

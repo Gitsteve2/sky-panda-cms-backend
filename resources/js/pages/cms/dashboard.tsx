@@ -1,7 +1,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { BookOpen, Building2, FileText, HelpCircle, LayoutGrid, Star } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface DashboardProps {
     stats: {
@@ -33,10 +33,10 @@ export default function Dashboard({ stats, recent_posts }: DashboardProps) {
 
     return (
         <>
-            <Head title="Sky Panda CMS — Dashboard" />
-            <div className="space-y-6">
+            <Head title="Dashboard" />
+            <div className="space-y-6 p-4">
                 <div>
-                    <h1 className="text-2xl font-bold">Sky Panda CMS</h1>
+                    <h1 className="text-2xl font-bold">Panda Towers CMS</h1>
                     <p className="text-muted-foreground mt-1">Manage all content for Panda Towers 001 website.</p>
                 </div>
 
