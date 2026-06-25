@@ -10,6 +10,7 @@ use App\Models\CoreValue;
 use App\Models\FaqCategory;
 use App\Models\HeroSlide;
 use App\Models\NavigationItem;
+use App\Models\Page;
 use App\Models\SiteSetting;
 use App\Models\SocialLink;
 use App\Models\Stat;
@@ -163,5 +164,19 @@ class PublicApiController extends Controller
         }])->get();
 
         return response()->json($categories);
+    }
+
+    public function pageSections(string $slug): JsonResponse
+    {
+        $page = Page::where('slug', $slug)
+            ->where('is_published', true)
+            ->firstOrFail();
+
+        $sections = $page->sections()
+            ->where('is_active', true)
+            ->orderBy('order')
+            ->get(['id', 'name', 'section_type', 'content', 'order', 'background_color', 'background_image', 'css_class']);
+
+        return response()->json($sections);
     }
 }
