@@ -29,6 +29,14 @@ class PublicApiController extends Controller
             'brochure_url', 'booking_form_url',
             'primary_color', 'accent_color',
             'meta_description', 'og_image',
+            // Calculator
+            'calculator_heading', 'calculator_subheading',
+            'calculator_default_price', 'calculator_default_dp', 'calculator_default_yield',
+            'calculator_dp_options', 'calculator_cta_text', 'calculator_cta_url',
+            'calculator_whatsapp', 'calculator_disclaimer',
+            // Location / Map
+            'location_heading', 'location_address', 'location_description',
+            'location_embed_url', 'location_map_image', 'location_highlights',
         ])->get()->pluck('value', 'key');
 
         return response()->json($settings);

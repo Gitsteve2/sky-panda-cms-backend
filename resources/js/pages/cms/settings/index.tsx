@@ -1,5 +1,5 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { Globe, Image, Layers, Pencil, Plus, Save, Share2, Star, Trash2, X } from 'lucide-react';
+import { Calculator, Globe, Image, Layers, MapPin, Pencil, Plus, Save, Share2, Star, Trash2, X } from 'lucide-react';
 import { MediaPicker } from '@/components/media-picker';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,7 @@ export default function SettingsIndex({ settings, heroSlides, socialLinks, stats
     socialLinks: SocialLink[]; stats: StatsGroup;
     coreValues: CoreValue[]; trackRecords: TrackRecord[];
 }) {
-    const [tab, setTab] = useState<'general' | 'hero' | 'social' | 'stats' | 'about'>('general');
+    const [tab, setTab] = useState<'general' | 'hero' | 'social' | 'stats' | 'about' | 'calculator' | 'location'>('general');
     const [editingHero, setEditingHero] = useState<HeroSlide | null>(null);
     const [showAddHero, setShowAddHero] = useState(false);
     const [editingSocial, setEditingSocial] = useState<SocialLink | null>(null);
@@ -61,6 +61,8 @@ export default function SettingsIndex({ settings, heroSlides, socialLinks, stats
         { key: 'social', label: 'Social Links', icon: Share2 },
         { key: 'stats', label: 'Stats', icon: Star },
         { key: 'about', label: 'About', icon: Layers },
+        { key: 'calculator', label: 'Calculator', icon: Calculator },
+        { key: 'location', label: 'Location', icon: MapPin },
     ] as const;
 
     return (
@@ -72,7 +74,7 @@ export default function SettingsIndex({ settings, heroSlides, socialLinks, stats
                         <h1 className="text-3xl font-bold tracking-tight">Site Settings</h1>
                         <p className="text-muted-foreground mt-1">Configure site-wide content and branding.</p>
                     </div>
-                    {tab === 'general' && (
+                    {(['general', 'calculator', 'location'] as const).includes(tab as 'general' | 'calculator' | 'location') && (
                         <Button onClick={saveSettings}>
                             <Save className="h-4 w-4 mr-2" />Save Settings
                         </Button>
@@ -456,6 +458,145 @@ export default function SettingsIndex({ settings, heroSlides, socialLinks, stats
                                 ))}
                             </div>
                         </div>
+                    </div>
+                )}
+
+                {/* Calculator */}
+                {tab === 'calculator' && (
+                    <div className="space-y-6 max-w-2xl">
+                        <Card className="overflow-hidden">
+                            <CardHeader className="bg-muted/30 border-b border-border pb-4">
+                                <CardTitle className="text-base flex items-center gap-2">
+                                    <Calculator className="h-4 w-4 text-primary" />ROI Calculator Settings
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-5 space-y-5">
+                                <div className="space-y-1.5">
+                                    <Label>Section Heading</Label>
+                                    <Input value={settingValues['calculator_heading'] ?? 'Investment Calculator'} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_heading: e.target.value }))} placeholder="Investment Calculator" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label>Section Subheading</Label>
+                                    <Input value={settingValues['calculator_subheading'] ?? ''} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_subheading: e.target.value }))} placeholder="Estimate your potential passive income" />
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="overflow-hidden">
+                            <CardHeader className="bg-muted/30 border-b border-border pb-4">
+                                <CardTitle className="text-base">Default Values</CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-5 space-y-5">
+                                <div className="grid grid-cols-3 gap-4">
+                                    <div className="space-y-1.5">
+                                        <Label>Default Unit Price (KES)</Label>
+                                        <Input type="number" value={settingValues['calculator_default_price'] ?? '3950000'} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_default_price: e.target.value }))} placeholder="3950000" />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label>Default Down Payment %</Label>
+                                        <Input type="number" min={0} max={100} value={settingValues['calculator_default_dp'] ?? '30'} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_default_dp: e.target.value }))} placeholder="30" />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label>Default Yield % /year</Label>
+                                        <Input type="number" step="0.1" min={0} value={settingValues['calculator_default_yield'] ?? '9'} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_default_yield: e.target.value }))} placeholder="9" />
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label>Down Payment Options (comma-separated %)</Label>
+                                    <Input value={settingValues['calculator_dp_options'] ?? '30,50,100'} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_dp_options: e.target.value }))} placeholder="30,50,100" />
+                                    <p className="text-xs text-muted-foreground">e.g. 30,50,100 — shown as 30%, 50%, 100% (Cash)</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="overflow-hidden">
+                            <CardHeader className="bg-muted/30 border-b border-border pb-4">
+                                <CardTitle className="text-base">CTA Buttons</CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-5 space-y-5">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="space-y-1.5">
+                                        <Label>Primary Button Text</Label>
+                                        <Input value={settingValues['calculator_cta_text'] ?? 'See our Brochure'} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_cta_text: e.target.value }))} placeholder="See our Brochure" />
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label>Primary Button URL</Label>
+                                        <Input value={settingValues['calculator_cta_url'] ?? ''} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_cta_url: e.target.value }))} placeholder="https://bit.ly/..." />
+                                    </div>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label>WhatsApp Number (digits only)</Label>
+                                    <Input value={settingValues['calculator_whatsapp'] ?? ''} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_whatsapp: e.target.value }))} placeholder="254739695307" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label>Disclaimer / footnote text</Label>
+                                    <textarea className="w-full min-h-[60px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={settingValues['calculator_disclaimer'] ?? ''} onChange={(e) => setSettingValues((p) => ({ ...p, calculator_disclaimer: e.target.value }))} placeholder="* These are estimates based on current market conditions. Actual returns may vary." />
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                )}
+
+                {/* Location / Map */}
+                {tab === 'location' && (
+                    <div className="space-y-6 max-w-2xl">
+                        <Card className="overflow-hidden">
+                            <CardHeader className="bg-muted/30 border-b border-border pb-4">
+                                <CardTitle className="text-base flex items-center gap-2">
+                                    <MapPin className="h-4 w-4 text-primary" />Location Details
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-5 space-y-5">
+                                <div className="space-y-1.5">
+                                    <Label>Section Heading</Label>
+                                    <Input value={settingValues['location_heading'] ?? 'Location'} onChange={(e) => setSettingValues((p) => ({ ...p, location_heading: e.target.value }))} placeholder="Location" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label>Address</Label>
+                                    <Input value={settingValues['location_address'] ?? ''} onChange={(e) => setSettingValues((p) => ({ ...p, location_address: e.target.value }))} placeholder="Kinoo, Waiyaki Way, Nairobi" />
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label>Short Description</Label>
+                                    <Input value={settingValues['location_description'] ?? ''} onChange={(e) => setSettingValues((p) => ({ ...p, location_description: e.target.value }))} placeholder="Strategic location along Waiyaki Way" />
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        <Card className="overflow-hidden">
+                            <CardHeader className="bg-muted/30 border-b border-border pb-4">
+                                <CardTitle className="text-base">Map Embed</CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-5 space-y-5">
+                                <div className="space-y-1.5">
+                                    <Label>Google Maps Embed URL</Label>
+                                    <Input value={settingValues['location_embed_url'] ?? ''} onChange={(e) => setSettingValues((p) => ({ ...p, location_embed_url: e.target.value }))} placeholder="https://maps.google.com/maps?q=...&output=embed" />
+                                    <p className="text-xs text-muted-foreground">Go to Google Maps → Share → Embed a map → copy the <code className="bg-muted px-1 rounded">src</code> URL from the iframe code.</p>
+                                </div>
+                                <MediaPicker
+                                    label="Static Map Image (fallback if no embed URL)"
+                                    value={settingValues['location_map_image'] ?? ''}
+                                    onChange={(url) => setSettingValues((p) => ({ ...p, location_map_image: url }))}
+                                    accept="image"
+                                    placeholder="/sky-map.png"
+                                />
+                            </CardContent>
+                        </Card>
+
+                        <Card className="overflow-hidden">
+                            <CardHeader className="bg-muted/30 border-b border-border pb-4">
+                                <CardTitle className="text-base">Proximity Highlights</CardTitle>
+                            </CardHeader>
+                            <CardContent className="pt-5 space-y-3">
+                                <p className="text-xs text-muted-foreground">One highlight per line, in the format: <code className="bg-muted px-1 rounded">value|label</code></p>
+                                <textarea
+                                    className="w-full min-h-[120px] rounded-md border border-input bg-background px-3 py-2 text-sm font-mono resize-y focus:outline-none focus:ring-2 focus:ring-ring"
+                                    value={settingValues['location_highlights'] ?? '10 km|from ABC Place\n20 mins|to ABC Place\n25 mins|to Lavington\n30 mins|to Gigiri'}
+                                    onChange={(e) => setSettingValues((p) => ({ ...p, location_highlights: e.target.value }))}
+                                    placeholder={'10 km|from ABC Place\n20 mins|to ABC Place'}
+                                />
+                                <p className="text-xs text-muted-foreground">Preview: these are displayed as a grid of distance/time cards on the map section of the About page.</p>
+                            </CardContent>
+                        </Card>
                     </div>
                 )}
             </div>
