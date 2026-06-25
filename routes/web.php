@@ -7,6 +7,7 @@ use App\Http\Controllers\Cms\InvestmentController;
 use App\Http\Controllers\Cms\MediaController;
 use App\Http\Controllers\Cms\NavigationController;
 use App\Http\Controllers\Cms\PagesController;
+use App\Http\Controllers\Cms\ProjectUpdatesController;
 use App\Http\Controllers\Cms\SettingsController;
 use App\Http\Controllers\Cms\TestimonialsController;
 use Illuminate\Support\Facades\Route;
@@ -93,6 +94,12 @@ Route::middleware(['auth', 'verified'])->prefix('cms')->name('cms.')->group(func
     Route::post('/settings/track-records', [SettingsController::class, 'storeTrackRecord'])->name('settings.track-records.store');
     Route::put('/settings/track-records/{trackRecord}', [SettingsController::class, 'updateTrackRecord'])->name('settings.track-records.update');
     Route::delete('/settings/track-records/{trackRecord}', [SettingsController::class, 'destroyTrackRecord'])->name('settings.track-records.destroy');
+
+    // Project Updates
+    Route::get('/project-updates', [ProjectUpdatesController::class, 'index'])->name('project-updates.index');
+    Route::post('/project-updates', [ProjectUpdatesController::class, 'store'])->name('project-updates.store');
+    Route::put('/project-updates/{projectUpdate}', [ProjectUpdatesController::class, 'update'])->name('project-updates.update');
+    Route::delete('/project-updates/{projectUpdate}', [ProjectUpdatesController::class, 'destroy'])->name('project-updates.destroy');
 
     // Media
     Route::get('/media', [MediaController::class, 'index'])->name('media.index');

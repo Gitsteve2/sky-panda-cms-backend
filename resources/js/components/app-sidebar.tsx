@@ -2,6 +2,7 @@ import { Link } from '@inertiajs/react';
 import {
     BookOpen,
     Building2,
+    CalendarDays,
     FileText,
     HelpCircle,
     Image,
@@ -31,6 +32,7 @@ const mainNavItems: NavItem[] = [
     { title: 'FAQ', href: '/cms/faq', icon: HelpCircle },
     { title: 'Testimonials', href: '/cms/testimonials', icon: Star },
     { title: 'Investment', href: '/cms/investment', icon: Building2 },
+    { title: 'Project Updates', href: '/cms/project-updates', icon: CalendarDays },
     { title: 'Navigation', href: '/cms/navigation', icon: Menu },
     { title: 'Media', href: '/cms/media', icon: Image },
     { title: 'Settings', href: '/cms/settings', icon: Settings },
