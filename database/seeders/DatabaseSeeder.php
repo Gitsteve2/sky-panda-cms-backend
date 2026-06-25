@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'admin@pandatowers.africa'],
             [
-                'name' => 'Sky Panda Admin',
+                'name' => 'Panda Towers Admin',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
             ]
