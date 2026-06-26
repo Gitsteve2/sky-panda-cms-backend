@@ -12,7 +12,8 @@ import {
     Star,
 } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
-import { NavMain, type NavSection } from '@/components/nav-main';
+import { NavMain  } from '@/components/nav-main';
+import type {NavSection} from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
     Sidebar,
