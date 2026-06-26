@@ -1,9 +1,9 @@
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, BookOpen, Eye, EyeOff, Star } from 'lucide-react';
+import { ArrowLeft, BookOpen, Eye, EyeOff, Star, Sparkles, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RichEditor } from '@/components/rich-editor';
@@ -43,136 +43,196 @@ export default function BlogForm({ post, categories }: { post: Post | null; cate
     return (
         <>
             <Head title={post ? `Edit: ${post.title}` : 'New Blog Post'} />
-            <div className="max-w-4xl space-y-8">
-                <div className="flex items-center justify-between">
+            <div className="max-w-5xl space-y-6 animate-in fade-in-50 duration-200">
+                
+                {/* Header Section */}
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-border/40 pb-5">
                     <div className="flex items-center gap-3">
-                        <Button variant="ghost" size="sm" asChild>
-                            <Link href="/cms/blog"><ArrowLeft className="h-4 w-4" /></Link>
+                        <Button variant="ghost" size="icon" asChild className="h-9 w-9 rounded-lg border border-border/50 text-muted-foreground hover:text-foreground">
+                            <Link href="/cms/blog">
+                                <ArrowLeft className="h-4 w-4" />
+                            </Link>
                         </Button>
                         <div>
-                            <h1 className="text-3xl font-bold tracking-tight">{post ? 'Edit Post' : 'New Blog Post'}</h1>
-                            {post?.title && <p className="text-muted-foreground mt-0.5 text-sm">{post.title}</p>}
+                            <h1 className="text-2xl font-bold tracking-tight text-foreground">{post ? 'Edit Blog Post' : 'New Blog Post'}</h1>
+                            <p className="text-xs text-muted-foreground mt-0.5">
+                                {post ? `Modifying: ${post.title}` : 'Draft a new article or update for the website.'}
+                            </p>
                         </div>
                     </div>
+                    
                     <div className="flex items-center gap-2">
                         {data.is_published ? (
-                            <Badge className="bg-green-100 text-green-700 border-green-200" variant="outline">
-                                <Eye className="h-3 w-3 mr-1" />Published
+                            <Badge className="bg-primary/10 text-primary border-primary/20 font-semibold text-xs px-2.5 py-1" variant="outline">
+                                <Eye className="h-3.5 w-3.5 mr-1.5" />Published
                             </Badge>
                         ) : (
-                            <Badge className="bg-amber-100 text-amber-700 border-amber-200" variant="outline">
-                                <EyeOff className="h-3 w-3 mr-1" />Draft
+                            <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20 font-semibold text-xs px-2.5 py-1" variant="outline">
+                                <EyeOff className="h-3.5 w-3.5 mr-1.5" />Draft
                             </Badge>
                         )}
                         {data.is_featured && (
-                            <Badge className="bg-amber-100 text-amber-700 border-amber-200" variant="outline">
-                                <Star className="h-3 w-3 mr-1" />Featured
+                            <Badge className="bg-copper/10 text-copper border-copper/20 font-semibold text-xs px-2.5 py-1" variant="outline">
+                                <Star className="h-3.5 w-3.5 mr-1.5" />Featured
                             </Badge>
                         )}
                     </div>
                 </div>
 
                 <form onSubmit={submit} className="space-y-6">
-                    <div className="grid grid-cols-3 gap-6">
-                        {/* Main content */}
-                        <div className="col-span-2 space-y-5">
-                            <Card className="overflow-hidden">
-                                <CardHeader className="bg-muted/30 border-b border-border pb-4">
-                                    <CardTitle className="flex items-center gap-2 text-base">
-                                        <BookOpen className="h-4 w-4 text-primary" />Post Content
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        
+                        {/* Main Content Fields */}
+                        <div className="lg:col-span-2 space-y-6">
+                            <Card className="border-border/50 shadow-xs overflow-hidden">
+                                <CardHeader className="bg-muted/20 border-b border-border/50 pb-4">
+                                    <CardTitle className="flex items-center gap-2 text-base font-bold text-foreground">
+                                        <BookOpen className="h-4.5 w-4.5 text-primary" />Post Content
                                     </CardTitle>
+                                    <CardDescription className="text-xs">Provide details and full content body.</CardDescription>
                                 </CardHeader>
-                                <CardContent className="pt-5 space-y-5">
+                                <CardContent className="pt-6 space-y-5">
                                     <div className="space-y-1.5">
-                                        <Label htmlFor="title">Title *</Label>
-                                        <Input id="title" value={data.title} onChange={(e) => setData('title', e.target.value)} placeholder="My Awesome Blog Post" required className="text-base" />
+                                        <Label htmlFor="title" className="font-semibold text-sm">Title <span className="text-destructive">*</span></Label>
+                                        <Input 
+                                            id="title" 
+                                            value={data.title} 
+                                            onChange={(e) => setData('title', e.target.value)} 
+                                            placeholder="Enter post title..." 
+                                            required 
+                                            className="h-10 text-sm focus-visible:ring-primary/20 focus-visible:border-primary" 
+                                        />
                                         <InputError message={errors.title} />
                                     </div>
 
-                                    <div className="grid grid-cols-2 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div className="space-y-1.5">
-                                            <Label htmlFor="slug">Slug</Label>
-                                            <Input id="slug" value={data.slug} onChange={(e) => setData('slug', e.target.value)} placeholder="auto-generated" className="font-mono text-sm" />
+                                            <Label htmlFor="slug" className="font-semibold text-sm">Slug URL</Label>
+                                            <Input 
+                                                id="slug" 
+                                                value={data.slug} 
+                                                onChange={(e) => setData('slug', e.target.value)} 
+                                                placeholder="auto-generated" 
+                                                className="h-10 font-mono text-xs focus-visible:ring-primary/20 focus-visible:border-primary bg-muted/20" 
+                                            />
                                         </div>
                                         <div className="space-y-1.5">
-                                            <Label htmlFor="read_time">Read Time</Label>
-                                            <Input id="read_time" value={data.read_time} onChange={(e) => setData('read_time', e.target.value)} placeholder="5 min read" />
+                                            <Label htmlFor="read_time" className="font-semibold text-sm">Read Time</Label>
+                                            <Input 
+                                                id="read_time" 
+                                                value={data.read_time} 
+                                                onChange={(e) => setData('read_time', e.target.value)} 
+                                                placeholder="e.g. 5 min read" 
+                                                className="h-10 focus-visible:ring-primary/20 focus-visible:border-primary"
+                                            />
                                         </div>
                                     </div>
 
                                     <div className="space-y-1.5">
-                                        <Label>Excerpt</Label>
-                                        <textarea className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={data.excerpt} onChange={(e) => setData('excerpt', e.target.value)} placeholder="A short summary of this post..." />
-                                    </div>
-
-                                    <div className="space-y-1.5">
-                                        <Label>Content</Label>
-                                        <RichEditor
-                                            value={data.content}
-                                            onChange={(v) => setData('content', v)}
-                                            placeholder="Write your blog post here..."
-                                            minHeight={320}
+                                        <Label htmlFor="excerpt" className="font-semibold text-sm">Excerpt</Label>
+                                        <textarea 
+                                            id="excerpt"
+                                            className="w-full min-h-[90px] rounded-lg border border-input bg-background px-3 py-2 text-sm resize-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all placeholder:text-muted-foreground/55" 
+                                            value={data.excerpt} 
+                                            onChange={(e) => setData('excerpt', e.target.value)} 
+                                            placeholder="Write a brief, catchy summary of this article..." 
                                         />
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        <Label className="font-semibold text-sm">Content Body</Label>
+                                        <div className="border border-border/60 rounded-lg overflow-hidden">
+                                            <RichEditor
+                                                value={data.content}
+                                                onChange={(v) => setData('content', v)}
+                                                placeholder="Begin writing your post..."
+                                                minHeight={360}
+                                            />
+                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>
 
-                            <Card className="overflow-hidden">
-                                <CardHeader className="bg-muted/30 border-b border-border pb-4">
-                                    <CardTitle className="text-base">SEO</CardTitle>
+                            {/* SEO Meta Section */}
+                            <Card className="border-border/50 shadow-xs overflow-hidden">
+                                <CardHeader className="bg-muted/20 border-b border-border/50 pb-4">
+                                    <CardTitle className="flex items-center gap-2 text-base font-bold text-foreground">
+                                        <Globe className="h-4.5 w-4.5 text-primary" />Search Engine Optimization
+                                    </CardTitle>
+                                    <CardDescription className="text-xs">Optimize how this post appears on search engines.</CardDescription>
                                 </CardHeader>
-                                <CardContent className="pt-5 space-y-4">
+                                <CardContent className="pt-6 space-y-4">
                                     <div className="space-y-1.5">
-                                        <Label>Meta Title</Label>
-                                        <Input value={data.meta_title} onChange={(e) => setData('meta_title', e.target.value)} placeholder="SEO title (defaults to post title)" />
+                                        <Label htmlFor="meta_title" className="font-semibold text-sm">Meta Title</Label>
+                                        <Input 
+                                            id="meta_title"
+                                            value={data.meta_title} 
+                                            onChange={(e) => setData('meta_title', e.target.value)} 
+                                            placeholder="SEO Title (falls back to main title)" 
+                                            className="h-10 focus-visible:ring-primary/20 focus-visible:border-primary"
+                                        />
                                     </div>
                                     <div className="space-y-1.5">
-                                        <Label>Meta Description</Label>
-                                        <textarea className="w-full min-h-[80px] rounded-md border border-input bg-background px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-ring" value={data.meta_description} onChange={(e) => setData('meta_description', e.target.value)} placeholder="Short description for search engines (120–160 chars)" />
+                                        <Label htmlFor="meta_description" className="font-semibold text-sm">Meta Description</Label>
+                                        <textarea 
+                                            id="meta_description"
+                                            className="w-full min-h-[90px] rounded-lg border border-input bg-background px-3 py-2 text-sm resize-none focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all placeholder:text-muted-foreground/55" 
+                                            value={data.meta_description} 
+                                            onChange={(e) => setData('meta_description', e.target.value)} 
+                                            placeholder="Brief post synopsis shown in Google searches (recommended 120-160 characters)" 
+                                        />
                                     </div>
                                 </CardContent>
                             </Card>
                         </div>
 
-                        {/* Sidebar */}
-                        <div className="space-y-5">
-                            <Card className="overflow-hidden">
-                                <CardHeader className="bg-muted/30 border-b border-border pb-4">
-                                    <CardTitle className="text-base">Publish</CardTitle>
+                        {/* Sidebar controls */}
+                        <div className="space-y-6">
+                            
+                            {/* Publish Settings */}
+                            <Card className="border-border/50 shadow-xs overflow-hidden">
+                                <CardHeader className="bg-muted/20 border-b border-border/50 pb-4">
+                                    <CardTitle className="flex items-center gap-2 text-base font-bold text-foreground">
+                                        <Sparkles className="h-4.5 w-4.5 text-primary" />Visibility Settings
+                                    </CardTitle>
+                                    <CardDescription className="text-xs">Control publishing status & visibility.</CardDescription>
                                 </CardHeader>
-                                <CardContent className="pt-5 space-y-4">
-                                    <label className="flex items-center gap-3 cursor-pointer">
-                                        <div className={`relative w-10 h-6 rounded-full transition-colors ${data.is_published ? 'bg-primary' : 'bg-muted-foreground/30'}`}>
+                                <CardContent className="pt-6 space-y-5">
+                                    <label className="flex items-start gap-3 cursor-pointer group">
+                                        <div className={`mt-0.5 relative w-10 h-6 rounded-full transition-colors shrink-0 ${data.is_published ? 'bg-primary' : 'bg-muted-foreground/30'}`}>
                                             <div className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${data.is_published ? 'translate-x-5' : 'translate-x-1'}`} />
                                         </div>
                                         <input type="checkbox" checked={data.is_published} onChange={(e) => setData('is_published', e.target.checked)} className="sr-only" />
-                                        <div>
-                                            <div className="text-sm font-medium">Published</div>
-                                            <div className="text-xs text-muted-foreground">Visible on website</div>
+                                        <div className="space-y-0.5">
+                                            <div className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">Publish on website</div>
+                                            <div className="text-xs text-muted-foreground leading-relaxed">Visible publicly once saved.</div>
                                         </div>
                                     </label>
-                                    <label className="flex items-center gap-3 cursor-pointer">
-                                        <div className={`relative w-10 h-6 rounded-full transition-colors ${data.is_featured ? 'bg-amber-500' : 'bg-muted-foreground/30'}`}>
+                                    
+                                    <label className="flex items-start gap-3 cursor-pointer group">
+                                        <div className={`mt-0.5 relative w-10 h-6 rounded-full transition-colors shrink-0 ${data.is_featured ? 'bg-copper' : 'bg-muted-foreground/30'}`}>
                                             <div className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${data.is_featured ? 'translate-x-5' : 'translate-x-1'}`} />
                                         </div>
                                         <input type="checkbox" checked={data.is_featured} onChange={(e) => setData('is_featured', e.target.checked)} className="sr-only" />
-                                        <div>
-                                            <div className="text-sm font-medium">Featured</div>
-                                            <div className="text-xs text-muted-foreground">Highlighted post</div>
+                                        <div className="space-y-0.5">
+                                            <div className="text-sm font-bold text-foreground group-hover:text-copper transition-colors">Featured article</div>
+                                            <div className="text-xs text-muted-foreground leading-relaxed">Pin article to home sections.</div>
                                         </div>
                                     </label>
                                 </CardContent>
                             </Card>
 
-                            <Card className="overflow-hidden">
-                                <CardHeader className="bg-muted/30 border-b border-border pb-4">
-                                    <CardTitle className="text-base">Details</CardTitle>
+                            {/* Meta taxonomy & Media */}
+                            <Card className="border-border/50 shadow-xs overflow-hidden">
+                                <CardHeader className="bg-muted/20 border-b border-border/50 pb-4">
+                                    <CardTitle className="text-base font-bold text-foreground">Taxonomy & Media</CardTitle>
+                                    <CardDescription className="text-xs">Category classification & cover media.</CardDescription>
                                 </CardHeader>
-                                <CardContent className="pt-5 space-y-4">
+                                <CardContent className="pt-6 space-y-5">
                                     <div className="space-y-1.5">
-                                        <Label>Category</Label>
+                                        <Label className="font-semibold text-sm">Category Selection</Label>
                                         <Select value={data.blog_category_id} onValueChange={(v) => setData('blog_category_id', v)}>
-                                            <SelectTrigger>
+                                            <SelectTrigger className="h-10">
                                                 <SelectValue placeholder="Select category" />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -183,21 +243,25 @@ export default function BlogForm({ post, categories }: { post: Post | null; cate
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                    <MediaPicker
-                                        label="Featured Image"
-                                        value={data.featured_image}
-                                        onChange={(url) => setData('featured_image', url)}
-                                        accept="image"
-                                        placeholder="/images/post-cover.jpg"
-                                    />
+                                    
+                                    <div className="space-y-1.5 pt-1">
+                                        <MediaPicker
+                                            label="Featured Cover Image"
+                                            value={data.featured_image}
+                                            onChange={(url) => setData('featured_image', url)}
+                                            accept="image"
+                                            placeholder="/images/post-cover.jpg"
+                                        />
+                                    </div>
                                 </CardContent>
                             </Card>
 
-                            <div className="flex flex-col gap-2">
-                                <Button type="submit" disabled={processing} className="w-full">
-                                    {processing ? 'Saving...' : post ? 'Update Post' : 'Create Post'}
+                            {/* Submission Controls */}
+                            <div className="flex flex-col gap-2 pt-2">
+                                <Button type="submit" disabled={processing} className="w-full h-11 font-semibold text-sm shadow-green hover:scale-[1.01] transition-transform">
+                                    {processing ? 'Saving Changes...' : post ? 'Update Blog Post' : 'Publish Blog Post'}
                                 </Button>
-                                <Button variant="outline" asChild className="w-full">
+                                <Button variant="outline" asChild className="w-full h-11 text-sm">
                                     <Link href="/cms/blog">Cancel</Link>
                                 </Button>
                             </div>
