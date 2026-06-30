@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call([
+            RbacSeeder::class,
             SiteSettingsSeeder::class,
             NavigationSeeder::class,
             HeroSeeder::class,
