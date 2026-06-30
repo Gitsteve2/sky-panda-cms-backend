@@ -18,17 +18,16 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
-        $authData = null;
         if ($user) {
             $user->loadMissing(['roles.permissions', 'permissions']);
-
-            $authData = [
-                'user' => $user,
-                'roles' => $user->roles->pluck('name')->toArray(),
-                'permissions' => $user->getAllPermissions(),
-                'is_super_admin' => $user->isSuperAdmin(),
-            ];
         }
+
+        $authData = [
+            'user' => $user,
+            'roles' => $user ? $user->roles->pluck('name')->toArray() : [],
+            'permissions' => $user ? $user->getAllPermissions() : [],
+            'is_super_admin' => $user ? $user->isSuperAdmin() : false,
+        ];
 
         return [
             ...parent::share($request),
