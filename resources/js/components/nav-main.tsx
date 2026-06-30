@@ -28,8 +28,8 @@ export function NavMain({ sections = [] }: { sections: NavSection[] }) {
                     )}
                     <SidebarMenu>
                         {section.items.map((item) => {
-                            const active = item.href === '/cms' 
-                                ? isCurrentUrl(item.href) 
+                            const active = item.href === '/cms'
+                                ? isCurrentUrl(item.href)
                                 : isCurrentOrParentUrl(item.href);
 
                             return (
