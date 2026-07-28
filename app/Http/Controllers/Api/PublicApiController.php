@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 
 class PublicApiController extends Controller
 {
-    public function settings(): JsonResponse
+    public function settings()
     {
         $settings = SiteSetting::whereIn('key', [
             'site_name', 'tagline', 'logo_url', 'logo_white_url',
@@ -49,7 +49,7 @@ class PublicApiController extends Controller
         return response()->json($settings);
     }
 
-    public function navigation(): JsonResponse
+    public function navigation()
     {
         $items = NavigationItem::where('is_active', true)
             ->orderBy('order')
@@ -58,7 +58,7 @@ class PublicApiController extends Controller
         return response()->json($items);
     }
 
-    public function hero(): JsonResponse
+    public function hero()
     {
         $slides = HeroSlide::where('is_active', true)
             ->orderBy('order')
@@ -67,7 +67,7 @@ class PublicApiController extends Controller
         return response()->json($slides);
     }
 
-    public function testimonials(): JsonResponse
+    public function testimonials()
     {
         $testimonials = Testimonial::where('is_active', true)
             ->orderBy('order')
@@ -76,7 +76,7 @@ class PublicApiController extends Controller
         return response()->json($testimonials);
     }
 
-    public function blog(Request $request): JsonResponse
+    public function blog(Request $request)
     {
         $posts = BlogPost::with('category')
             ->where('is_published', true)
@@ -86,7 +86,7 @@ class PublicApiController extends Controller
         return response()->json($posts);
     }
 
-    public function blogPost(int $id): JsonResponse
+    public function blogPost(int $id)
     {
         $post = BlogPost::with('category', 'author')
             ->where('is_published', true)
@@ -96,7 +96,7 @@ class PublicApiController extends Controller
             ->where('id', '!=', $id)
             ->inRandomOrder()
             ->limit(2)
-            ->get(['id', 'title', 'excerpt', 'featured_image', 'category_id', 'published_at', 'read_time']);
+            ->get(['id', 'title', 'excerpt', 'featured_image', 'blog_category_id', 'published_at', 'read_time']);
 
         return response()->json([
             'post'    => $post,
@@ -104,7 +104,7 @@ class PublicApiController extends Controller
         ]);
     }
 
-    public function faq(): JsonResponse
+    public function faq()
     {
         $categories = FaqCategory::with(['items' => function ($q) {
             $q->where('is_active', true)->orderBy('order');
@@ -116,7 +116,7 @@ class PublicApiController extends Controller
         return response()->json($categories);
     }
 
-    public function investment(): JsonResponse
+    public function investment()
     {
         $units = UnitType::where('is_active', true)
             ->orderBy('order')
@@ -132,7 +132,7 @@ class PublicApiController extends Controller
         ]);
     }
 
-    public function about(): JsonResponse
+    public function about()
     {
         $trackRecords = TrackRecord::where('is_active', true)
             ->orderBy('order')
@@ -154,7 +154,7 @@ class PublicApiController extends Controller
         ]);
     }
 
-    public function social(): JsonResponse
+    public function social()
     {
         $links = SocialLink::where('is_active', true)
             ->orderBy('order')
@@ -163,7 +163,7 @@ class PublicApiController extends Controller
         return response()->json($links);
     }
 
-    public function blogCategories(): JsonResponse
+    public function blogCategories()
     {
         $categories = BlogCategory::withCount(['posts' => function ($q) {
             $q->where('is_published', true);
@@ -172,7 +172,7 @@ class PublicApiController extends Controller
         return response()->json($categories);
     }
 
-    public function projectUpdates(): JsonResponse
+    public function projectUpdates()
     {
         $updates = ProjectUpdate::where('is_active', true)
             ->orderByDesc('order')
@@ -181,7 +181,7 @@ class PublicApiController extends Controller
         return response()->json($updates);
     }
 
-    public function pageSections(string $slug): JsonResponse
+    public function pageSections(string $slug)
     {
         $page = Page::where('slug', $slug)
             ->where('is_published', true)
