@@ -40,30 +40,36 @@ class MediaController extends Controller
     public function store(Request $request): JsonResponse
     {
         $request->validate([
-            'file' => 'required|file|max:10240', // 10MB
+            'file' => 'required|file|mimes:jpg,jpeg,png,gif,webp,svg,mp4,webm,mov,pdf|max:10240', // 10MB
             'collection' => 'nullable|string|max:50',
             'alt_text' => 'nullable|string|max:255',
+        ], [
+            'file.mimes' => 'Only image (JPG, PNG, WEBP, GIF, SVG), video (MP4, WebM, MOV), or PDF files are allowed.',
+            'file.max' => 'File size must not exceed 10MB.',
         ]);
 
         $file = $request->file('file');
-        $collection = $request->input('collection', 'general');
-        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-        $path = $file->storeAs("media/{$collection}", $fileName, 'public');
+        $rawCollection = $request->input('collection', 'general');
+        $collection = preg_replace('/[^a-zA-Z0-9_-]/', '', (string) $rawCollection) ?: 'general';
+        $extension = strtolower($file->getClientOriginalExtension() ?: ($file->guessExtension() ?? 'jpg'));
+        $fileName = Str::uuid() . '.' . $extension;
+        $storedPath = $file->storeAs("media/{$collection}", $fileName, 'public');
+        $path = is_string($storedPath) ? $storedPath : "media/{$collection}/{$fileName}";
 
         $media = Media::create([
-            'name' => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME),
+            'name' => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) ?: 'Uploaded Media',
             'file_name' => $fileName,
             'mime_type' => $file->getMimeType(),
             'path' => $path,
             'url' => Storage::url($path),
             'size' => $file->getSize(),
             'disk' => 'public',
-            'alt_text' => $request->alt_text,
+            'alt_text' => $request->alt_text ?: pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME),
             'collection' => $collection,
             'uploaded_by' => auth()->id(),
         ]);
 
-        return response()->json($media);
+        return response()->json($media, 201);
     }
 
     public function update(Request $request, Media $medium): RedirectResponse

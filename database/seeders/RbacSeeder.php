@@ -70,7 +70,7 @@ class RbacSeeder extends Seeder
             ['name' => 'admin'],
             ['display_name' => 'Admin', 'description' => 'Full content management access.']
         );
-        $admin->permissions()->sync(Permission::all()->pluck('id'));
+        $admin->permissions()->sync(Permission::pluck('id'));
 
         // editor role — view/create/edit only (no delete, no settings)
         $editor = Role::updateOrCreate(

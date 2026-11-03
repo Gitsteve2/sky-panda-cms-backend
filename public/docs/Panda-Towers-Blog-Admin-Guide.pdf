@@ -1,0 +1,278 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R 8 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Length 6739 >>
+stream
+1.00 w
+0.051 0.302 0.165 rg
+42.00 721.89 511.28 78.00 re f
+1.00 w
+0.180 0.800 0.443 rg
+42.00 721.89 511.28 4.00 re f
+BT /F2 8.50 Tf 0.624 0.882 0.796 rg 62.00 775.89 Td (PANDA TOWERS 001 CMS  |  ADMINISTRATOR USER GUIDE) Tj ET
+BT /F2 18.00 Tf 1.000 1.000 1.000 rg 62.00 753.89 Td (Blog & Articles Management Guide) Tj ET
+BT /F1 9.50 Tf 0.753 0.867 0.592 rg 62.00 735.89 Td (Step-by-step instructions for creating, uploading, editing, publishing & deleting website articles) Tj ET
+0.80 w
+0.957 0.980 0.941 rg
+0.102 0.620 0.333 RG
+42.00 631.39 511.28 74.50 re B
+1.00 w
+0.102 0.620 0.333 rg
+42.00 631.39 4.00 74.50 re f
+BT /F2 10.00 Tf 0.051 0.302 0.165 rg 56.00 689.89 Td (Purpose of This Guide) Tj ET
+BT /F1 9.50 Tf 0.176 0.216 0.282 rg 56.00 674.89 Td (This manual provides step-by-step instructions for Panda Towers administrators and editors to) Tj ET
+BT /F1 9.50 Tf 0.176 0.216 0.282 rg 56.00 661.39 Td (independently create, format, upload images, publish, unpublish, and delete articles on) Tj ET
+BT /F1 9.50 Tf 0.176 0.216 0.282 rg 56.00 647.89 Td (https://pandatowers.africa without developer assistance.) Tj ET
+1.00 w
+0.051 0.302 0.165 rg
+42.00 599.39 22.00 22.00 re f
+BT /F2 10.50 Tf 0.180 0.800 0.443 rg 49.50 606.39 Td (1) Tj ET
+BT /F2 13.00 Tf 0.051 0.302 0.165 rg 72.00 605.39 Td (Accessing the Blog & Articles Dashboard) Tj ET
+1.20 w
+0.843 0.894 0.831 RG
+42.00 593.39 m 553.28 593.39 l S
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 576.39 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 580.39 Td (1.1) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 579.39 Td (Sign in to the CMS:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 565.39 Td (Open /login in your browser and sign in with your administrator email and password.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 544.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 548.89 Td (1.2) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 547.89 Td (Open the Blog Module:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 533.89 Td (In the left sidebar under the "Content" section, click "Blog" \(or navigate to /cms/blog\).) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 513.39 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 517.39 Td (1.3) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 516.39 Td (Use Summary Filter Cards:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 502.39 Td (Click "Total Articles", "Published", "Drafts", or "Featured" at the top of the dashboard to filter) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 488.89 Td (articles by status.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 468.39 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 472.39 Td (1.4) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 471.39 Td (Search, Filter & Switch Views:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 457.39 Td (Use the search bar to find articles by title, summary, slug, author, or category. Use the view) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 443.89 Td (toggle on the right to switch between Table View and Cards View.) Tj ET
+1.00 w
+0.051 0.302 0.165 rg
+42.00 410.39 22.00 22.00 re f
+BT /F2 10.50 Tf 0.180 0.800 0.443 rg 49.50 417.39 Td (2) Tj ET
+BT /F2 13.00 Tf 0.051 0.302 0.165 rg 72.00 416.39 Td (Creating & Publishing a New Article) Tj ET
+1.20 w
+0.843 0.894 0.831 RG
+42.00 404.39 m 553.28 404.39 l S
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 387.39 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 391.39 Td (2.1) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 390.39 Td (Click "New Article":) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 376.39 Td (Click the green "New Article" button in the top-right corner of the Blog dashboard) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 362.89 Td (\(/cms/blog/create\).) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 342.39 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 346.39 Td (2.2) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 345.39 Td (Enter the Article Title:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 331.39 Td (Type your article headline in the "Article Title" field. The URL Slug and estimated Reading Time are) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 317.89 Td (generated automatically as you type.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 297.39 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 301.39 Td (2.3) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 300.39 Td (Add an Excerpt / Summary:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 286.39 Td (Write a brief 1-2 sentence summary for blog cards, or click "Auto-fill from content" after writing) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 272.89 Td (your article body to generate one automatically.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 252.39 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 256.39 Td (2.4) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 255.39 Td (Compose the Content Body:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 241.39 Td (Write and format your article in the Rich Content Editor using headings \(H1, H2, H3\), bold, italics,) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 227.89 Td (bulleted/numbered lists, blockquotes, and links.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 207.39 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 211.39 Td (2.5) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 210.39 Td (Assign Author & Category:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 196.39 Td (In the right sidebar, select an Author Account or choose "Custom Author Name" to type any byline) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 182.89 Td (\(e.g., "Panda Towers Research"\). Choose a Category or click "+ New Category" to create one) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 169.39 Td (immediately.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 148.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 152.89 Td (2.6) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 151.89 Td (Preview & Publish:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 137.89 Td (Click "Preview Article" in the top bar to see how your article looks on the Panda Towers website.) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 124.39 Td (Toggle "Publish on website" ON and click "Publish Now" \(or click "Save as Draft" to save privately\).) Tj ET
+0.75 w
+0.886 0.910 0.941 RG
+42.00 38.00 m 553.28 38.00 l S
+BT /F1 8.50 Tf 0.443 0.502 0.588 rg 42.00 24.00 Td (Panda Towers 001 CMS - Blog & Articles Administrator Guide) Tj ET
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 508.28 24.00 Td (Page 1) Tj ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 5 0 R >>
+endobj
+7 0 obj
+<< /Length 6342 >>
+stream
+1.00 w
+0.051 0.302 0.165 rg
+42.00 783.89 22.00 22.00 re f
+BT /F2 10.50 Tf 0.180 0.800 0.443 rg 49.50 790.89 Td (3) Tj ET
+BT /F2 13.00 Tf 0.051 0.302 0.165 rg 72.00 789.89 Td (Uploading & Managing Article Images) Tj ET
+1.20 w
+0.843 0.894 0.831 RG
+42.00 777.89 m 553.28 777.89 l S
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 760.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 764.89 Td (3.1) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 763.89 Td (Featured Cover Image:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 749.89 Td (In the right sidebar under "Featured Cover Image", drag and drop an image file \(JPG, PNG, WebP, or) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 736.39 Td (GIF up to 10 MB\) or click "Upload File". Once uploaded, a live preview is shown.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 715.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 719.89 Td (3.2) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 718.89 Td (Reusing Media Library Images:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 704.89 Td (Click "Browse Library" to search previously uploaded images by filename and click "Use Selected) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 691.39 Td (Image".) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 670.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 674.89 Td (3.3) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 673.89 Td (Inserting Inline Content Images:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 659.89 Td (Place your cursor inside the Content Body editor where you want an image to appear, click the Image) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 646.39 Td (icon in the editor toolbar, and choose an image from your computer.) Tj ET
+1.00 w
+0.051 0.302 0.165 rg
+42.00 612.89 22.00 22.00 re f
+BT /F2 10.50 Tf 0.180 0.800 0.443 rg 49.50 619.89 Td (4) Tj ET
+BT /F2 13.00 Tf 0.051 0.302 0.165 rg 72.00 618.89 Td (Editing, Publishing & Unpublishing Articles) Tj ET
+1.20 w
+0.843 0.894 0.831 RG
+42.00 606.89 m 553.28 606.89 l S
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 589.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 593.89 Td (4.1) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 592.89 Td (Edit an Existing Article:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 578.89 Td (On /cms/blog, click the article title or the Pencil \(Edit\) icon in the Actions column. Update any) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 565.39 Td (field and click "Save & Update Article".) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 544.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 548.89 Td (4.2) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 547.89 Td (One-Click Publish / Unpublish:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 533.89 Td (On the /cms/blog table, click any article's green "Published" badge to unpublish it \(move to) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 520.39 Td (Drafts\), or click its amber "Draft" badge to publish it live to the website in one click.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 499.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 503.89 Td (4.3) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 502.89 Td (One-Click Featured Spotlight:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 488.89 Td (Click the Star icon in the Actions column \(or toggle "Featured article" in the editor\) to pin the) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 475.39 Td (article as the featured spotlight story at the top of the website blog page.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 454.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 458.89 Td (4.4) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 457.89 Td (Bulk Actions:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 443.89 Td (Tick the checkboxes next to multiple articles in the table to "Publish Selected", "Move to Drafts",) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 430.39 Td (or "Delete Selected" all at once.) Tj ET
+1.00 w
+0.051 0.302 0.165 rg
+42.00 396.89 22.00 22.00 re f
+BT /F2 10.50 Tf 0.180 0.800 0.443 rg 49.50 403.89 Td (5) Tj ET
+BT /F2 13.00 Tf 0.051 0.302 0.165 rg 72.00 402.89 Td (Managing Categories & Deleting Articles Safely) Tj ET
+1.20 w
+0.843 0.894 0.831 RG
+42.00 390.89 m 553.28 390.89 l S
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 373.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 377.89 Td (5.1) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 376.89 Td (Manage Blog Categories:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 362.89 Td (Click "Categories" in the top header of /cms/blog \(or visit /cms/blog-categories\) to add, rename,) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 349.39 Td (recolor, or delete categories. Deleting a category does not delete its articles.) Tj ET
+0.60 w
+0.910 0.961 0.914 rg
+0.753 0.867 0.592 RG
+48.00 328.89 16.00 14.00 re B
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 52.50 332.89 Td (5.2) Tj ET
+BT /F2 9.80 Tf 0.051 0.302 0.165 rg 72.00 331.89 Td (Delete an Article:) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 317.89 Td (Click the red Trash \(Delete\) icon next to an article and confirm the dialog prompt. If the article) Tj ET
+BT /F1 9.60 Tf 0.216 0.255 0.318 rg 72.00 304.39 Td (is currently live on the website, a warning message will alert you before deletion.) Tj ET
+0.80 w
+1.000 0.984 0.922 rg
+0.961 0.620 0.043 RG
+42.00 212.39 511.28 74.50 re B
+1.00 w
+0.961 0.620 0.043 rg
+42.00 212.39 4.00 74.50 re f
+BT /F2 10.00 Tf 0.573 0.251 0.055 rg 56.00 270.89 Td (Important Safeguard: Unpublish vs. Delete) Tj ET
+BT /F1 9.50 Tf 0.176 0.216 0.282 rg 56.00 255.89 Td (Deleting an article permanently removes it and its content from the database. If you only want to) Tj ET
+BT /F1 9.50 Tf 0.176 0.216 0.282 rg 56.00 242.39 Td (hide an article temporarily from the public website, click its status badge to Unpublish \(Move to) Tj ET
+BT /F1 9.50 Tf 0.176 0.216 0.282 rg 56.00 228.89 Td (Draft\) instead of deleting it.) Tj ET
+0.75 w
+0.886 0.910 0.941 RG
+42.00 38.00 m 553.28 38.00 l S
+BT /F1 8.50 Tf 0.443 0.502 0.588 rg 42.00 24.00 Td (Panda Towers 001 CMS - Blog & Articles Administrator Guide) Tj ET
+BT /F2 8.50 Tf 0.051 0.302 0.165 rg 508.28 24.00 Td (Page 2) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents 7 0 R >>
+endobj
+xref
+0 9
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000224 00000 n 
+0000000326 00000 n 
+0000007116 00000 n 
+0000007258 00000 n 
+0000013651 00000 n 
+trailer
+<< /Size 9 /Root 1 0 R >>
+startxref
+13793
+%%EOF

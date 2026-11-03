@@ -7,12 +7,18 @@ export function usePermission() {
     const isSuperAdmin = auth?.is_super_admin ?? false;
 
     function can(permission: string): boolean {
-        if (isSuperAdmin) return true;
+        if (isSuperAdmin) {
+            return true;
+        }
+
         return auth?.permissions?.includes(permission) ?? false;
     }
 
     function hasRole(role: string): boolean {
-        if (role === 'super_admin') return isSuperAdmin;
+        if (role === 'super_admin') {
+            return isSuperAdmin;
+        }
+
         return auth?.roles?.includes(role) ?? false;
     }
 

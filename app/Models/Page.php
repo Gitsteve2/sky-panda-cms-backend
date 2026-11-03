@@ -14,6 +14,9 @@ class Page extends Model
 
     protected $casts = ['is_published' => 'boolean', 'is_system' => 'boolean'];
 
+    /**
+     * @return HasMany<PageSection, $this>
+     */
     public function sections(): HasMany
     {
         return $this->hasMany(PageSection::class)->orderBy('order');

@@ -17,7 +17,6 @@ import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import type { NavSection } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
-import { usePermission } from '@/hooks/use-permission';
 import {
     Sidebar,
     SidebarContent,
@@ -27,12 +26,11 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { usePermission } from '@/hooks/use-permission';
 
 const mainSections: NavSection[] = [
     {
-        items: [
-            { title: 'Dashboard', href: '/cms', icon: LayoutGrid },
-        ],
+        items: [{ title: 'Dashboard', href: '/cms', icon: LayoutGrid }],
     },
     {
         label: 'Content',
@@ -41,7 +39,11 @@ const mainSections: NavSection[] = [
             { title: 'Blog', href: '/cms/blog', icon: BookOpen },
             { title: 'FAQ', href: '/cms/faq', icon: HelpCircle },
             { title: 'Testimonials', href: '/cms/testimonials', icon: Star },
-            { title: 'Project Updates', href: '/cms/project-updates', icon: CalendarDays },
+            {
+                title: 'Project Updates',
+                href: '/cms/project-updates',
+                icon: CalendarDays,
+            },
         ],
     },
     {
@@ -71,15 +73,25 @@ const adminSection: NavSection = {
 export function AppSidebar() {
     const { isSuperAdmin } = usePermission();
 
-    const sections = isSuperAdmin ? [...mainSections, adminSection] : mainSections;
+    const sections = isSuperAdmin
+        ? [...mainSections, adminSection]
+        : mainSections;
 
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader className="border-b border-sidebar-border/40 py-3">
                 <SidebarMenu>
                     <SidebarMenuItem>
-                        <SidebarMenuButton size="lg" asChild className="hover:bg-transparent active:bg-transparent">
-                            <Link href="/cms" prefetch className="flex items-center gap-2">
+                        <SidebarMenuButton
+                            size="lg"
+                            asChild
+                            className="hover:bg-transparent active:bg-transparent"
+                        >
+                            <Link
+                                href="/cms"
+                                prefetch
+                                className="flex items-center gap-2"
+                            >
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

@@ -26,12 +26,12 @@ export default function Login({ status, canResetPassword }: Props) {
                 {/* Background Effects */}
                 <div className="absolute inset-0">
                     <div className="absolute -top-40 -left-40 h-125 w-125 rounded-full bg-orange-500/10 blur-3xl" />
-                    <div className="absolute bottom-0 right-0 h-125 w-125 rounded-full bg-orange-400/10 blur-3xl" />
+                    <div className="absolute right-0 bottom-0 h-125 w-125 rounded-full bg-orange-400/10 blur-3xl" />
                 </div>
 
                 <div className="relative mx-auto flex min-h-screen w-full max-w-[1800px] items-center px-6 lg:px-16">
                     {/* LEFT SIDE */}
-                    <div className="hidden lg:flex lg:w-7/12 flex-col justify-center pr-24 pt-2">
+                    <div className="hidden flex-col justify-center pt-2 pr-24 lg:flex lg:w-7/12">
                         <div className="max-w-2xl">
                             <Link href="/">
                                 <img
@@ -41,11 +41,11 @@ export default function Login({ status, canResetPassword }: Props) {
                                 />
                             </Link>
 
-                            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.3em] text-orange-500">
+                            <p className="mb-4 text-sm font-semibold tracking-[0.3em] text-orange-500 uppercase">
                                 Panda Towers
                             </p>
 
-                            <h1 className="text-xl font-bold leading-tight text-white xl:text-2xl">
+                            <h1 className="text-xl leading-tight font-bold text-white xl:text-2xl">
                                 Infrastructure
                                 <span className="block text-orange-500">
                                     Management System
@@ -53,8 +53,8 @@ export default function Login({ status, canResetPassword }: Props) {
                             </h1>
 
                             <p className="mt-8 max-w-xl text-xl leading-relaxed text-slate-300">
-                                Centralized management platform for Panda Towers 001
-                                towers, site operations, maintenance
+                                Centralized management platform for Panda Towers
+                                001 towers, site operations, maintenance
                                 activities, assets, compliance tracking and
                                 enterprise reporting.
                             </p>
@@ -91,7 +91,7 @@ export default function Login({ status, canResetPassword }: Props) {
                     </div>
 
                     {/* RIGHT SIDE */}
-                    <div className="w-full lg:w-5/12 flex justify-center lg:justify-end">
+                    <div className="flex w-full justify-center lg:w-5/12 lg:justify-end">
                         <div className="w-full max-w-xl">
                             <div className="rounded-3xl bg-white p-8 shadow-[0_20px_80px_rgba(0,0,0,0.35)] lg:p-10">
                                 <div className="mb-8 text-center lg:hidden">
@@ -137,7 +137,7 @@ export default function Login({ status, canResetPassword }: Props) {
                                                     autoFocus
                                                     autoComplete="email"
                                                     placeholder="you@pandatowers.africa"
-                                                    className="mt-2 text-gray-700 border-slate-300"
+                                                    className="mt-2 border-slate-300 text-gray-700"
                                                 />
 
                                                 <InputError
@@ -228,8 +228,4 @@ export default function Login({ status, canResetPassword }: Props) {
     );
 }
 
-Login.layout = (page:any) => (
-    <AuthCmsLayout>
-        {page}
-    </AuthCmsLayout>
-);
+Login.layout = (page: any) => <AuthCmsLayout>{page}</AuthCmsLayout>;

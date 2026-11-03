@@ -91,7 +91,7 @@
 
     /* Secondary — warm beige tint */
     --secondary: oklch(0.95 0.015 155);
-    --secondary-foreground: oklch(0.30 0.07 155);
+    --secondary-foreground: oklch(0.3 0.07 155);
 
     /* Muted — very light neutral warm */
     --muted: oklch(0.97 0.005 95);
@@ -114,7 +114,7 @@
     --accent-muted: oklch(0.72 0.1 155);
 
     /* Copper / warm accent */
-    --copper: oklch(0.60 0.12 55);
+    --copper: oklch(0.6 0.12 55);
     --copper-foreground: oklch(1 0 0);
     --copper-light: oklch(0.95 0.04 55);
 
@@ -123,7 +123,7 @@
     --success-foreground: oklch(1 0 0);
     --warning: oklch(0.72 0.16 72);
     --warning-foreground: oklch(0.18 0.05 60);
-    --info: oklch(0.60 0.14 240);
+    --info: oklch(0.6 0.14 240);
     --info-foreground: oklch(1 0 0);
 
     /* Destructive */
@@ -150,18 +150,22 @@
     --sidebar-foreground: oklch(0.92 0.02 155);
     --sidebar-primary: oklch(0.55 0.16 155);
     --sidebar-primary-foreground: oklch(1 0 0);
-    --sidebar-accent: oklch(0.30 0.09 155);
+    --sidebar-accent: oklch(0.3 0.09 155);
     --sidebar-accent-foreground: oklch(0.96 0.01 155);
-    --sidebar-border: oklch(0.30 0.07 155);
+    --sidebar-border: oklch(0.3 0.07 155);
     --sidebar-ring: oklch(0.49 0.165 155);
     --sidebar-muted: oklch(0.65 0.05 155);
 
     /* Elevation shadows */
     --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.05);
     --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.08), 0 1px 2px oklch(0 0 0 / 0.06);
-    --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.08), 0 2px 4px -1px oklch(0 0 0 / 0.06);
-    --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.08), 0 4px 6px -2px oklch(0 0 0 / 0.05);
-    --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.1), 0 10px 10px -5px oklch(0 0 0 / 0.04);
+    --shadow-md:
+        0 4px 6px -1px oklch(0 0 0 / 0.08), 0 2px 4px -1px oklch(0 0 0 / 0.06);
+    --shadow-lg:
+        0 10px 15px -3px oklch(0 0 0 / 0.08), 0 4px 6px -2px oklch(0 0 0 / 0.05);
+    --shadow-xl:
+        0 20px 25px -5px oklch(0 0 0 / 0.1),
+        0 10px 10px -5px oklch(0 0 0 / 0.04);
     --shadow-card: 0 1px 3px oklch(0 0 0 / 0.06), 0 1px 2px oklch(0 0 0 / 0.04);
     --shadow-green: 0 4px 14px oklch(0.49 0.165 155 / 0.25);
     --shadow-inset: inset 0 2px 4px oklch(0 0 0 / 0.06);
@@ -180,8 +184,8 @@
     --popover-foreground: oklch(0.94 0.01 260);
 
     /* Green primary stays recognizably green in dark mode */
-    --primary: oklch(0.60 0.165 155);
-    --primary-foreground: oklch(0.10 0.04 155);
+    --primary: oklch(0.6 0.165 155);
+    --primary-foreground: oklch(0.1 0.04 155);
 
     /* Secondary */
     --secondary: oklch(0.24 0.04 155);
@@ -189,7 +193,7 @@
 
     /* Muted */
     --muted: oklch(0.22 0.025 260);
-    --muted-foreground: oklch(0.60 0.02 260);
+    --muted-foreground: oklch(0.6 0.02 260);
 
     /* Accent */
     --accent: oklch(0.26 0.06 155);
@@ -197,7 +201,7 @@
 
     --accent-light: oklch(0.28 0.06 155);
     --accent-hover: oklch(0.55 0.16 155);
-    --accent-muted: oklch(0.40 0.08 155);
+    --accent-muted: oklch(0.4 0.08 155);
 
     /* Copper */
     --copper: oklch(0.65 0.13 55);
@@ -205,21 +209,21 @@
     --copper-light: oklch(0.25 0.05 55);
 
     /* Semantic */
-    --success: oklch(0.60 0.16 155);
-    --success-foreground: oklch(0.10 0.04 155);
+    --success: oklch(0.6 0.16 155);
+    --success-foreground: oklch(0.1 0.04 155);
     --warning: oklch(0.72 0.16 72);
     --warning-foreground: oklch(0.15 0.04 60);
     --info: oklch(0.62 0.14 240);
-    --info-foreground: oklch(0.10 0.04 240);
+    --info-foreground: oklch(0.1 0.04 240);
 
     /* Destructive */
-    --destructive: oklch(0.45 0.20 27);
+    --destructive: oklch(0.45 0.2 27);
     --destructive-foreground: oklch(0.95 0.04 27);
 
     /* Borders & inputs */
     --border: oklch(0.26 0.025 260);
     --input: oklch(0.22 0.02 260);
-    --ring: oklch(0.60 0.165 155);
+    --ring: oklch(0.6 0.165 155);
 
     /* Charts */
     --chart-1: oklch(0.488 0.243 264.376);
@@ -230,7 +234,7 @@
 
     /* Sidebar — same deep green as light mode, dark mode keeps sidebar dark */
     --sidebar: oklch(0.26 0.06 155);
-    --sidebar-foreground: oklch(0.90 0.025 155);
+    --sidebar-foreground: oklch(0.9 0.025 155);
     --sidebar-primary: oklch(0.58 0.16 155);
     --sidebar-primary-foreground: oklch(1 0 0);
     --sidebar-accent: oklch(0.24 0.07 155);
@@ -240,14 +244,17 @@
     --sidebar-muted: oklch(0.55 0.06 155);
 
     /* Elevation shadows — more pronounced in dark mode */
-    --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.20);
-    --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.25), 0 1px 2px oklch(0 0 0 / 0.20);
-    --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.30), 0 2px 4px -1px oklch(0 0 0 / 0.20);
-    --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.35), 0 4px 6px -2px oklch(0 0 0 / 0.20);
-    --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.40), 0 10px 10px -5px oklch(0 0 0 / 0.20);
+    --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.2);
+    --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.25), 0 1px 2px oklch(0 0 0 / 0.2);
+    --shadow-md:
+        0 4px 6px -1px oklch(0 0 0 / 0.3), 0 2px 4px -1px oklch(0 0 0 / 0.2);
+    --shadow-lg:
+        0 10px 15px -3px oklch(0 0 0 / 0.35), 0 4px 6px -2px oklch(0 0 0 / 0.2);
+    --shadow-xl:
+        0 20px 25px -5px oklch(0 0 0 / 0.4), 0 10px 10px -5px oklch(0 0 0 / 0.2);
     --shadow-card: 0 1px 3px oklch(0 0 0 / 0.25), 0 1px 2px oklch(0 0 0 / 0.18);
-    --shadow-green: 0 4px 14px oklch(0.60 0.165 155 / 0.30);
-    --shadow-inset: inset 0 2px 4px oklch(0 0 0 / 0.20);
+    --shadow-green: 0 4px 14px oklch(0.6 0.165 155 / 0.3);
+    --shadow-inset: inset 0 2px 4px oklch(0 0 0 / 0.2);
 }
 
 /* ─────────────────────────────────────────────
@@ -279,8 +286,13 @@
     }
 
     /* Smooth scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--muted); }
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--muted);
+    }
     ::-webkit-scrollbar-thumb {
         background: oklch(0.49 0.165 155 / 0.4);
         border-radius: 99px;
@@ -294,59 +306,124 @@
    KEYFRAME ANIMATIONS
 ───────────────────────────────────────────── */
 @keyframes fade-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 @keyframes fade-in-up {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 @keyframes fade-in-right {
-    from { opacity: 0; transform: translateX(-12px); }
-    to   { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 @keyframes scale-in {
-    from { opacity: 0; transform: scale(0.96); }
-    to   { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 @keyframes slide-in-left {
-    from { transform: translateX(-100%); }
-    to   { transform: translateX(0); }
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
 }
 @keyframes count-up {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 @keyframes skeleton-shimmer {
-    0%   { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
 }
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50%       { transform: translateY(-8px); }
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
 }
 @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.6; transform: scale(0.85); }
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(0.85);
+    }
 }
 @keyframes spin-slow {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ─────────────────────────────────────────────
    UTILITY CLASSES
 ───────────────────────────────────────────── */
 @layer components {
-
     /* ── Animations ── */
-    .animate-fade-in       { animation: fade-in 0.35s ease-out forwards; }
-    .animate-fade-in-up    { animation: fade-in-up 0.45s ease-out forwards; }
-    .animate-fade-in-right { animation: fade-in-right 0.40s ease-out forwards; }
-    .animate-scale-in      { animation: scale-in 0.30s ease-out forwards; }
-    .animate-float         { animation: float 4s ease-in-out infinite; }
-    .animate-pulse-dot     { animation: pulse-dot 2s ease-in-out infinite; }
-    .animate-spin-slow     { animation: spin-slow 8s linear infinite; }
+    .animate-fade-in {
+        animation: fade-in 0.35s ease-out forwards;
+    }
+    .animate-fade-in-up {
+        animation: fade-in-up 0.45s ease-out forwards;
+    }
+    .animate-fade-in-right {
+        animation: fade-in-right 0.4s ease-out forwards;
+    }
+    .animate-scale-in {
+        animation: scale-in 0.3s ease-out forwards;
+    }
+    .animate-float {
+        animation: float 4s ease-in-out infinite;
+    }
+    .animate-pulse-dot {
+        animation: pulse-dot 2s ease-in-out infinite;
+    }
+    .animate-spin-slow {
+        animation: spin-slow 8s linear infinite;
+    }
 
     /* ── Skeleton loader ── */
     .skeleton {
@@ -371,10 +448,18 @@
     }
 
     /* ── Elevation ── */
-    .shadow-card-sm  { box-shadow: var(--shadow-sm); }
-    .shadow-card-md  { box-shadow: var(--shadow-md); }
-    .shadow-card-lg  { box-shadow: var(--shadow-lg); }
-    .shadow-green    { box-shadow: var(--shadow-green); }
+    .shadow-card-sm {
+        box-shadow: var(--shadow-sm);
+    }
+    .shadow-card-md {
+        box-shadow: var(--shadow-md);
+    }
+    .shadow-card-lg {
+        box-shadow: var(--shadow-lg);
+    }
+    .shadow-green {
+        box-shadow: var(--shadow-green);
+    }
 
     /* ── Premium glass card ── */
     .glass-card {
@@ -391,18 +476,28 @@
 
     /* ── Page container ── */
     .page-container {
-        @apply max-w-7xl mx-auto;
+        @apply mx-auto max-w-7xl;
     }
 
     /* ── Status dot ── */
-    .status-dot-green  { @apply w-2 h-2 rounded-full bg-green-500 inline-block; }
-    .status-dot-amber  { @apply w-2 h-2 rounded-full bg-amber-400 inline-block; }
-    .status-dot-red    { @apply w-2 h-2 rounded-full bg-red-500 inline-block; }
-    .status-dot-muted  { @apply w-2 h-2 rounded-full bg-muted-foreground/40 inline-block; }
+    .status-dot-green {
+        @apply inline-block h-2 w-2 rounded-full bg-green-500;
+    }
+    .status-dot-amber {
+        @apply inline-block h-2 w-2 rounded-full bg-amber-400;
+    }
+    .status-dot-red {
+        @apply inline-block h-2 w-2 rounded-full bg-red-500;
+    }
+    .status-dot-muted {
+        @apply inline-block h-2 w-2 rounded-full bg-muted-foreground/40;
+    }
 
     /* ── Hover lift ── */
     .hover-lift {
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
     }
     .hover-lift:hover {
         transform: translateY(-2px);
@@ -411,7 +506,7 @@
 
     /* ── Section header (reusable) ── */
     .section-label {
-        @apply text-xs font-semibold uppercase tracking-widest text-muted-foreground;
+        @apply text-xs font-semibold tracking-widest text-muted-foreground uppercase;
     }
 
     /* ── Active sidebar indicator ── */
@@ -428,20 +523,21 @@
 
     /* ── Input enhanced ── */
     .input-enhanced {
-        @apply h-10 rounded-lg border border-input bg-background px-3 py-2 text-sm
-               transition-all duration-150
-               focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none
-               placeholder:text-muted-foreground/60;
+        @apply h-10 rounded-lg border border-input bg-background px-3 py-2 text-sm transition-all duration-150 placeholder:text-muted-foreground/60 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none;
     }
 
     /* ── Table row hover ── */
     .table-row-hover {
-        @apply hover:bg-muted/50 transition-colors duration-100;
+        @apply transition-colors duration-100 hover:bg-muted/50;
     }
 
     /* ── Gradient text ── */
     .text-gradient-green {
-        background: linear-gradient(135deg, oklch(0.60 0.16 155), oklch(0.42 0.14 155));
+        background: linear-gradient(
+            135deg,
+            oklch(0.6 0.16 155),
+            oklch(0.42 0.14 155)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -455,7 +551,9 @@
     .card-stat {
         @apply rounded-xl border border-border bg-card p-5;
         box-shadow: var(--shadow-sm);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
     }
     .card-stat:hover {
         transform: translateY(-1px);
@@ -470,31 +568,31 @@
         border: 1px solid oklch(0.55 0.16 155 / 0.25);
     }
     .dark .badge-success {
-        background: oklch(0.60 0.16 155 / 0.15);
-        color: oklch(0.78 0.10 155);
-        border-color: oklch(0.60 0.16 155 / 0.30);
+        background: oklch(0.6 0.16 155 / 0.15);
+        color: oklch(0.78 0.1 155);
+        border-color: oklch(0.6 0.16 155 / 0.3);
     }
     .badge-warning {
         @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
         background: oklch(0.72 0.16 72 / 0.12);
-        color: oklch(0.50 0.14 60);
+        color: oklch(0.5 0.14 60);
         border: 1px solid oklch(0.72 0.16 72 / 0.25);
     }
     .dark .badge-warning {
         background: oklch(0.72 0.16 72 / 0.15);
-        color: oklch(0.80 0.12 72);
-        border-color: oklch(0.72 0.16 72 / 0.30);
+        color: oklch(0.8 0.12 72);
+        border-color: oklch(0.72 0.16 72 / 0.3);
     }
     .badge-danger {
         @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
-        background: oklch(0.577 0.245 27 / 0.10);
+        background: oklch(0.577 0.245 27 / 0.1);
         color: oklch(0.48 0.22 27);
         border: 1px solid oklch(0.577 0.245 27 / 0.25);
     }
     .dark .badge-danger {
-        background: oklch(0.45 0.20 27 / 0.20);
-        color: oklch(0.80 0.14 27);
-        border-color: oklch(0.45 0.20 27 / 0.35);
+        background: oklch(0.45 0.2 27 / 0.2);
+        color: oklch(0.8 0.14 27);
+        border-color: oklch(0.45 0.2 27 / 0.35);
     }
     .badge-neutral {
         @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
@@ -504,14 +602,14 @@
     }
     .badge-copper {
         @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
-        background: oklch(0.60 0.12 55 / 0.12);
+        background: oklch(0.6 0.12 55 / 0.12);
         color: oklch(0.48 0.12 55);
-        border: 1px solid oklch(0.60 0.12 55 / 0.25);
+        border: 1px solid oklch(0.6 0.12 55 / 0.25);
     }
     .dark .badge-copper {
         background: oklch(0.65 0.13 55 / 0.15);
-        color: oklch(0.80 0.10 55);
-        border-color: oklch(0.65 0.13 55 / 0.30);
+        color: oklch(0.8 0.1 55);
+        border-color: oklch(0.65 0.13 55 / 0.3);
     }
 
     /* ── Empty state ── */
@@ -528,7 +626,7 @@
         @apply rounded-xl border border-border bg-card p-6;
     }
     .form-section-header {
-        @apply mb-5 pb-4 border-b border-border;
+        @apply mb-5 border-b border-border pb-4;
     }
 }
 
@@ -536,7 +634,7 @@
    QUILL RICH EDITOR OVERRIDES
 ───────────────────────────────────────────── */
 .rich-editor-wrapper {
-    @apply rounded-lg border border-input overflow-hidden;
+    @apply overflow-hidden rounded-lg border border-input;
 }
 .rich-editor-wrapper .ql-toolbar {
     border: none;
@@ -565,13 +663,23 @@
 .rich-editor-wrapper .ql-toolbar button.ql-active {
     color: var(--color-primary) !important;
 }
-.rich-editor-wrapper .ql-toolbar .ql-stroke { stroke: var(--foreground); }
+.rich-editor-wrapper .ql-toolbar .ql-stroke {
+    stroke: var(--foreground);
+}
 .rich-editor-wrapper .ql-toolbar button:hover .ql-stroke,
-.rich-editor-wrapper .ql-toolbar button.ql-active .ql-stroke { stroke: var(--color-primary); }
-.rich-editor-wrapper .ql-toolbar .ql-fill { fill: var(--foreground); }
+.rich-editor-wrapper .ql-toolbar button.ql-active .ql-stroke {
+    stroke: var(--color-primary);
+}
+.rich-editor-wrapper .ql-toolbar .ql-fill {
+    fill: var(--foreground);
+}
 .rich-editor-wrapper .ql-toolbar button:hover .ql-fill,
-.rich-editor-wrapper .ql-toolbar button.ql-active .ql-fill { fill: var(--color-primary); }
-.rich-editor-wrapper .ql-snow .ql-picker-label { color: var(--foreground); }
+.rich-editor-wrapper .ql-toolbar button.ql-active .ql-fill {
+    fill: var(--color-primary);
+}
+.rich-editor-wrapper .ql-snow .ql-picker-label {
+    color: var(--foreground);
+}
 .rich-editor-wrapper .ql-snow .ql-picker-options {
     background: var(--popover);
     border-color: var(--border);
@@ -582,11 +690,27 @@
 /* ─────────────────────────────────────────────
    STAGGERED ANIMATION DELAYS (for grid items)
 ───────────────────────────────────────────── */
-.stagger-1 { animation-delay: 0.05s; }
-.stagger-2 { animation-delay: 0.10s; }
-.stagger-3 { animation-delay: 0.15s; }
-.stagger-4 { animation-delay: 0.20s; }
-.stagger-5 { animation-delay: 0.25s; }
-.stagger-6 { animation-delay: 0.30s; }
-.stagger-7 { animation-delay: 0.35s; }
-.stagger-8 { animation-delay: 0.40s; }
+.stagger-1 {
+    animation-delay: 0.05s;
+}
+.stagger-2 {
+    animation-delay: 0.1s;
+}
+.stagger-3 {
+    animation-delay: 0.15s;
+}
+.stagger-4 {
+    animation-delay: 0.2s;
+}
+.stagger-5 {
+    animation-delay: 0.25s;
+}
+.stagger-6 {
+    animation-delay: 0.3s;
+}
+.stagger-7 {
+    animation-delay: 0.35s;
+}
+.stagger-8 {
+    animation-delay: 0.4s;
+}

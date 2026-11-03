@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Role;
 use App\Models\User;
 
 test('guests are redirected to the login page', function () {
@@ -8,7 +9,12 @@ test('guests are redirected to the login page', function () {
 });
 
 test('authenticated users can visit the dashboard', function () {
-    $user = User::factory()->create();
+    $role = Role::firstOrCreate(
+        ['name' => 'super_admin'],
+        ['display_name' => 'Super Admin', 'description' => 'Full access']
+    );
+    $user = User::factory()->create(['is_active' => true]);
+    $user->roles()->sync([$role->id]);
     $this->actingAs($user);
 
     $response = $this->get(route('cms.dashboard'));

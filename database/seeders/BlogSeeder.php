@@ -85,8 +85,12 @@ class BlogSeeder extends Seeder
             ],
         ];
 
+        $admin = DB::table('users')->first();
+
         foreach ($posts as $post) {
             DB::table('blog_posts')->insert(array_merge($post, [
+                'author_id' => $admin !== null ? $admin->id : null,
+                'author_name' => $admin !== null ? (string) $admin->name : 'Panda Towers Research',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]));
