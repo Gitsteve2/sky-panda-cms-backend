@@ -12,9 +12,12 @@ use App\Http\Controllers\Cms\RoleController;
 use App\Http\Controllers\Cms\SettingsController;
 use App\Http\Controllers\Cms\TestimonialsController;
 use App\Http\Controllers\Cms\UserController;
+use App\Http\Controllers\PublicBlogController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
+Route::get('/blog', [PublicBlogController::class, 'index'])->name('public.blog.index');
+Route::get('/blog/{idOrSlug}', [PublicBlogController::class, 'show'])->name('public.blog.show');
 
 Route::middleware(['auth', 'verified', 'active'])->prefix('cms')->name('cms.')->group(function () {
     // Dashboard
@@ -37,10 +40,14 @@ Route::middleware(['auth', 'verified', 'active'])->prefix('cms')->name('cms.')->
 
     // Blog
     Route::get('/blog', [BlogController::class, 'index'])->middleware('permission:blog.view')->name('blog.index');
+    Route::get('/blog/guide-pdf', [BlogController::class, 'downloadGuide'])->middleware('permission:blog.view')->name('blog.guide-pdf');
     Route::get('/blog/create', [BlogController::class, 'create'])->middleware('permission:blog.create')->name('blog.create');
     Route::post('/blog', [BlogController::class, 'store'])->middleware('permission:blog.create')->name('blog.store');
+    Route::post('/blog/bulk-action', [BlogController::class, 'bulkAction'])->middleware('permission:blog.edit')->name('blog.bulk-action');
     Route::get('/blog/{blogPost}/edit', [BlogController::class, 'edit'])->middleware('permission:blog.edit')->name('blog.edit');
     Route::put('/blog/{blogPost}', [BlogController::class, 'update'])->middleware('permission:blog.edit')->name('blog.update');
+    Route::patch('/blog/{blogPost}/toggle-publish', [BlogController::class, 'togglePublish'])->middleware('permission:blog.edit')->name('blog.toggle-publish');
+    Route::patch('/blog/{blogPost}/toggle-featured', [BlogController::class, 'toggleFeatured'])->middleware('permission:blog.edit')->name('blog.toggle-featured');
     Route::delete('/blog/{blogPost}', [BlogController::class, 'destroy'])->middleware('permission:blog.delete')->name('blog.destroy');
     Route::get('/blog-categories', [BlogController::class, 'categories'])->middleware('permission:blog.view')->name('blog.categories');
     Route::post('/blog-categories', [BlogController::class, 'storeCategory'])->middleware('permission:blog.create')->name('blog.categories.store');

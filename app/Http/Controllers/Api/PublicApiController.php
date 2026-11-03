@@ -78,30 +78,109 @@ class PublicApiController extends Controller
 
     public function blog(Request $request)
     {
-        $posts = BlogPost::with('category')
-            ->where('is_published', true)
+        $query = BlogPost::with(['category', 'author'])
+            ->where('is_published', true);
+
+        if ($request->filled('category') && $request->input('category') !== 'all') {
+            $categorySlug = $request->input('category');
+            $query->whereHas('category', function ($q) use ($categorySlug) {
+                $q->where('slug', $categorySlug)->orWhere('name', $categorySlug);
+            });
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('excerpt', 'like', "%{$search}%");
+            });
+        }
+
+        $posts = $query
+            ->orderByDesc('is_featured')
             ->orderByDesc('published_at')
-            ->paginate(12);
+            ->orderByDesc('created_at')
+            ->paginate((int) $request->input('per_page', 12))
+            ->through(fn (BlogPost $post) => $this->transformBlogPost($post));
 
         return response()->json($posts);
     }
 
-    public function blogPost(int $id)
+    public function blogPost(string|int $id)
     {
-        $post = BlogPost::with('category', 'author')
+        $post = BlogPost::with(['category', 'author'])
             ->where('is_published', true)
-            ->findOrFail($id);
+            ->where(function ($q) use ($id) {
+                if (is_numeric($id)) {
+                    $q->where('id', (int) $id);
+                } else {
+                    $q->where('slug', $id);
+                }
+            })
+            ->firstOrFail();
 
-        $related = BlogPost::where('is_published', true)
-            ->where('id', '!=', $id)
-            ->inRandomOrder()
+        $related = BlogPost::with(['category', 'author'])
+            ->where('is_published', true)
+            ->where('id', '!=', $post->id)
+            ->orderByRaw('CASE WHEN blog_category_id = ? THEN 0 ELSE 1 END', [$post->blog_category_id])
+            ->orderByDesc('published_at')
             ->limit(2)
-            ->get(['id', 'title', 'excerpt', 'featured_image', 'blog_category_id', 'published_at', 'read_time']);
+            ->get()
+            ->map(fn (BlogPost $item) => $this->transformBlogPost($item, false));
 
         return response()->json([
-            'post'    => $post,
+            'post'    => $this->transformBlogPost($post, true),
             'related' => $related,
         ]);
+    }
+
+    private function transformBlogPost(BlogPost $post, bool $includeFullContent = true): array
+    {
+        $authorName = $post->author_name ?: ($post->author?->name ?? 'Panda Towers Team');
+        $featuredImage = $post->featured_image;
+
+        if ($featuredImage && str_starts_with($featuredImage, '/storage/')) {
+            $featuredImage = url($featuredImage);
+        }
+
+        $content = $post->content;
+        if ($includeFullContent && $content) {
+            $content = preg_replace_callback(
+                '/src=["\'](\/storage\/[^"\']+)["\']/i',
+                fn ($matches) => 'src="' . url($matches[1]) . '"',
+                $content
+            );
+        }
+
+        $data = [
+            'id'               => $post->id,
+            'blog_category_id' => $post->blog_category_id,
+            'author_id'        => $post->author_id,
+            'author_name'      => $authorName,
+            'title'            => $post->title,
+            'slug'             => $post->slug,
+            'excerpt'          => $post->excerpt,
+            'featured_image'   => $featuredImage,
+            'read_time'        => $post->read_time ?: BlogPost::calculateReadTime($post->content),
+            'is_featured'      => (bool) $post->is_featured,
+            'is_published'     => (bool) $post->is_published,
+            'published_at'     => ($post->published_at ?? $post->created_at)?->toISOString(),
+            'meta_title'       => $post->meta_title ?: $post->title,
+            'meta_description' => $post->meta_description ?: $post->excerpt,
+            'created_at'       => $post->created_at?->toISOString(),
+            'updated_at'       => $post->updated_at?->toISOString(),
+            'category'         => $post->category,
+            'author'           => [
+                'id'   => $post->author_id ?? 1,
+                'name' => $authorName,
+            ],
+        ];
+
+        if ($includeFullContent) {
+            $data['content'] = $content;
+        }
+
+        return $data;
     }
 
     public function faq()

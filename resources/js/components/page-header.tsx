@@ -7,11 +7,13 @@ interface PageHeaderProps {
     description?: string;
     badge?: { label: string; variant?: 'default' | 'success' | 'warning' | 'copper' };
     actions?: ReactNode;
+    action?: ReactNode;
     icon?: LucideIcon;
     className?: string;
 }
 
-export function PageHeader({ title, description, badge, actions, icon: Icon, className }: PageHeaderProps) {
+export function PageHeader({ title, description, badge, actions, action, icon: Icon, className }: PageHeaderProps) {
+    const headerActions = actions ?? action;
     const badgeClass = {
         default: 'badge-neutral',
         success: 'badge-success',
@@ -39,9 +41,9 @@ export function PageHeader({ title, description, badge, actions, icon: Icon, cla
                     )}
                 </div>
             </div>
-            {actions && (
-                <div className="flex shrink-0 items-center gap-2">
-                    {actions}
+            {headerActions && (
+                <div className="flex shrink-0 flex-wrap items-center gap-2">
+                    {headerActions}
                 </div>
             )}
         </div>
