@@ -25,11 +25,11 @@ class RoleController extends Controller
 
         $permissions = Permission::orderBy('module')->orderBy('display_name')->get()
             ->groupBy('module')
-            ->map(fn ($perms) => $perms->map(fn ($p) => [
+            ->map(fn ($perms) => $perms->map(fn (Permission $p) => [
                 'id' => $p->id,
                 'name' => $p->name,
                 'display_name' => $p->display_name,
-            ]));
+            ])->all());
 
         return Inertia::render('cms/roles/index', [
             'roles' => $roles,

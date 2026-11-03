@@ -15,11 +15,17 @@ class NavigationItem extends Model
 
     protected $casts = ['is_active' => 'boolean', 'show_in_mobile' => 'boolean'];
 
+    /**
+     * @return BelongsTo<NavigationItem, $this>
+     */
     public function parent(): BelongsTo
     {
         return $this->belongsTo(NavigationItem::class, 'parent_id');
     }
 
+    /**
+     * @return HasMany<NavigationItem, $this>
+     */
     public function children(): HasMany
     {
         return $this->hasMany(NavigationItem::class, 'parent_id')->orderBy('order');

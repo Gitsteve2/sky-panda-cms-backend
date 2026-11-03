@@ -45,11 +45,17 @@ class User extends Authenticatable implements PasskeyUser
         ];
     }
 
+    /**
+     * @return BelongsToMany<Role, $this>
+     */
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_roles');
     }
 
+    /**
+     * @return BelongsToMany<Permission, $this>
+     */
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'user_permissions');
@@ -82,6 +88,9 @@ class User extends Authenticatable implements PasskeyUser
         return false;
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getAllPermissions(): array
     {
         $perms = $this->permissions->pluck('name')->toArray();

@@ -1,14 +1,26 @@
 import { Head, router, useForm } from '@inertiajs/react';
-import { ChevronDown, ChevronUp, Pencil, Plus, Shield, Trash2, X } from 'lucide-react';
+import {
+    ChevronDown,
+    ChevronUp,
+    Pencil,
+    Plus,
+    Shield,
+    Trash2,
+    X,
+} from 'lucide-react';
 import { useState } from 'react';
+import InputError from '@/components/input-error';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import InputError from '@/components/input-error';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-interface Permission { id: number; name: string; display_name: string }
+interface Permission {
+    id: number;
+    name: string;
+    display_name: string;
+}
 interface RoleRow {
     id: number;
     name: string;
@@ -32,15 +44,20 @@ function PermissionGrid({
     idPrefix: string;
 }) {
     function togglePerm(perm: string) {
-        onChange(selected.includes(perm) ? selected.filter((p) => p !== perm) : [...selected, perm]);
+        onChange(
+            selected.includes(perm)
+                ? selected.filter((p) => p !== perm)
+                : [...selected, perm],
+        );
     }
 
     function toggleModule(perms: Permission[]) {
         const modulePerms = perms.map((p) => p.name);
         const allChecked = modulePerms.every((p) => selected.includes(p));
-        onChange(allChecked
-            ? selected.filter((p) => !modulePerms.includes(p))
-            : [...new Set([...selected, ...modulePerms])]
+        onChange(
+            allChecked
+                ? selected.filter((p) => !modulePerms.includes(p))
+                : [...new Set([...selected, ...modulePerms])],
         );
     }
 
@@ -48,7 +65,9 @@ function PermissionGrid({
         <div className="space-y-4">
             {Object.entries(permissionsByModule).map(([module, perms]) => {
                 const modulePerms = perms.map((p) => p.name);
-                const checkedCount = modulePerms.filter((p) => selected.includes(p)).length;
+                const checkedCount = modulePerms.filter((p) =>
+                    selected.includes(p),
+                ).length;
                 const allChecked = checkedCount === modulePerms.length;
 
                 return (
@@ -56,21 +75,32 @@ function PermissionGrid({
                         <div className="flex items-center gap-2">
                             <Checkbox
                                 checked={allChecked}
-                                onCheckedChange={() => !disabled && toggleModule(perms)}
+                                onCheckedChange={() =>
+                                    !disabled && toggleModule(perms)
+                                }
                                 disabled={disabled}
                             />
-                            <span className="text-sm font-medium">{module}</span>
+                            <span className="text-sm font-medium">
+                                {module}
+                            </span>
                             {checkedCount > 0 && (
-                                <Badge variant="secondary" className="text-xs">{checkedCount}/{modulePerms.length}</Badge>
+                                <Badge variant="secondary" className="text-xs">
+                                    {checkedCount}/{modulePerms.length}
+                                </Badge>
                             )}
                         </div>
                         <div className="ml-6 flex flex-wrap gap-3">
                             {perms.map((perm) => (
-                                <div key={perm.name} className="flex items-center gap-1.5">
+                                <div
+                                    key={perm.name}
+                                    className="flex items-center gap-1.5"
+                                >
                                     <Checkbox
                                         id={`${idPrefix}-${perm.name}`}
                                         checked={selected.includes(perm.name)}
-                                        onCheckedChange={() => !disabled && togglePerm(perm.name)}
+                                        onCheckedChange={() =>
+                                            !disabled && togglePerm(perm.name)
+                                        }
                                         disabled={disabled}
                                     />
                                     <Label
@@ -131,7 +161,10 @@ export default function RolesIndex({
     function submitCreate(e: React.FormEvent) {
         e.preventDefault();
         createForm.post('/cms/roles', {
-            onSuccess: () => { createForm.reset(); setShowCreate(false); },
+            onSuccess: () => {
+                createForm.reset();
+                setShowCreate(false);
+            },
         });
     }
 
@@ -141,7 +174,14 @@ export default function RolesIndex({
     }
 
     function deleteRole(role: RoleRow) {
-        if (!confirm(`Delete role "${role.display_name}"? Users with this role will lose it.`)) return;
+        if (
+            !confirm(
+                `Delete role "${role.display_name}"? Users with this role will lose it.`,
+            )
+        ) {
+            return;
+        }
+
         router.delete(`/cms/roles/${role.id}`);
     }
 
@@ -151,69 +191,134 @@ export default function RolesIndex({
             <div className="space-y-8">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Roles & Permissions</h1>
-                        <p className="text-muted-foreground mt-1">{roles.length} role{roles.length !== 1 ? 's' : ''} defined</p>
+                        <h1 className="text-3xl font-bold tracking-tight">
+                            Roles & Permissions
+                        </h1>
+                        <p className="mt-1 text-muted-foreground">
+                            {roles.length} role{roles.length !== 1 ? 's' : ''}{' '}
+                            defined
+                        </p>
                     </div>
-                    <Button onClick={() => setShowCreate(true)} disabled={showCreate}>
-                        <Plus className="h-4 w-4 mr-2" />
+                    <Button
+                        onClick={() => setShowCreate(true)}
+                        disabled={showCreate}
+                    >
+                        <Plus className="mr-2 h-4 w-4" />
                         New Role
                     </Button>
                 </div>
 
                 {/* Create Form */}
                 {showCreate && (
-                    <div className="rounded-xl border border-border bg-card p-6 space-y-5">
+                    <div className="space-y-5 rounded-xl border border-border bg-card p-6">
                         <div className="flex items-center justify-between">
                             <h2 className="font-semibold">Create New Role</h2>
-                            <Button variant="ghost" size="sm" onClick={() => { setShowCreate(false); createForm.reset(); }}>
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => {
+                                    setShowCreate(false);
+                                    createForm.reset();
+                                }}
+                            >
                                 <X className="h-4 w-4" />
                             </Button>
                         </div>
                         <form onSubmit={submitCreate} className="space-y-5">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label>Role Key <span className="text-muted-foreground font-normal text-xs">(snake_case)</span></Label>
+                                    <Label>
+                                        Role Key{' '}
+                                        <span className="text-xs font-normal text-muted-foreground">
+                                            (snake_case)
+                                        </span>
+                                    </Label>
                                     <Input
                                         value={createForm.data.name}
-                                        onChange={(e) => createForm.setData('name', e.target.value)}
+                                        onChange={(e) =>
+                                            createForm.setData(
+                                                'name',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="content_manager"
                                     />
-                                    <InputError message={createForm.errors.name} />
+                                    <InputError
+                                        message={createForm.errors.name}
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Display Name</Label>
                                     <Input
                                         value={createForm.data.display_name}
-                                        onChange={(e) => createForm.setData('display_name', e.target.value)}
+                                        onChange={(e) =>
+                                            createForm.setData(
+                                                'display_name',
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="Content Manager"
                                     />
-                                    <InputError message={createForm.errors.display_name} />
+                                    <InputError
+                                        message={createForm.errors.display_name}
+                                    />
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <Label>Description <span className="text-muted-foreground font-normal text-xs">(optional)</span></Label>
+                                <Label>
+                                    Description{' '}
+                                    <span className="text-xs font-normal text-muted-foreground">
+                                        (optional)
+                                    </span>
+                                </Label>
                                 <Input
                                     value={createForm.data.description}
-                                    onChange={(e) => createForm.setData('description', e.target.value)}
+                                    onChange={(e) =>
+                                        createForm.setData(
+                                            'description',
+                                            e.target.value,
+                                        )
+                                    }
                                     placeholder="Brief description"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label className="text-sm font-medium">Permissions</Label>
+                                <Label className="text-sm font-medium">
+                                    Permissions
+                                </Label>
                                 <div className="rounded-lg border border-border p-4">
                                     <PermissionGrid
                                         selected={createForm.data.permissions}
-                                        onChange={(perms) => createForm.setData('permissions', perms)}
-                                        permissionsByModule={permissionsByModule}
+                                        onChange={(perms) =>
+                                            createForm.setData(
+                                                'permissions',
+                                                perms,
+                                            )
+                                        }
+                                        permissionsByModule={
+                                            permissionsByModule
+                                        }
                                         idPrefix="create"
                                     />
                                 </div>
                             </div>
                             <div className="flex gap-2">
-                                <Button type="submit" disabled={createForm.processing}>
-                                    {createForm.processing ? 'Creating...' : 'Create Role'}
+                                <Button
+                                    type="submit"
+                                    disabled={createForm.processing}
+                                >
+                                    {createForm.processing
+                                        ? 'Creating...'
+                                        : 'Create Role'}
                                 </Button>
-                                <Button type="button" variant="outline" onClick={() => { setShowCreate(false); createForm.reset(); }}>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => {
+                                        setShowCreate(false);
+                                        createForm.reset();
+                                    }}
+                                >
                                     Cancel
                                 </Button>
                             </div>
@@ -224,8 +329,10 @@ export default function RolesIndex({
                 {/* Roles List */}
                 {roles.length === 0 ? (
                     <div className="rounded-xl border border-dashed border-border py-20 text-center">
-                        <Shield className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                        <p className="text-muted-foreground text-sm">No roles defined yet.</p>
+                        <Shield className="mx-auto mb-3 h-10 w-10 text-muted-foreground" />
+                        <p className="text-sm text-muted-foreground">
+                            No roles defined yet.
+                        </p>
                     </div>
                 ) : (
                     <div className="space-y-3">
@@ -235,35 +342,92 @@ export default function RolesIndex({
                             const isEditing = editingId === role.id;
 
                             return (
-                                <div key={role.id} className="rounded-xl border border-border bg-card overflow-hidden">
-                                    <div className="px-6 py-4 flex items-center gap-4">
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-2 flex-wrap">
-                                                <span className="font-medium">{role.display_name}</span>
-                                                <code className="text-xs text-muted-foreground bg-muted px-1.5 py-0.5 rounded">{role.name}</code>
-                                                {isSuper && <Badge className="text-xs bg-violet-100 text-violet-700 border-violet-200" variant="outline">System</Badge>}
-                                                <Badge variant="secondary" className="text-xs">{role.users_count} user{role.users_count !== 1 ? 's' : ''}</Badge>
+                                <div
+                                    key={role.id}
+                                    className="overflow-hidden rounded-xl border border-border bg-card"
+                                >
+                                    <div className="flex items-center gap-4 px-6 py-4">
+                                        <div className="min-w-0 flex-1">
+                                            <div className="flex flex-wrap items-center gap-2">
+                                                <span className="font-medium">
+                                                    {role.display_name}
+                                                </span>
+                                                <code className="rounded bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">
+                                                    {role.name}
+                                                </code>
+                                                {isSuper && (
+                                                    <Badge
+                                                        className="border-violet-200 bg-violet-100 text-xs text-violet-700"
+                                                        variant="outline"
+                                                    >
+                                                        System
+                                                    </Badge>
+                                                )}
+                                                <Badge
+                                                    variant="secondary"
+                                                    className="text-xs"
+                                                >
+                                                    {role.users_count} user
+                                                    {role.users_count !== 1
+                                                        ? 's'
+                                                        : ''}
+                                                </Badge>
                                             </div>
                                             {role.description && (
-                                                <p className="text-xs text-muted-foreground mt-0.5">{role.description}</p>
+                                                <p className="mt-0.5 text-xs text-muted-foreground">
+                                                    {role.description}
+                                                </p>
                                             )}
                                             {isSuper && (
-                                                <p className="text-xs text-muted-foreground mt-0.5 italic">Bypasses all permission checks — full system access.</p>
+                                                <p className="mt-0.5 text-xs text-muted-foreground italic">
+                                                    Bypasses all permission
+                                                    checks — full system access.
+                                                </p>
                                             )}
                                         </div>
-                                        <div className="flex items-center gap-1 shrink-0">
+                                        <div className="flex shrink-0 items-center gap-1">
                                             {!isSuper && (
                                                 <>
-                                                    <Button variant="ghost" size="sm" onClick={() => isEditing ? cancelEdit() : startEdit(role)}>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            isEditing
+                                                                ? cancelEdit()
+                                                                : startEdit(
+                                                                      role,
+                                                                  )
+                                                        }
+                                                    >
                                                         <Pencil className="h-4 w-4" />
                                                     </Button>
-                                                    <Button variant="ghost" size="sm" onClick={() => deleteRole(role)}>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            deleteRole(role)
+                                                        }
+                                                    >
                                                         <Trash2 className="h-4 w-4 text-destructive" />
                                                     </Button>
                                                 </>
                                             )}
-                                            <Button variant="ghost" size="sm" onClick={() => setExpandedId(isExpanded ? null : role.id)}>
-                                                {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() =>
+                                                    setExpandedId(
+                                                        isExpanded
+                                                            ? null
+                                                            : role.id,
+                                                    )
+                                                }
+                                            >
+                                                {isExpanded ? (
+                                                    <ChevronUp className="h-4 w-4" />
+                                                ) : (
+                                                    <ChevronDown className="h-4 w-4" />
+                                                )}
                                             </Button>
                                         </div>
                                     </div>
@@ -271,53 +435,134 @@ export default function RolesIndex({
                                     {isExpanded && (
                                         <div className="border-t border-border px-6 py-5">
                                             {isEditing ? (
-                                                <form onSubmit={(e) => submitEdit(e, role.id)} className="space-y-5">
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <form
+                                                    onSubmit={(e) =>
+                                                        submitEdit(e, role.id)
+                                                    }
+                                                    className="space-y-5"
+                                                >
+                                                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                                         <div className="space-y-2">
-                                                            <Label>Display Name</Label>
+                                                            <Label>
+                                                                Display Name
+                                                            </Label>
                                                             <Input
-                                                                value={editForm.data.display_name}
-                                                                onChange={(e) => editForm.setData('display_name', e.target.value)}
+                                                                value={
+                                                                    editForm
+                                                                        .data
+                                                                        .display_name
+                                                                }
+                                                                onChange={(e) =>
+                                                                    editForm.setData(
+                                                                        'display_name',
+                                                                        e.target
+                                                                            .value,
+                                                                    )
+                                                                }
                                                             />
-                                                            <InputError message={editForm.errors.display_name} />
+                                                            <InputError
+                                                                message={
+                                                                    editForm
+                                                                        .errors
+                                                                        .display_name
+                                                                }
+                                                            />
                                                         </div>
                                                         <div className="space-y-2">
-                                                            <Label>Description</Label>
+                                                            <Label>
+                                                                Description
+                                                            </Label>
                                                             <Input
-                                                                value={editForm.data.description}
-                                                                onChange={(e) => editForm.setData('description', e.target.value)}
+                                                                value={
+                                                                    editForm
+                                                                        .data
+                                                                        .description
+                                                                }
+                                                                onChange={(e) =>
+                                                                    editForm.setData(
+                                                                        'description',
+                                                                        e.target
+                                                                            .value,
+                                                                    )
+                                                                }
                                                             />
                                                         </div>
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label className="text-sm font-medium">Permissions</Label>
+                                                        <Label className="text-sm font-medium">
+                                                            Permissions
+                                                        </Label>
                                                         <div className="rounded-lg border border-border p-4">
                                                             <PermissionGrid
-                                                                selected={editForm.data.permissions}
-                                                                onChange={(perms) => editForm.setData('permissions', perms)}
-                                                                permissionsByModule={permissionsByModule}
+                                                                selected={
+                                                                    editForm
+                                                                        .data
+                                                                        .permissions
+                                                                }
+                                                                onChange={(
+                                                                    perms,
+                                                                ) =>
+                                                                    editForm.setData(
+                                                                        'permissions',
+                                                                        perms,
+                                                                    )
+                                                                }
+                                                                permissionsByModule={
+                                                                    permissionsByModule
+                                                                }
                                                                 idPrefix={`edit-${role.id}`}
                                                             />
                                                         </div>
                                                     </div>
                                                     <div className="flex gap-2">
-                                                        <Button type="submit" disabled={editForm.processing}>
-                                                            {editForm.processing ? 'Saving...' : 'Save Changes'}
+                                                        <Button
+                                                            type="submit"
+                                                            disabled={
+                                                                editForm.processing
+                                                            }
+                                                        >
+                                                            {editForm.processing
+                                                                ? 'Saving...'
+                                                                : 'Save Changes'}
                                                         </Button>
-                                                        <Button type="button" variant="outline" onClick={cancelEdit}>Cancel</Button>
+                                                        <Button
+                                                            type="button"
+                                                            variant="outline"
+                                                            onClick={cancelEdit}
+                                                        >
+                                                            Cancel
+                                                        </Button>
                                                     </div>
                                                 </form>
                                             ) : (
                                                 <div>
                                                     {isSuper ? (
-                                                        <p className="text-sm text-muted-foreground">Super admin has access to everything and cannot be restricted.</p>
-                                                    ) : role.permissions.length === 0 ? (
-                                                        <p className="text-sm text-muted-foreground">No permissions assigned to this role.</p>
+                                                        <p className="text-sm text-muted-foreground">
+                                                            Super admin has
+                                                            access to everything
+                                                            and cannot be
+                                                            restricted.
+                                                        </p>
+                                                    ) : role.permissions
+                                                          .length === 0 ? (
+                                                        <p className="text-sm text-muted-foreground">
+                                                            No permissions
+                                                            assigned to this
+                                                            role.
+                                                        </p>
                                                     ) : (
                                                         <div className="flex flex-wrap gap-1.5">
-                                                            {role.permissions.map((p) => (
-                                                                <Badge key={p} variant="secondary" className="text-xs font-mono">{p}</Badge>
-                                                            ))}
+                                                            {role.permissions.map(
+                                                                (p) => (
+                                                                    <Badge
+                                                                        key={p}
+                                                                        variant="secondary"
+                                                                        className="font-mono text-xs"
+                                                                    >
+                                                                        {p}
+                                                                    </Badge>
+                                                                ),
+                                                            )}
                                                         </div>
                                                     )}
                                                 </div>

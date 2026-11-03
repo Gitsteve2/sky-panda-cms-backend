@@ -5,25 +5,41 @@ import { cn } from '@/lib/utils';
 interface PageHeaderProps {
     title: string;
     description?: string;
-    badge?: { label: string; variant?: 'default' | 'success' | 'warning' | 'copper' };
+    badge?: {
+        label: string;
+        variant?: 'default' | 'success' | 'warning' | 'copper';
+    };
     actions?: ReactNode;
     action?: ReactNode;
     icon?: LucideIcon;
     className?: string;
 }
 
-export function PageHeader({ title, description, badge, actions, action, icon: Icon, className }: PageHeaderProps) {
+export function PageHeader({
+    title,
+    description,
+    badge,
+    actions,
+    action,
+    icon: Icon,
+    className,
+}: PageHeaderProps) {
     const headerActions = actions ?? action;
     const badgeClass = {
         default: 'badge-neutral',
         success: 'badge-success',
         warning: 'badge-warning',
-        copper:  'badge-copper',
+        copper: 'badge-copper',
     }[badge?.variant ?? 'default'];
 
     return (
-        <div className={cn('flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between', className)}>
-            <div className="flex items-start gap-3.5 min-w-0">
+        <div
+            className={cn(
+                'flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between',
+                className,
+            )}
+        >
+            <div className="flex min-w-0 items-start gap-3.5">
                 {Icon && (
                     <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 dark:bg-primary/15">
                         <Icon className="h-5 w-5 text-primary" />
@@ -31,13 +47,17 @@ export function PageHeader({ title, description, badge, actions, action, icon: I
                 )}
                 <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
-                        <h1 className="text-2xl font-bold tracking-tight text-foreground">{title}</h1>
+                        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+                            {title}
+                        </h1>
                         {badge && (
                             <span className={badgeClass}>{badge.label}</span>
                         )}
                     </div>
                     {description && (
-                        <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{description}</p>
+                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                            {description}
+                        </p>
                     )}
                 </div>
             </div>

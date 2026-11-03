@@ -17,6 +17,9 @@ class PageSection extends Model
         'is_active' => 'boolean',
     ];
 
+    /**
+     * @return BelongsTo<Page, $this>
+     */
     public function page(): BelongsTo
     {
         return $this->belongsTo(Page::class);

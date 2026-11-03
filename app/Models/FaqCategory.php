@@ -11,6 +11,9 @@ class FaqCategory extends Model
 
     protected $casts = ['is_active' => 'boolean'];
 
+    /**
+     * @return HasMany<FaqItem, $this>
+     */
     public function items(): HasMany
     {
         return $this->hasMany(FaqItem::class)->orderBy('order');

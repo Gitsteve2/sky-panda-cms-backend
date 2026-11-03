@@ -31,7 +31,7 @@ export function NavUser() {
                     <DropdownMenuTrigger asChild>
                         <SidebarMenuButton
                             size="lg"
-                            className="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent/60 transition-all duration-200 hover:bg-sidebar-accent/50 rounded-lg p-2 flex items-center gap-3 border border-transparent data-[state=open]:border-sidebar-border/40"
+                            className="group flex items-center gap-3 rounded-lg border border-transparent p-2 text-sidebar-accent-foreground transition-all duration-200 hover:bg-sidebar-accent/50 data-[state=open]:border-sidebar-border/40 data-[state=open]:bg-sidebar-accent/60"
                             data-test="sidebar-menu-button"
                         >
                             <UserInfo user={auth.user} />
@@ -39,7 +39,7 @@ export function NavUser() {
                         </SidebarMenuButton>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-                        className="w-(--radix-dropdown-menu-trigger-width) min-w-[260px] rounded-xl p-1 shadow-lg border border-border/40 bg-popover text-popover-foreground animate-in fade-in-50 slide-in-from-bottom-2 duration-150"
+                        className="w-(--radix-dropdown-menu-trigger-width) min-w-[260px] animate-in rounded-xl border border-border/40 bg-popover p-1 text-popover-foreground shadow-lg duration-150 fade-in-50 slide-in-from-bottom-2"
                         align="end"
                         side={
                             isMobile

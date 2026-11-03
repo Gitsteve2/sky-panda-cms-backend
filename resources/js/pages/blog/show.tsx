@@ -1,6 +1,16 @@
-import { useState } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { ArrowLeft, ArrowRight, Calendar, Check, Clock, Copy, EyeOff, Pencil, Share2 } from 'lucide-react';
+import {
+    ArrowLeft,
+    ArrowRight,
+    Calendar,
+    Check,
+    Clock,
+    Copy,
+    EyeOff,
+    Pencil,
+    Share2,
+} from 'lucide-react';
+import { useState } from 'react';
 import type { Auth } from '@/types';
 
 interface Category {
@@ -38,7 +48,8 @@ export default function PublicBlogShow({
     const { auth } = usePage<{ auth: Auth }>().props;
     const [copied, setCopied] = useState(false);
 
-    const authorName = post.author_name || post.author?.name || 'Panda Towers Team';
+    const authorName =
+        post.author_name || post.author?.name || 'Panda Towers Team';
     const initials = authorName
         .split(' ')
         .filter(Boolean)
@@ -48,7 +59,10 @@ export default function PublicBlogShow({
         .toUpperCase();
 
     const formatDate = (dateStr?: string | null) => {
-        if (!dateStr) return '';
+        if (!dateStr) {
+            return '';
+        }
+
         return new Date(dateStr).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -57,7 +71,10 @@ export default function PublicBlogShow({
     };
 
     const copyArticleLink = () => {
-        if (typeof window === 'undefined') return;
+        if (typeof window === 'undefined') {
+            return;
+        }
+
         navigator.clipboard.writeText(window.location.href);
         setCopied(true);
         setTimeout(() => setCopied(false), 2500);
@@ -67,20 +84,22 @@ export default function PublicBlogShow({
         <>
             <Head title={`${post.meta_title || post.title} | Panda Towers`} />
 
-            <div className="min-h-screen bg-white text-[#1A1A1A] flex flex-col font-sans">
+            <div className="flex min-h-screen flex-col bg-white font-sans text-[#1A1A1A]">
                 {/* Draft Banner for Administrators */}
                 {!post.is_published && (
-                    <div className="bg-amber-500 text-white px-4 py-2.5 text-xs font-semibold">
-                        <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-2">
+                    <div className="bg-amber-500 px-4 py-2.5 text-xs font-semibold text-white">
+                        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
                                 <EyeOff className="h-4 w-4 shrink-0" />
                                 <span>
-                                    DRAFT PREVIEW MODE — This article is currently unpublished and only visible to logged-in CMS administrators.
+                                    DRAFT PREVIEW MODE — This article is
+                                    currently unpublished and only visible to
+                                    logged-in CMS administrators.
                                 </span>
                             </div>
                             <Link
                                 href={`/cms/blog/${post.id}/edit`}
-                                className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white text-amber-700 font-bold hover:bg-amber-50 transition-colors"
+                                className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1 font-bold text-amber-700 transition-colors hover:bg-amber-50"
                             >
                                 <Pencil className="h-3 w-3" />
                                 Edit & Publish in CMS
@@ -90,11 +109,11 @@ export default function PublicBlogShow({
                 )}
 
                 {/* Navigation Header */}
-                <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E8EDE6]">
-                    <div className="max-w-5xl mx-auto px-4 sm:px-6 h-[70px] flex items-center justify-between">
+                <header className="sticky top-0 z-40 border-b border-[#E8EDE6] bg-white/95 backdrop-blur-md">
+                    <div className="mx-auto flex h-[70px] max-w-5xl items-center justify-between px-4 sm:px-6">
                         <Link
                             href="/blog"
-                            className="inline-flex items-center gap-2 text-sm font-bold text-[#0D4D2A] hover:text-[#1A9E55] transition-colors"
+                            className="inline-flex items-center gap-2 text-sm font-bold text-[#0D4D2A] transition-colors hover:text-[#1A9E55]"
                         >
                             <ArrowLeft className="h-4 w-4" />
                             Back to Blog
@@ -104,7 +123,7 @@ export default function PublicBlogShow({
                             {auth?.user && (
                                 <Link
                                     href={`/cms/blog/${post.id}/edit`}
-                                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#F4FAF0] text-[#0D4D2A] border border-[#C0DD97] hover:bg-[#0D4D2A] hover:text-white transition-colors"
+                                    className="inline-flex items-center gap-1.5 rounded-full border border-[#C0DD97] bg-[#F4FAF0] px-3.5 py-1.5 text-xs font-bold text-[#0D4D2A] transition-colors hover:bg-[#0D4D2A] hover:text-white"
                                 >
                                     <Pencil className="h-3.5 w-3.5" />
                                     Edit Article
@@ -115,40 +134,44 @@ export default function PublicBlogShow({
                 </header>
 
                 {/* Article Header Section */}
-                <section className="py-12 bg-[#F4FAF0] border-b border-[#C0DD97]/60">
-                    <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-5">
+                <section className="border-b border-[#C0DD97]/60 bg-[#F4FAF0] py-12">
+                    <div className="mx-auto max-w-4xl space-y-5 px-4 sm:px-6">
                         {post.category && (
-                            <span className="inline-flex items-center rounded-full px-3.5 py-1 text-xs font-bold bg-[#0D4D2A] text-[#2ECC71]">
+                            <span className="inline-flex items-center rounded-full bg-[#0D4D2A] px-3.5 py-1 text-xs font-bold text-[#2ECC71]">
                                 {post.category.name}
                             </span>
                         )}
 
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-[#1A1A1A]">
+                        <h1 className="text-3xl leading-tight font-bold text-[#1A1A1A] sm:text-4xl md:text-5xl">
                             {post.title}
                         </h1>
 
-                        <div className="flex flex-wrap items-center gap-6 text-sm text-[#5F5E5A] pt-1">
+                        <div className="flex flex-wrap items-center gap-6 pt-1 text-sm text-[#5F5E5A]">
                             {post.published_at && (
                                 <div className="flex items-center gap-2">
-                                    <Calendar className="w-4 h-4 text-[#1A9E55]" />
+                                    <Calendar className="h-4 w-4 text-[#1A9E55]" />
                                     <span>{formatDate(post.published_at)}</span>
                                 </div>
                             )}
                             {post.read_time && (
                                 <div className="flex items-center gap-2">
-                                    <Clock className="w-4 h-4 text-[#1A9E55]" />
+                                    <Clock className="h-4 w-4 text-[#1A9E55]" />
                                     <span>{post.read_time}</span>
                                 </div>
                             )}
                         </div>
 
                         <div className="flex items-center gap-3.5 pt-2">
-                            <div className="w-11 h-11 rounded-full bg-[#0D4D2A] flex items-center justify-center text-white font-bold text-sm">
+                            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0D4D2A] text-sm font-bold text-white">
                                 {initials}
                             </div>
                             <div>
-                                <div className="font-bold text-sm text-[#1A1A1A]">{authorName}</div>
-                                <div className="text-xs text-[#5F5E5A]">Panda Towers Editorial & Research</div>
+                                <div className="text-sm font-bold text-[#1A1A1A]">
+                                    {authorName}
+                                </div>
+                                <div className="text-xs text-[#5F5E5A]">
+                                    Panda Towers Editorial & Research
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -157,13 +180,14 @@ export default function PublicBlogShow({
                 {/* Featured Image */}
                 {post.featured_image && (
                     <section className="pt-8">
-                        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                        <div className="mx-auto max-w-4xl px-4 sm:px-6">
                             <img
                                 src={post.featured_image}
                                 alt={post.title}
-                                className="w-full h-64 sm:h-96 object-cover rounded-2xl shadow-lg border border-[#E8EDE6]"
+                                className="h-64 w-full rounded-2xl border border-[#E8EDE6] object-cover shadow-lg sm:h-96"
                                 onError={(e) => {
-                                    (e.currentTarget as HTMLImageElement).src = '/exterior.jpg';
+                                    (e.currentTarget as HTMLImageElement).src =
+                                        '/exterior.jpg';
                                 }}
                             />
                         </div>
@@ -171,23 +195,27 @@ export default function PublicBlogShow({
                 )}
 
                 {/* Article Body & Author Sidebar */}
-                <section className="py-12 flex-1">
-                    <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                        <div className="grid md:grid-cols-4 gap-10">
-                            <div className="md:col-span-3 space-y-8">
+                <section className="flex-1 py-12">
+                    <div className="mx-auto max-w-4xl px-4 sm:px-6">
+                        <div className="grid gap-10 md:grid-cols-4">
+                            <div className="space-y-8 md:col-span-3">
                                 {post.excerpt && (
-                                    <p className="text-base sm:text-lg font-medium text-[#5F5E5A] border-l-4 border-[#1A9E55] pl-4 italic leading-relaxed">
+                                    <p className="border-l-4 border-[#1A9E55] pl-4 text-base leading-relaxed font-medium text-[#5F5E5A] italic sm:text-lg">
                                         {post.excerpt}
                                     </p>
                                 )}
 
-                                <article className="prose prose-lg max-w-none text-[#1A1A1A] leading-relaxed space-y-4 [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-[#0D4D2A] [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-[#0D4D2A] [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-semibold [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_blockquote]:border-l-4 [&_blockquote]:border-[#1A9E55] [&_blockquote]:pl-4 [&_blockquote]:italic [&_a]:text-[#1A9E55] [&_a]:underline [&_img]:rounded-xl [&_img]:my-6">
-                                    <div dangerouslySetInnerHTML={{ __html: post.content ?? '' }} />
+                                <article className="prose prose-lg max-w-none space-y-4 leading-relaxed text-[#1A1A1A] [&_a]:text-[#1A9E55] [&_a]:underline [&_blockquote]:border-l-4 [&_blockquote]:border-[#1A9E55] [&_blockquote]:pl-4 [&_blockquote]:italic [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-[#0D4D2A] [&_h2]:mt-8 [&_h2]:mb-3 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-[#0D4D2A] [&_h3]:text-lg [&_h3]:font-semibold [&_img]:my-6 [&_img]:rounded-xl [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6">
+                                    <div
+                                        dangerouslySetInnerHTML={{
+                                            __html: post.content ?? '',
+                                        }}
+                                    />
                                 </article>
 
                                 {/* Share Bar */}
-                                <div className="flex flex-wrap items-center justify-between gap-4 py-6 border-t border-b border-[#E8EDE6] mt-10">
-                                    <span className="text-sm font-bold text-[#1A1A1A] flex items-center gap-2">
+                                <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-b border-[#E8EDE6] py-6">
+                                    <span className="flex items-center gap-2 text-sm font-bold text-[#1A1A1A]">
                                         <Share2 className="h-4 w-4 text-[#1A9E55]" />
                                         Share this article:
                                     </span>
@@ -195,10 +223,16 @@ export default function PublicBlogShow({
                                         <button
                                             type="button"
                                             onClick={copyArticleLink}
-                                            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-bold border border-[#C0DD97] bg-[#F4FAF0] text-[#0D4D2A] hover:bg-[#0D4D2A] hover:text-white transition-colors"
+                                            className="inline-flex items-center gap-1.5 rounded-full border border-[#C0DD97] bg-[#F4FAF0] px-3.5 py-2 text-xs font-bold text-[#0D4D2A] transition-colors hover:bg-[#0D4D2A] hover:text-white"
                                         >
-                                            {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                                            {copied ? 'Link Copied!' : 'Copy Link'}
+                                            {copied ? (
+                                                <Check className="h-3.5 w-3.5" />
+                                            ) : (
+                                                <Copy className="h-3.5 w-3.5" />
+                                            )}
+                                            {copied
+                                                ? 'Link Copied!'
+                                                : 'Copy Link'}
                                         </button>
                                     </div>
                                 </div>
@@ -206,16 +240,22 @@ export default function PublicBlogShow({
 
                             {/* About the Author Sidebar */}
                             <div className="md:col-span-1">
-                                <div className="sticky top-24 rounded-2xl border border-[#E8EDE6] bg-[#F4FAF0]/60 p-5 space-y-4">
-                                    <h3 className="font-bold text-sm text-[#0D4D2A]">About the Author</h3>
+                                <div className="sticky top-24 space-y-4 rounded-2xl border border-[#E8EDE6] bg-[#F4FAF0]/60 p-5">
+                                    <h3 className="text-sm font-bold text-[#0D4D2A]">
+                                        About the Author
+                                    </h3>
                                     <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-[#0D4D2A] flex items-center justify-center text-white font-bold text-xs shrink-0">
+                                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#0D4D2A] text-xs font-bold text-white">
                                             {initials}
                                         </div>
-                                        <div className="font-bold text-sm text-[#1A1A1A]">{authorName}</div>
+                                        <div className="text-sm font-bold text-[#1A1A1A]">
+                                            {authorName}
+                                        </div>
                                     </div>
-                                    <p className="text-xs text-[#5F5E5A] leading-relaxed">
-                                        Real estate investment analyst covering Kenyan property market trends, rental yields, and wealth-building strategies.
+                                    <p className="text-xs leading-relaxed text-[#5F5E5A]">
+                                        Real estate investment analyst covering
+                                        Kenyan property market trends, rental
+                                        yields, and wealth-building strategies.
                                     </p>
                                 </div>
                             </div>
@@ -225,54 +265,70 @@ export default function PublicBlogShow({
 
                 {/* Related Articles */}
                 {related.length > 0 && (
-                    <section className="py-14 bg-[#F4FAF0] border-t border-[#C0DD97]">
-                        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-                            <h2 className="text-2xl font-bold mb-8 text-center text-[#0D4D2A]">Related Articles</h2>
-                            <div className="grid md:grid-cols-2 gap-6">
+                    <section className="border-t border-[#C0DD97] bg-[#F4FAF0] py-14">
+                        <div className="mx-auto max-w-5xl px-4 sm:px-6">
+                            <h2 className="mb-8 text-center text-2xl font-bold text-[#0D4D2A]">
+                                Related Articles
+                            </h2>
+                            <div className="grid gap-6 md:grid-cols-2">
                                 {related.map((item) => (
                                     <div
                                         key={item.id}
-                                        className="rounded-2xl border border-[#E8EDE6] bg-white overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+                                        className="flex flex-col justify-between overflow-hidden rounded-2xl border border-[#E8EDE6] bg-white shadow-xs transition-all hover:shadow-md"
                                     >
                                         <div>
                                             {item.featured_image && (
-                                                <Link href={`/blog/${item.slug}`} className="block h-48 overflow-hidden bg-gray-100">
+                                                <Link
+                                                    href={`/blog/${item.slug}`}
+                                                    className="block h-48 overflow-hidden bg-gray-100"
+                                                >
                                                     <img
-                                                        src={item.featured_image}
+                                                        src={
+                                                            item.featured_image
+                                                        }
                                                         alt={item.title}
-                                                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                                                        className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                                                         onError={(e) => {
-                                                            (e.currentTarget as HTMLImageElement).src = '/exterior.jpg';
+                                                            (
+                                                                e.currentTarget as HTMLImageElement
+                                                            ).src =
+                                                                '/exterior.jpg';
                                                         }}
                                                     />
                                                 </Link>
                                             )}
-                                            <div className="p-6 space-y-3">
+                                            <div className="space-y-3 p-6">
                                                 {item.category && (
-                                                    <span className="inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-[#F4FAF0] text-[#1A9E55] border border-[#C0DD97]">
+                                                    <span className="inline-block rounded-full border border-[#C0DD97] bg-[#F4FAF0] px-2.5 py-0.5 text-[11px] font-bold text-[#1A9E55]">
                                                         {item.category.name}
                                                     </span>
                                                 )}
-                                                <h3 className="font-bold text-lg text-[#1A1A1A] line-clamp-2">
-                                                    <Link href={`/blog/${item.slug}`} className="hover:text-[#1A9E55]">
+                                                <h3 className="line-clamp-2 text-lg font-bold text-[#1A1A1A]">
+                                                    <Link
+                                                        href={`/blog/${item.slug}`}
+                                                        className="hover:text-[#1A9E55]"
+                                                    >
                                                         {item.title}
                                                     </Link>
                                                 </h3>
                                                 {item.excerpt && (
-                                                    <p className="text-xs text-[#5F5E5A] line-clamp-3 leading-relaxed">
+                                                    <p className="line-clamp-3 text-xs leading-relaxed text-[#5F5E5A]">
                                                         {item.excerpt}
                                                     </p>
                                                 )}
                                             </div>
                                         </div>
 
-                                        <div className="px-6 py-4 border-t border-[#F4FAF0] flex items-center justify-between text-xs text-[#888780]">
-                                            <span>{formatDate(item.published_at)}</span>
+                                        <div className="flex items-center justify-between border-t border-[#F4FAF0] px-6 py-4 text-xs text-[#888780]">
+                                            <span>
+                                                {formatDate(item.published_at)}
+                                            </span>
                                             <Link
                                                 href={`/blog/${item.slug}`}
                                                 className="inline-flex items-center gap-1 font-bold text-[#1A9E55] hover:text-[#0D4D2A]"
                                             >
-                                                Read More <ArrowRight className="h-3.5 w-3.5" />
+                                                Read More{' '}
+                                                <ArrowRight className="h-3.5 w-3.5" />
                                             </Link>
                                         </div>
                                     </div>
@@ -283,10 +339,16 @@ export default function PublicBlogShow({
                 )}
 
                 {/* Footer */}
-                <footer className="bg-[#0D4D2A] text-[#9FE1CB] py-8 text-center text-xs">
-                    <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <span>© {new Date().getFullYear()} Panda Towers 001. All rights reserved.</span>
-                        <Link href="/blog" className="hover:text-white transition-colors">
+                <footer className="bg-[#0D4D2A] py-8 text-center text-xs text-[#9FE1CB]">
+                    <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 px-4 sm:flex-row">
+                        <span>
+                            © {new Date().getFullYear()} Panda Towers 001. All
+                            rights reserved.
+                        </span>
+                        <Link
+                            href="/blog"
+                            className="transition-colors hover:text-white"
+                        >
                             ← Back to All Articles
                         </Link>
                     </div>
@@ -295,4 +357,3 @@ export default function PublicBlogShow({
         </>
     );
 }
-

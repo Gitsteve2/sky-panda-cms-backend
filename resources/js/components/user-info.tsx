@@ -15,7 +15,7 @@ export function UserInfo({
         <>
             <Avatar className="h-8 w-8 overflow-hidden rounded-full ring-2 ring-primary/20 transition-all duration-200 group-hover:ring-primary/40">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg bg-primary/10 text-primary font-semibold dark:bg-primary/20 dark:text-primary-foreground">
+                <AvatarFallback className="rounded-lg bg-primary/10 font-semibold text-primary dark:bg-primary/20 dark:text-primary-foreground">
                     {getInitials(user.name)}
                 </AvatarFallback>
             </Avatar>
@@ -23,7 +23,7 @@ export function UserInfo({
                 <div className="flex items-center gap-1.5">
                     <span className="truncate font-semibold">{user.name}</span>
                     {!showEmail && (
-                        <span className="flex items-center rounded bg-primary/10 px-1 py-0.5 text-[9px] font-medium text-primary uppercase tracking-wide">
+                        <span className="flex items-center rounded bg-primary/10 px-1 py-0.5 text-[9px] font-medium tracking-wide text-primary uppercase">
                             Admin
                         </span>
                     )}

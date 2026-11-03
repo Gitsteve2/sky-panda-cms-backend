@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
 import Quill from 'quill';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import 'quill/dist/quill.snow.css';
 import { toast } from 'sonner';
 
@@ -21,18 +21,29 @@ const TOOLBAR = [
 ];
 
 function getCsrf() {
-    return decodeURIComponent(document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1] ?? '');
+    return decodeURIComponent(
+        document.cookie.match(/XSRF-TOKEN=([^;]+)/)?.[1] ?? '',
+    );
 }
 
-export function RichEditor({ value, onChange, placeholder, minHeight = 260 }: Props) {
+export function RichEditor({
+    value,
+    onChange,
+    placeholder,
+    minHeight = 260,
+}: Props) {
     const containerRef = useRef<HTMLDivElement>(null);
     const editorRef = useRef<HTMLDivElement>(null);
     const quillRef = useRef<Quill | null>(null);
     const imageInputRef = useRef<HTMLInputElement>(null);
     const onChangeRef = useRef(onChange);
+    const initialValueRef = useRef(value);
+    const initialPlaceholderRef = useRef(placeholder);
     const [uploadingImage, setUploadingImage] = useState(false);
 
-    onChangeRef.current = onChange;
+    useEffect(() => {
+        onChangeRef.current = onChange;
+    }, [onChange]);
 
     const stats = useMemo(() => {
         const plain = (value || '')
@@ -43,15 +54,24 @@ export function RichEditor({ value, onChange, placeholder, minHeight = 260 }: Pr
         const words = plain ? plain.split(' ').length : 0;
         const chars = plain.length;
         const minutes = Math.max(1, Math.ceil(words / 200));
-        return { words, chars, readTime: words > 0 ? `${minutes} min read` : '0 min read' };
+
+        return {
+            words,
+            chars,
+            readTime: words > 0 ? `${minutes} min read` : '0 min read',
+        };
     }, [value]);
 
     useEffect(() => {
-        if (!editorRef.current || quillRef.current) return;
+        if (!editorRef.current || quillRef.current) {
+            return;
+        }
 
         const quill = new Quill(editorRef.current, {
             theme: 'snow',
-            placeholder: placeholder ?? 'Write your article content...',
+            placeholder:
+                initialPlaceholderRef.current ??
+                'Write your article content...',
             modules: {
                 toolbar: {
                     container: TOOLBAR,
@@ -66,12 +86,13 @@ export function RichEditor({ value, onChange, placeholder, minHeight = 260 }: Pr
 
         quillRef.current = quill;
 
-        if (value) {
-            quill.clipboard.dangerouslyPasteHTML(value);
+        if (initialValueRef.current) {
+            quill.clipboard.dangerouslyPasteHTML(initialValueRef.current);
         }
 
         quill.on('text-change', () => {
-            const html = editorRef.current?.querySelector('.ql-editor')?.innerHTML ?? '';
+            const html =
+                editorRef.current?.querySelector('.ql-editor')?.innerHTML ?? '';
             onChangeRef.current(html === '<p><br></p>' ? '' : html);
         });
 
@@ -83,12 +104,20 @@ export function RichEditor({ value, onChange, placeholder, minHeight = 260 }: Pr
 
     useEffect(() => {
         const quill = quillRef.current;
-        if (!quill) return;
-        const currentHtml = editorRef.current?.querySelector('.ql-editor')?.innerHTML ?? '';
-        const normalizedCurrent = currentHtml === '<p><br></p>' ? '' : currentHtml;
+
+        if (!quill) {
+            return;
+        }
+
+        const currentHtml =
+            editorRef.current?.querySelector('.ql-editor')?.innerHTML ?? '';
+        const normalizedCurrent =
+            currentHtml === '<p><br></p>' ? '' : currentHtml;
+
         if (normalizedCurrent !== (value ?? '')) {
             const selection = quill.getSelection();
             quill.clipboard.dangerouslyPasteHTML(value ?? '');
+
             if (selection) {
                 try {
                     quill.setSelection(selection.index, selection.length);
@@ -99,16 +128,24 @@ export function RichEditor({ value, onChange, placeholder, minHeight = 260 }: Pr
         }
     }, [value]);
 
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageUpload = async (
+        e: React.ChangeEvent<HTMLInputElement>,
+    ) => {
         const file = e.target.files?.[0];
-        if (!file || !quillRef.current) return;
+
+        if (!file || !quillRef.current) {
+            return;
+        }
 
         if (!file.type.startsWith('image/')) {
             toast.error('Please select a valid image file.');
+
             return;
         }
+
         if (file.size > 10 * 1024 * 1024) {
             toast.error('Image size must not exceed 10MB.');
+
             return;
         }
 
@@ -142,12 +179,18 @@ export function RichEditor({ value, onChange, placeholder, minHeight = 260 }: Pr
             toast.error('Error uploading inline image.');
         } finally {
             setUploadingImage(false);
-            if (imageInputRef.current) imageInputRef.current.value = '';
+
+            if (imageInputRef.current) {
+                imageInputRef.current.value = '';
+            }
         }
     };
 
     return (
-        <div ref={containerRef} className="rich-editor-wrapper rounded-lg border border-input overflow-hidden bg-background">
+        <div
+            ref={containerRef}
+            className="rich-editor-wrapper overflow-hidden rounded-lg border border-input bg-background"
+        >
             <div ref={editorRef} style={{ minHeight }} />
             <input
                 ref={imageInputRef}
@@ -156,20 +199,28 @@ export function RichEditor({ value, onChange, placeholder, minHeight = 260 }: Pr
                 className="hidden"
                 onChange={handleImageUpload}
             />
-            <div className="flex items-center justify-between px-3.5 py-2 border-t border-border/60 bg-muted/25 text-[11px] text-muted-foreground">
+            <div className="flex items-center justify-between border-t border-border/60 bg-muted/25 px-3.5 py-2 text-[11px] text-muted-foreground">
                 <div className="flex items-center gap-3">
                     <span>
-                        <strong className="font-semibold text-foreground">{stats.words}</strong> word{stats.words !== 1 ? 's' : ''}
+                        <strong className="font-semibold text-foreground">
+                            {stats.words}
+                        </strong>{' '}
+                        word{stats.words !== 1 ? 's' : ''}
                     </span>
                     <span>·</span>
                     <span>
-                        <strong className="font-semibold text-foreground">{stats.chars}</strong> characters
+                        <strong className="font-semibold text-foreground">
+                            {stats.chars}
+                        </strong>{' '}
+                        characters
                     </span>
                     <span>·</span>
                     <span>Est. {stats.readTime}</span>
                 </div>
                 {uploadingImage && (
-                    <span className="text-primary font-semibold animate-pulse">Uploading inline image...</span>
+                    <span className="animate-pulse font-semibold text-primary">
+                        Uploading inline image...
+                    </span>
                 )}
             </div>
         </div>

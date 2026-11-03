@@ -65,9 +65,15 @@ class PublicBlogController extends Controller
         ]);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function formatPost(BlogPost $post): array
     {
-        $authorName = $post->author_name ?: ($post->author?->name ?? 'Panda Towers Team');
+        $author = $post->author;
+        $authorName = $post->author_name ?: ($author !== null ? $author->name : 'Panda Towers Team');
+        $publishedDate = $post->published_at ?? $post->created_at;
+        $category = $post->category;
 
         return [
             'id' => $post->id,
@@ -79,15 +85,15 @@ class PublicBlogController extends Controller
             'read_time' => $post->read_time ?: BlogPost::calculateReadTime($post->content),
             'is_featured' => (bool) $post->is_featured,
             'is_published' => (bool) $post->is_published,
-            'published_at' => ($post->published_at ?? $post->created_at)?->toISOString(),
+            'published_at' => $publishedDate !== null ? $publishedDate->toISOString() : null,
             'meta_title' => $post->meta_title ?: $post->title,
             'meta_description' => $post->meta_description ?: $post->excerpt,
             'blog_category_id' => $post->blog_category_id,
-            'category' => $post->category ? [
-                'id' => $post->category->id,
-                'name' => $post->category->name,
-                'slug' => $post->category->slug,
-                'color' => $post->category->color,
+            'category' => $category !== null ? [
+                'id' => $category->id,
+                'name' => $category->name,
+                'slug' => $category->slug,
+                'color' => $category->color,
             ] : null,
             'author_name' => $authorName,
             'author' => [

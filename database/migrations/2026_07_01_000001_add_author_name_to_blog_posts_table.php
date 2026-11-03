@@ -20,8 +20,8 @@ return new class extends Migration
         DB::table('blog_posts')
             ->whereNull('author_name')
             ->update([
-                'author_id' => $admin?->id,
-                'author_name' => $admin?->name ?? 'Panda Towers Team',
+                'author_id' => $admin !== null ? $admin->id : null,
+                'author_name' => $admin !== null ? (string) $admin->name : 'Panda Towers Team',
             ]);
     }
 

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class BlogController extends Controller
 {
@@ -23,7 +24,8 @@ class BlogController extends Controller
             ->orderByDesc('created_at')
             ->get()
             ->map(function (BlogPost $post) {
-                $post->author_name = $post->author_name ?: ($post->author?->name ?? 'Panda Towers Team');
+                $author = $post->author;
+                $post->author_name = $post->author_name ?: ($author !== null ? $author->name : 'Panda Towers Team');
                 $post->read_time = $post->read_time ?: BlogPost::calculateReadTime($post->content);
 
                 return $post;
@@ -80,7 +82,9 @@ class BlogController extends Controller
     public function edit(BlogPost $blogPost): Response
     {
         $blogPost->load(['category', 'author']);
-        $blogPost->author_name = $blogPost->author_name ?: ($blogPost->author?->name ?? auth()->user()?->name ?? 'Panda Towers Team');
+        $author = $blogPost->author;
+        $authUser = auth()->user();
+        $blogPost->author_name = $blogPost->author_name ?: ($author !== null ? $author->name : ($authUser !== null ? $authUser->name : 'Panda Towers Team'));
 
         return Inertia::render('cms/blog/form', [
             'post' => $blogPost,
@@ -195,7 +199,7 @@ class BlogController extends Controller
         return redirect()->route('cms.blog.index')->with('success', "Article \"{$title}\" deleted.");
     }
 
-    public function downloadGuide()
+    public function downloadGuide(): BinaryFileResponse
     {
         $path = public_path('docs/Panda-Towers-Blog-Admin-Guide.pdf');
         abort_unless(file_exists($path), 404, 'Administrator Guide PDF not found.');
@@ -270,30 +274,35 @@ class BlogController extends Controller
         }
     }
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
     private function populatePostDefaults(array $data, ?BlogPost $existing = null): array
     {
         if (empty($data['read_time'])) {
-            $data['read_time'] = BlogPost::calculateReadTime($data['content'] ?? '');
+            $data['read_time'] = BlogPost::calculateReadTime(is_string($data['content'] ?? null) ? $data['content'] : '');
         }
 
-        if (empty($data['excerpt']) && ! empty($data['content'])) {
-            $plainText = trim(preg_replace('/\s+/', ' ', strip_tags($data['content'])));
+        if (empty($data['excerpt']) && ! empty($data['content']) && is_string($data['content'])) {
+            $plainText = trim((string) preg_replace('/\s+/', ' ', strip_tags($data['content'])));
             if ($plainText !== '') {
                 $data['excerpt'] = Str::limit($plainText, 180);
             }
         }
 
         if (! empty($data['author_id']) && empty($data['author_name'])) {
-            $authorUser = User::find($data['author_id']);
-            $data['author_name'] = $authorUser?->name ?? 'Panda Towers Team';
+            $authorUser = User::whereKey($data['author_id'])->first();
+            $data['author_name'] = $authorUser !== null ? $authorUser->name : 'Panda Towers Team';
         } elseif (empty($data['author_id']) && empty($data['author_name'])) {
-            $data['author_id'] = $existing?->author_id ?? auth()->id();
-            $data['author_name'] = $existing?->author_name ?: (auth()->user()?->name ?? 'Panda Towers Team');
+            $authUser = auth()->user();
+            $data['author_id'] = $existing !== null ? $existing->author_id : auth()->id();
+            $data['author_name'] = ($existing !== null && $existing->author_name) ? $existing->author_name : ($authUser !== null ? $authUser->name : 'Panda Towers Team');
         }
 
         $isPublished = (bool) ($data['is_published'] ?? false);
         if ($isPublished && empty($data['published_at'])) {
-            $data['published_at'] = $existing?->published_at ?? now();
+            $data['published_at'] = ($existing !== null && $existing->published_at !== null) ? $existing->published_at : now();
         }
 
         return $data;

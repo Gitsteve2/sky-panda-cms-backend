@@ -140,6 +140,9 @@ class PagesController extends Controller
         return back()->with('success', 'Section deleted.');
     }
 
+    /**
+     * @return list<array{value: string, label: string, description: string}>
+     */
     private function getSectionTypes(): array
     {
         return [

@@ -11,6 +11,9 @@ class FaqItem extends Model
 
     protected $casts = ['is_active' => 'boolean'];
 
+    /**
+     * @return BelongsTo<FaqCategory, $this>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(FaqCategory::class, 'faq_category_id');

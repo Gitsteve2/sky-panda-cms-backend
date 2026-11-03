@@ -11,6 +11,9 @@ class BlogCategory extends Model
 
     protected $casts = ['is_active' => 'boolean'];
 
+    /**
+     * @return HasMany<BlogPost, $this>
+     */
     public function posts(): HasMany
     {
         return $this->hasMany(BlogPost::class);

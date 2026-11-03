@@ -20,11 +20,17 @@ class BlogPost extends Model
         'published_at' => 'datetime',
     ];
 
+    /**
+     * @return BelongsTo<BlogCategory, $this>
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(BlogCategory::class, 'blog_category_id');
     }
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');

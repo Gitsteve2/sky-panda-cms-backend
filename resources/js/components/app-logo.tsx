@@ -10,7 +10,7 @@ export default function AppLogo() {
             </div>
 
             <div className="ml-2 grid flex-1 text-left text-sm">
-                <span className="truncate font-semibold leading-tight">
+                <span className="truncate leading-tight font-semibold">
                     Panda Towers
                 </span>
             </div>

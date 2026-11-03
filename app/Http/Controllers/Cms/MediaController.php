@@ -53,7 +53,8 @@ class MediaController extends Controller
         $collection = preg_replace('/[^a-zA-Z0-9_-]/', '', (string) $rawCollection) ?: 'general';
         $extension = strtolower($file->getClientOriginalExtension() ?: ($file->guessExtension() ?? 'jpg'));
         $fileName = Str::uuid() . '.' . $extension;
-        $path = $file->storeAs("media/{$collection}", $fileName, 'public');
+        $storedPath = $file->storeAs("media/{$collection}", $fileName, 'public');
+        $path = is_string($storedPath) ? $storedPath : "media/{$collection}/{$fileName}";
 
         $media = Media::create([
             'name' => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME) ?: 'Uploaded Media',

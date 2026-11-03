@@ -1,6 +1,13 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 
 interface ConfirmDialogProps {
     open: boolean;
@@ -10,7 +17,7 @@ interface ConfirmDialogProps {
     confirmText?: string;
     cancelText?: string;
     onConfirm: () => void;
-    variant?: "default" | "destructive" | "warning";
+    variant?: 'default' | 'destructive' | 'warning';
     isLoading?: boolean;
 }
 
@@ -19,10 +26,10 @@ export function ConfirmDialog({
     onOpenChange,
     title,
     description,
-    confirmText = "Confirm",
-    cancelText = "Cancel",
+    confirmText = 'Confirm',
+    cancelText = 'Cancel',
     onConfirm,
-    variant = "default",
+    variant = 'default',
     isLoading = false,
 }: ConfirmDialogProps) {
     const handleConfirm = (e: React.MouseEvent) => {
@@ -32,14 +39,14 @@ export function ConfirmDialog({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="sm:max-w-md animate-in fade-in-50 slide-in-from-bottom-4 duration-200">
+            <DialogContent className="animate-in duration-200 fade-in-50 slide-in-from-bottom-4 sm:max-w-md">
                 <DialogHeader className="flex flex-row items-start gap-4 space-y-0 text-left">
-                    {variant === "destructive" && (
+                    {variant === 'destructive' && (
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-destructive/10 text-destructive dark:bg-destructive/20">
                             <AlertTriangle className="h-5 w-5" />
                         </div>
                     )}
-                    {variant === "warning" && (
+                    {variant === 'warning' && (
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-500 dark:bg-amber-500/20">
                             <AlertTriangle className="h-5 w-5" />
                         </div>
@@ -48,7 +55,7 @@ export function ConfirmDialog({
                         <DialogTitle className="text-lg font-semibold tracking-tight text-foreground">
                             {title}
                         </DialogTitle>
-                        <DialogDescription className="text-sm text-muted-foreground leading-relaxed">
+                        <DialogDescription className="text-sm leading-relaxed text-muted-foreground">
                             {description}
                         </DialogDescription>
                     </div>
@@ -63,12 +70,18 @@ export function ConfirmDialog({
                         {cancelText}
                     </Button>
                     <Button
-                        variant={variant === "destructive" ? "destructive" : variant === "warning" ? "default" : "default"}
+                        variant={
+                            variant === 'destructive'
+                                ? 'destructive'
+                                : variant === 'warning'
+                                  ? 'default'
+                                  : 'default'
+                        }
                         onClick={handleConfirm}
                         disabled={isLoading}
-                        className="w-full sm:w-auto min-w-[80px]"
+                        className="w-full min-w-[80px] sm:w-auto"
                     >
-                        {isLoading ? "Processing..." : confirmText}
+                        {isLoading ? 'Processing...' : confirmText}
                     </Button>
                 </DialogFooter>
             </DialogContent>

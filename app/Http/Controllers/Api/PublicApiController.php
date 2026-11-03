@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 
 class PublicApiController extends Controller
 {
-    public function settings()
+    public function settings(): JsonResponse
     {
         $settings = SiteSetting::whereIn('key', [
             'site_name', 'tagline', 'logo_url', 'logo_white_url',
@@ -44,12 +44,12 @@ class PublicApiController extends Controller
             // Project progress
             'project_overall_progress', 'project_expected_completion',
             'project_schedule_status', 'project_total_units', 'project_sold_units',
-        ])->get()->pluck('value', 'key');
+        ])->pluck('value', 'key');
 
         return response()->json($settings);
     }
 
-    public function navigation()
+    public function navigation(): JsonResponse
     {
         $items = NavigationItem::where('is_active', true)
             ->orderBy('order')
@@ -58,7 +58,7 @@ class PublicApiController extends Controller
         return response()->json($items);
     }
 
-    public function hero()
+    public function hero(): JsonResponse
     {
         $slides = HeroSlide::where('is_active', true)
             ->orderBy('order')
@@ -67,7 +67,7 @@ class PublicApiController extends Controller
         return response()->json($slides);
     }
 
-    public function testimonials()
+    public function testimonials(): JsonResponse
     {
         $testimonials = Testimonial::where('is_active', true)
             ->orderBy('order')
@@ -76,7 +76,7 @@ class PublicApiController extends Controller
         return response()->json($testimonials);
     }
 
-    public function blog(Request $request)
+    public function blog(Request $request): JsonResponse
     {
         $query = BlogPost::with(['category', 'author'])
             ->where('is_published', true);
@@ -89,7 +89,7 @@ class PublicApiController extends Controller
         }
 
         if ($request->filled('search')) {
-            $search = $request->input('search');
+            $search = (string) $request->input('search');
             $query->where(function ($q) use ($search) {
                 $q->where('title', 'like', "%{$search}%")
                     ->orWhere('excerpt', 'like', "%{$search}%");
@@ -106,7 +106,7 @@ class PublicApiController extends Controller
         return response()->json($posts);
     }
 
-    public function blogPost(string|int $id)
+    public function blogPost(string|int $id): JsonResponse
     {
         $post = BlogPost::with(['category', 'author'])
             ->where('is_published', true)
@@ -134,10 +134,15 @@ class PublicApiController extends Controller
         ]);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     private function transformBlogPost(BlogPost $post, bool $includeFullContent = true): array
     {
-        $authorName = $post->author_name ?: ($post->author?->name ?? 'Panda Towers Team');
+        $author = $post->author;
+        $authorName = $post->author_name ?: ($author !== null ? $author->name : 'Panda Towers Team');
         $featuredImage = $post->featured_image;
+        $publishedDate = $post->published_at ?? $post->created_at;
 
         if ($featuredImage && str_starts_with($featuredImage, '/storage/')) {
             $featuredImage = url($featuredImage);
@@ -164,11 +169,11 @@ class PublicApiController extends Controller
             'read_time'        => $post->read_time ?: BlogPost::calculateReadTime($post->content),
             'is_featured'      => (bool) $post->is_featured,
             'is_published'     => (bool) $post->is_published,
-            'published_at'     => ($post->published_at ?? $post->created_at)?->toISOString(),
+            'published_at'     => $publishedDate !== null ? $publishedDate->toISOString() : null,
             'meta_title'       => $post->meta_title ?: $post->title,
             'meta_description' => $post->meta_description ?: $post->excerpt,
-            'created_at'       => $post->created_at?->toISOString(),
-            'updated_at'       => $post->updated_at?->toISOString(),
+            'created_at'       => $post->created_at !== null ? $post->created_at->toISOString() : null,
+            'updated_at'       => $post->updated_at !== null ? $post->updated_at->toISOString() : null,
             'category'         => $post->category,
             'author'           => [
                 'id'   => $post->author_id ?? 1,
@@ -183,7 +188,7 @@ class PublicApiController extends Controller
         return $data;
     }
 
-    public function faq()
+    public function faq(): JsonResponse
     {
         $categories = FaqCategory::with(['items' => function ($q) {
             $q->where('is_active', true)->orderBy('order');
@@ -195,7 +200,7 @@ class PublicApiController extends Controller
         return response()->json($categories);
     }
 
-    public function investment()
+    public function investment(): JsonResponse
     {
         $units = UnitType::where('is_active', true)
             ->orderBy('order')
@@ -211,7 +216,7 @@ class PublicApiController extends Controller
         ]);
     }
 
-    public function about()
+    public function about(): JsonResponse
     {
         $trackRecords = TrackRecord::where('is_active', true)
             ->orderBy('order')
@@ -233,7 +238,7 @@ class PublicApiController extends Controller
         ]);
     }
 
-    public function social()
+    public function social(): JsonResponse
     {
         $links = SocialLink::where('is_active', true)
             ->orderBy('order')
@@ -242,7 +247,7 @@ class PublicApiController extends Controller
         return response()->json($links);
     }
 
-    public function blogCategories()
+    public function blogCategories(): JsonResponse
     {
         $categories = BlogCategory::withCount(['posts' => function ($q) {
             $q->where('is_published', true);
@@ -251,7 +256,7 @@ class PublicApiController extends Controller
         return response()->json($categories);
     }
 
-    public function projectUpdates()
+    public function projectUpdates(): JsonResponse
     {
         $updates = ProjectUpdate::where('is_active', true)
             ->orderByDesc('order')
@@ -260,7 +265,7 @@ class PublicApiController extends Controller
         return response()->json($updates);
     }
 
-    public function pageSections(string $slug)
+    public function pageSections(string $slug): JsonResponse
     {
         $page = Page::where('slug', $slug)
             ->where('is_published', true)

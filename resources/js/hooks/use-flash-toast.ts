@@ -15,9 +15,16 @@ export function useFlashToast(): void {
 
     useEffect(() => {
         const handleFlashObject = (flash?: SharedFlash) => {
-            if (!flash) return;
+            if (!flash) {
+                return;
+            }
 
-            const entries: Array<['success' | 'error' | 'warning' | 'info', string | null | undefined]> = [
+            const entries: Array<
+                [
+                    'success' | 'error' | 'warning' | 'info',
+                    string | null | undefined,
+                ]
+            > = [
                 ['success', flash.success],
                 ['error', flash.error],
                 ['warning', flash.warning],
@@ -33,7 +40,9 @@ export function useFlashToast(): void {
         };
 
         const removeSuccess = router.on('success', (event) => {
-            const flash = (event as CustomEvent).detail?.page?.props?.flash as SharedFlash | undefined;
+            const flash = (event as CustomEvent).detail?.page?.props?.flash as
+                | SharedFlash
+                | undefined;
             handleFlashObject(flash);
         });
 

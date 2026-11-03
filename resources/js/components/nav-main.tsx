@@ -20,17 +20,21 @@ export function NavMain({ sections = [] }: { sections: NavSection[] }) {
     return (
         <div className="flex flex-col gap-4">
             {sections.map((section, sIndex) => (
-                <SidebarGroup key={section.label || sIndex} className="px-2 py-0">
+                <SidebarGroup
+                    key={section.label || sIndex}
+                    className="px-2 py-0"
+                >
                     {section.label && (
-                        <SidebarGroupLabel className="text-xs font-semibold uppercase tracking-widest text-sidebar-foreground/50 px-3 mb-1.5 select-none">
+                        <SidebarGroupLabel className="mb-1.5 px-3 text-xs font-semibold tracking-widest text-sidebar-foreground/50 uppercase select-none">
                             {section.label}
                         </SidebarGroupLabel>
                     )}
                     <SidebarMenu>
                         {section.items.map((item) => {
-                            const active = item.href === '/cms'
-                                ? isCurrentUrl(item.href)
-                                : isCurrentOrParentUrl(item.href);
+                            const active =
+                                item.href === '/cms'
+                                    ? isCurrentUrl(item.href)
+                                    : isCurrentOrParentUrl(item.href);
 
                             return (
                                 <SidebarMenuItem key={item.title}>
@@ -38,14 +42,22 @@ export function NavMain({ sections = [] }: { sections: NavSection[] }) {
                                         asChild
                                         isActive={active}
                                         tooltip={{ children: item.title }}
-                                        className="relative transition-all duration-200 group-data-[collapsible=icon]:p-2 group/btn"
+                                        className="group/btn relative transition-all duration-200 group-data-[collapsible=icon]:p-2"
                                     >
-                                        <Link href={item.href} prefetch className="flex items-center gap-3">
+                                        <Link
+                                            href={item.href}
+                                            prefetch
+                                            className="flex items-center gap-3"
+                                        >
                                             {item.icon && (
                                                 <item.icon className="h-4 w-4 shrink-0 transition-colors group-hover/btn:text-primary" />
                                             )}
-                                            <span className="font-medium">{item.title}</span>
-                                            {active && <div className="sidebar-active-indicator" />}
+                                            <span className="font-medium">
+                                                {item.title}
+                                            </span>
+                                            {active && (
+                                                <div className="sidebar-active-indicator" />
+                                            )}
                                         </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>

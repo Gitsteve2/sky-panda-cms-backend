@@ -25,7 +25,7 @@ class UserController extends Controller
                 'email' => $u->email,
                 'is_active' => $u->is_active,
                 'created_at' => $u->created_at,
-                'roles' => $u->roles->map(fn ($r) => ['id' => $r->id, 'name' => $r->name, 'display_name' => $r->display_name]),
+                'roles' => $u->roles->map(fn (Role $r) => ['id' => $r->id, 'name' => $r->name, 'display_name' => $r->display_name])->all(),
             ]);
 
         return Inertia::render('cms/users/index', [
