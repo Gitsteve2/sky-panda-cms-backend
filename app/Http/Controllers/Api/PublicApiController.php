@@ -69,11 +69,170 @@ class PublicApiController extends Controller
 
     public function testimonials(): JsonResponse
     {
-        $testimonials = Testimonial::where('is_active', true)
+        $testimonials = Testimonial::where('status', 'approved')
+            ->where('is_active', true)
             ->orderBy('order')
-            ->get();
+            ->orderByDesc('created_at')
+            ->get()
+            ->map(function (Testimonial $t) {
+                $avatar = $t->avatar;
+                if ($avatar && str_starts_with($avatar, '/storage/')) {
+                    $avatar = url($avatar);
+                }
+
+                $rawPhotos = is_array($t->photos) ? array_slice($t->photos, 0, 3) : [];
+                $photos = array_values(array_filter(array_map(function ($photo) {
+                    if (! is_string($photo) || trim($photo) === '') {
+                        return null;
+                    }
+
+                    return str_starts_with($photo, '/storage/') ? url($photo) : $photo;
+                }, $rawPhotos)));
+
+                return [
+                    'id' => $t->id,
+                    'name' => $t->name,
+                    'company' => $t->company,
+                    'role' => $t->role,
+                    'location' => $t->location,
+                    'avatar' => $avatar,
+                    'testimonial' => $t->testimonial,
+                    'photos' => $photos,
+                    'rating' => (float) $t->rating,
+                    'investment_amount' => $t->investment_amount,
+                    'monthly_income' => $t->monthly_income,
+                    'years_investing' => $t->years_investing,
+                    'order' => (int) $t->order,
+                    'created_at' => $t->created_at !== null ? $t->created_at->toISOString() : null,
+                ];
+            });
 
         return response()->json($testimonials);
+    }
+
+    public function submitTestimonial(Request $request): JsonResponse
+    {
+        // Honeypot spam protection
+        if ($request->filled('website') || $request->filled('honeypot')) {
+            return response()->json([
+                'message' => 'Invalid submission detected.',
+            ], 422);
+        }
+
+        // Sanitize inputs prior to validation
+        $request->merge([
+            'name' => Testimonial::sanitizeText($request->input('name')),
+            'email' => Testimonial::sanitizeText($request->input('email')),
+            'phone' => Testimonial::sanitizeText($request->input('phone')),
+            'company' => Testimonial::sanitizeText($request->input('company')),
+            'role' => Testimonial::sanitizeText($request->input('role')),
+            'location' => Testimonial::sanitizeText($request->input('location')),
+            'testimonial' => Testimonial::sanitizeText($request->input('testimonial')),
+        ]);
+
+        $data = $request->validate([
+            'name' => ['required', 'string', 'min:2', 'max:120'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'phone' => ['nullable', 'string', 'max:50'],
+            'company' => ['nullable', 'string', 'max:150'],
+            'role' => ['nullable', 'string', 'max:150'],
+            'location' => ['nullable', 'string', 'max:150'],
+            'testimonial' => ['required', 'string', 'min:15', 'max:1500'],
+            'rating' => [
+                'required',
+                'numeric',
+                'min:0.5',
+                'max:5',
+                function (string $attribute, mixed $value, \Closure $fail): void {
+                    $num = (float) $value;
+                    if (abs(($num * 2) - round($num * 2)) > 0.001) {
+                        $fail('The rating must be in 0.5 star increments (e.g., 3.5, 4.0, 4.5, 5.0).');
+                    }
+                },
+            ],
+            'photos' => ['nullable', 'array', 'max:3'],
+            'photos.*' => ['file', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+        ]);
+
+        // Reject spam containing URLs or markup
+        if (
+            preg_match('/(https?:\/\/|www\.|\[url=|<a\s)/i', (string) $data['testimonial']) === 1
+            || preg_match('/(https?:\/\/|www\.)/i', (string) $data['name']) === 1
+        ) {
+            return response()->json([
+                'message' => 'Links and URLs are not permitted in feedback submissions.',
+                'errors' => [
+                    'testimonial' => ['Links and URLs are not permitted in feedback submissions.'],
+                ],
+            ], 422);
+        }
+
+        // Prevent duplicate rapid submissions
+        $recentDuplicate = Testimonial::where('name', $data['name'])
+            ->where('testimonial', $data['testimonial'])
+            ->where('created_at', '>=', now()->subMinutes(10))
+            ->exists();
+
+        if ($recentDuplicate) {
+            return response()->json([
+                'message' => 'Your feedback has already been submitted and is awaiting review.',
+                'errors' => [
+                    'testimonial' => ['Duplicate feedback submission detected.'],
+                ],
+            ], 422);
+        }
+
+        $photoPaths = [];
+        if ($request->hasFile('photos')) {
+            $files = $request->file('photos');
+            if (is_array($files)) {
+                foreach (array_slice($files, 0, 3) as $file) {
+                    if ($file->isValid()) {
+                        $stored = $file->store('feedback', 'public');
+                        if ($stored !== false) {
+                            $photoPaths[] = '/storage/'.$stored;
+                        }
+                    }
+                }
+            }
+        }
+
+        $maxOrder = (int) (Testimonial::max('order') ?? 0);
+        $rating = Testimonial::normalizeRating($data['rating']);
+
+        $testimonial = Testimonial::create([
+            'name' => (string) $data['name'],
+            'email' => strtolower((string) $data['email']),
+            'phone' => $data['phone'] ?? null,
+            'company' => $data['company'] ?? null,
+            'role' => $data['role'] ?? null,
+            'location' => $data['location'] ?? null,
+            'testimonial' => (string) $data['testimonial'],
+            'photos' => $photoPaths !== [] ? $photoPaths : null,
+            'rating' => $rating,
+            'years_investing' => 1,
+            'order' => $maxOrder + 1,
+            'status' => 'pending',
+            'is_active' => false,
+            'source' => 'website',
+            'ip_address' => $request->ip(),
+            'approved_at' => null,
+        ]);
+
+        return response()->json([
+            'message' => 'Thank you for your feedback! Your review has been submitted and will appear on our website once approved.',
+            'data' => [
+                'id' => $testimonial->id,
+                'name' => $testimonial->name,
+                'company' => $testimonial->company,
+                'role' => $testimonial->role,
+                'location' => $testimonial->location,
+                'rating' => (float) $testimonial->rating,
+                'photos' => $testimonial->photos ?? [],
+                'status' => $testimonial->status,
+                'created_at' => $testimonial->created_at?->toISOString(),
+            ],
+        ], 201);
     }
 
     public function blog(Request $request): JsonResponse
@@ -129,7 +288,7 @@ class PublicApiController extends Controller
             ->map(fn (BlogPost $item) => $this->transformBlogPost($item, false));
 
         return response()->json([
-            'post'    => $this->transformBlogPost($post, true),
+            'post' => $this->transformBlogPost($post, true),
             'related' => $related,
         ]);
     }
@@ -152,31 +311,31 @@ class PublicApiController extends Controller
         if ($includeFullContent && $content) {
             $content = preg_replace_callback(
                 '/src=["\'](\/storage\/[^"\']+)["\']/i',
-                fn ($matches) => 'src="' . url($matches[1]) . '"',
+                fn ($matches) => 'src="'.url($matches[1]).'"',
                 $content
             );
         }
 
         $data = [
-            'id'               => $post->id,
+            'id' => $post->id,
             'blog_category_id' => $post->blog_category_id,
-            'author_id'        => $post->author_id,
-            'author_name'      => $authorName,
-            'title'            => $post->title,
-            'slug'             => $post->slug,
-            'excerpt'          => $post->excerpt,
-            'featured_image'   => $featuredImage,
-            'read_time'        => $post->read_time ?: BlogPost::calculateReadTime($post->content),
-            'is_featured'      => (bool) $post->is_featured,
-            'is_published'     => (bool) $post->is_published,
-            'published_at'     => $publishedDate !== null ? $publishedDate->toISOString() : null,
-            'meta_title'       => $post->meta_title ?: $post->title,
+            'author_id' => $post->author_id,
+            'author_name' => $authorName,
+            'title' => $post->title,
+            'slug' => $post->slug,
+            'excerpt' => $post->excerpt,
+            'featured_image' => $featuredImage,
+            'read_time' => $post->read_time ?: BlogPost::calculateReadTime($post->content),
+            'is_featured' => (bool) $post->is_featured,
+            'is_published' => (bool) $post->is_published,
+            'published_at' => $publishedDate !== null ? $publishedDate->toISOString() : null,
+            'meta_title' => $post->meta_title ?: $post->title,
             'meta_description' => $post->meta_description ?: $post->excerpt,
-            'created_at'       => $post->created_at !== null ? $post->created_at->toISOString() : null,
-            'updated_at'       => $post->updated_at !== null ? $post->updated_at->toISOString() : null,
-            'category'         => $post->category,
-            'author'           => [
-                'id'   => $post->author_id ?? 1,
+            'created_at' => $post->created_at !== null ? $post->created_at->toISOString() : null,
+            'updated_at' => $post->updated_at !== null ? $post->updated_at->toISOString() : null,
+            'category' => $post->category,
+            'author' => [
+                'id' => $post->author_id ?? 1,
                 'name' => $authorName,
             ],
         ];
@@ -211,7 +370,7 @@ class PublicApiController extends Controller
             ->get();
 
         return response()->json([
-            'units'     => $units,
+            'units' => $units,
             'amenities' => $amenities,
         ]);
     }
@@ -233,8 +392,8 @@ class PublicApiController extends Controller
 
         return response()->json([
             'track_records' => $trackRecords,
-            'core_values'   => $coreValues,
-            'stats'         => $stats,
+            'core_values' => $coreValues,
+            'stats' => $stats,
         ]);
     }
 

@@ -63,10 +63,14 @@ Route::middleware(['auth', 'verified', 'active'])->prefix('cms')->name('cms.')->
     Route::put('/faq/items/{faqItem}', [FaqController::class, 'updateItem'])->middleware('permission:faq.edit')->name('faq.items.update');
     Route::delete('/faq/items/{faqItem}', [FaqController::class, 'destroyItem'])->middleware('permission:faq.delete')->name('faq.items.destroy');
 
-    // Testimonials
+    // Testimonials & Client Feedback
     Route::get('/testimonials', [TestimonialsController::class, 'index'])->middleware('permission:testimonials.view')->name('testimonials.index');
     Route::post('/testimonials', [TestimonialsController::class, 'store'])->middleware('permission:testimonials.create')->name('testimonials.store');
+    Route::post('/testimonials/bulk-action', [TestimonialsController::class, 'bulkAction'])->middleware('permission:testimonials.edit')->name('testimonials.bulk-action');
     Route::put('/testimonials/{testimonial}', [TestimonialsController::class, 'update'])->middleware('permission:testimonials.edit')->name('testimonials.update');
+    Route::patch('/testimonials/{testimonial}/approve', [TestimonialsController::class, 'approve'])->middleware('permission:testimonials.edit')->name('testimonials.approve');
+    Route::patch('/testimonials/{testimonial}/reject', [TestimonialsController::class, 'reject'])->middleware('permission:testimonials.edit')->name('testimonials.reject');
+    Route::patch('/testimonials/{testimonial}/toggle-publish', [TestimonialsController::class, 'togglePublish'])->middleware('permission:testimonials.edit')->name('testimonials.toggle-publish');
     Route::delete('/testimonials/{testimonial}', [TestimonialsController::class, 'destroy'])->middleware('permission:testimonials.delete')->name('testimonials.destroy');
 
     // Investment
@@ -134,4 +138,4 @@ Route::middleware(['auth', 'verified', 'active'])->prefix('cms')->name('cms.')->
     });
 });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';

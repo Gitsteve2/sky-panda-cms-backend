@@ -22,6 +22,8 @@ interface DashboardProps {
         blog_posts: number;
         published_posts: number;
         testimonials: number;
+        pending_testimonials?: number;
+        published_testimonials?: number;
         faqs: number;
         unit_types: number;
     };
@@ -55,6 +57,9 @@ export default function Dashboard({ stats, recent_posts }: DashboardProps) {
         {
             label: 'Testimonials',
             value: stats.testimonials,
+            sub: stats.pending_testimonials
+                ? `${stats.pending_testimonials} pending review`
+                : `${stats.published_testimonials ?? 0} published`,
             icon: Star,
             href: '/cms/testimonials',
             iconBg: 'bg-amber-500/10 text-amber-500 border-amber-500/20',
