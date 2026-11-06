@@ -8,6 +8,12 @@ Route::prefix('v1')->name('api.')->group(function () {
     Route::get('/navigation', [PublicApiController::class, 'navigation'])->name('navigation');
     Route::get('/hero', [PublicApiController::class, 'hero'])->name('hero');
     Route::get('/testimonials', [PublicApiController::class, 'testimonials'])->name('testimonials');
+    Route::post('/testimonials', [PublicApiController::class, 'submitTestimonial'])
+        ->middleware('throttle:10,1')
+        ->name('testimonials.submit');
+    Route::post('/feedback', [PublicApiController::class, 'submitTestimonial'])
+        ->middleware('throttle:10,1')
+        ->name('feedback.submit');
     Route::get('/blog', [PublicApiController::class, 'blog'])->name('blog');
     Route::get('/blog/{id}', [PublicApiController::class, 'blogPost'])->name('blog.post');
     Route::get('/blog-categories', [PublicApiController::class, 'blogCategories'])->name('blog.categories');

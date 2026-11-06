@@ -21,6 +21,8 @@ class DashboardController extends Controller
                 'blog_posts' => BlogPost::count(),
                 'published_posts' => BlogPost::where('is_published', true)->count(),
                 'testimonials' => Testimonial::count(),
+                'pending_testimonials' => Testimonial::where('status', 'pending')->count(),
+                'published_testimonials' => Testimonial::where('status', 'approved')->where('is_active', true)->count(),
                 'faqs' => FaqItem::count(),
                 'unit_types' => UnitType::count(),
             ],
